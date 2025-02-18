@@ -7,6 +7,6 @@
 typedef struct BearHttpsRequest{
     char *route;
     bool route_ownernership_mode;
-    BearHttpsHeadders *headders;
+    private_BearHttpsHeadders *headders;
 
 }BearHttpsRequest ;
