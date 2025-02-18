@@ -5,7 +5,7 @@
 //silver_chain_scope_end
 
 private_BearHttpsKeyVal  *private_newBearHttpsKeyVal(){
-    private_BearHttpsKeyVal *self = (private_BearHttpsKeyVal *)malloc(sizeof(private_BearHttpsKeyVal));
+    private_BearHttpsKeyVal *self = (private_BearHttpsKeyVal *)BearsslHttps_malloc(sizeof(private_BearHttpsKeyVal));
     self->key = NULL;
     self->value = NULL;
     self->key_owner =false;
