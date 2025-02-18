@@ -5,28 +5,18 @@
 //silver_chain_scope_end
 
 
-typedef struct private_BearHttpsBodyRequest{
-    unsigned char *body;
-    long size;
-    bool onwer;
-}private_BearHttpsBodyRequest;
-
-typedef struct private_BearHttpsBodyRequestFile{
-    char *path;
-    bool onwer;
-}private_BearHttpsBodyRequestFile;
 
 
 typedef struct BearHttpsRequest{
     char *route;
     bool route_owner;
     private_BearHttpsHeadders *headders;
-    char *method;
+    char method[30];
     bool method_owner;
-
+    short body_type;
     union{
-        private_BearHttpsBodyRequest *body;
-        private_BearHttpsBodyRequestFile *body_file;
-    }
-    
+        private_BearHttpsBodyRawRequest body_raw;
+        private_BearHttpsBodyRequestFile body_file;
+    };
+
 }BearHttpsRequest ;
