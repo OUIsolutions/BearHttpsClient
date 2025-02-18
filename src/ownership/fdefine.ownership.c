@@ -12,4 +12,17 @@ void private_BearsslHttps_free_considering_ownership(void **value,bool *owner){
     *owner = false;
     *value = NULL;
 }
-bool private_BearsslHttps_set_str_considering_ownership();
+
+bool private_BearsslHttps_set_str_considering_ownership(char  **value,short ownership_mode){
+    if(ownership_mode == BEARSSL_HTTPS_COPY){
+        *value = private_BearsslHttps_strdup(*value);
+        return true;
+    }
+    *value = *value;
+    
+    if(ownership_mode == BEARSSL_HTTPS_GET_OWNERSHIP){
+        return true;
+    }
+    return false;
+
+}
