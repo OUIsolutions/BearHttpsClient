@@ -17,15 +17,15 @@ BearHttpsRequest * newBearHttpsRequest(char *route){
     return newBearHttpsRequest_with_ownership_config(route,BEARSSL_HTTPS_GET_OWNERSHIP);
 }
 
-void BearHttpsRequest_set_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner){
+void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner){
     private_BearHttpsKeyVal * key_obj = private_newBearHttpsKeyVal();
     private_BearHttpsKeyVal_set_key(key_obj,key,key_ownership_mode);
     private_BearHttpsKeyVal_set_value(key_obj,value,value_owner);
     private_BearHttpsHeadders_add_keyval(self->headders,key_obj);
 }
 
-void BearHttpsRequest_set_headder(BearHttpsRequest *self ,char *key,char *value){
-    BearHttpsRequest_set_headder_with_ownership_config(self,key,BEARSSL_HTTPS_GET_OWNERSHIP,value,BEARSSL_HTTPS_GET_OWNERSHIP);
+void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value){
+    BearHttpsRequest_add_headder_with_ownership_config(self,key,BEARSSL_HTTPS_GET_OWNERSHIP,value,BEARSSL_HTTPS_GET_OWNERSHIP);
 }
 
 void BearHttpsRequest_set_body_with_onwership_config(BearHttpsRequest *self ,unsigned char *body,long size,short body_ownership_mode){
