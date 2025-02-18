@@ -4,6 +4,7 @@ dependencies
 darwintypes.lua
 # Object files
 src/imports
+test.c
 *.o
 *.ko
 *.obj
