@@ -11,3 +11,5 @@ BearHttpsKeyVal  *newBearHttpsKeyVal();
 void BearHttpsKeyVal_set_key(BearHttpsKeyVal *self, const char *key,short key_onwership_mode);
 
 void BearHttpsKeyVal_set_value(BearHttpsKeyVal *self, const char *value,short value_onwership_mode);
+
+void  BearHttpsKeyVal_free(BearHttpsKeyVal *self);
