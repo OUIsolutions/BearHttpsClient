@@ -6,11 +6,10 @@
 
 BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short route_ownernership_mode){
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
-    self->route = route;
-    self->route_ownernership_mode = route_ownernership_mode;
+    private_BearsslHttps_set_str_considering_ownership(&self->route,route,&self->route_owner,route_ownernership_mode);
     self->headders = newBearHttpsKeyVal();
-    private_BearsslHttps_set_str_considering_ownership(&self->method,BEARSSL_HTTPS_GET_OWNERSHIP);
-
+    self->method = "GET";
+    self->method_owner = false;
     return self;
 }
 

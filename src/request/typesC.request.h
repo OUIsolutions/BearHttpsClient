@@ -19,7 +19,7 @@ typedef struct private_BearHttpsBodyRequestFile{
 
 typedef struct BearHttpsRequest{
     char *route;
-    bool route_ownernership_mode;
+    bool route_owner;
     private_BearHttpsHeadders *headders;
     char *method;
     bool method_owner;
