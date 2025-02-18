@@ -5,8 +5,8 @@
 //silver_chain_scope_end
 
 private_BearHttpsHeadders *private_newBearHttpsHeadders(){
-    private_BearHttpsHeadders *self = (private_BearHttpsHeadders *)BearsslHttps_malloc(sizeof(private_BearHttpsHeadders));
-    self->keyvals = (private_BearHttpsKeyVal **)BearsslHttps_malloc(0);
+    private_BearHttpsHeadders *self = (private_BearHttpsHeadders *)BearsslHttps_allocate(sizeof(private_BearHttpsHeadders));
+    self->keyvals = (private_BearHttpsKeyVal **)BearsslHttps_allocate(0);
     return self;
 }
 

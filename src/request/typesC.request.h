@@ -21,6 +21,9 @@ typedef struct BearHttpsRequest{
     char *route;
     bool route_ownernership_mode;
     private_BearHttpsHeadders *headders;
+    char *method;
+    bool method_owner;
+
     union{
         private_BearHttpsBodyRequest *body;
         private_BearHttpsBodyRequestFile *body_file;
