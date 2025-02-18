@@ -18,3 +18,9 @@ void BearHttpsRequest_set_body_with_onwership_config(BearHttpsRequest *self ,uns
 void BearHttpsRequest_set_body(BearHttpsRequest *self ,unsigned char *body,long size);
 
 void BearHttpsRequest_set_body_file_stream(BearHttpsRequest *self ,const char *path);
+
+void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method);
+
+void BearHttpsRequest_represent(BearHttpsRequest *self);
+
+void BearHttpsRequest_free(BearHttpsRequest *self);
