@@ -5,11 +5,11 @@
 //silver_chain_scope_end
 
 
-BearHttpsKeyVal  *newBearHttpsKeyVal();
+BearHttpsKeyVal  *private_newBearHttpsKeyVal();
 
 
-void BearHttpsKeyVal_set_key(BearHttpsKeyVal *self, const char *key,short key_onwership_mode);
+void private_BearHttpsKeyVal_set_key(BearHttpsKeyVal *self, const char *key,short key_onwership_mode);
 
-void BearHttpsKeyVal_set_value(BearHttpsKeyVal *self, const char *value,short value_onwership_mode);
+void private_BearHttpsKeyVal_set_value(BearHttpsKeyVal *self, const char *value,short value_onwership_mode);
 
-void  BearHttpsKeyVal_free(BearHttpsKeyVal *self);
+void  private_BearHttpsKeyVal_free(BearHttpsKeyVal *self);
