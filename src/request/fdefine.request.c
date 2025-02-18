@@ -29,7 +29,7 @@ void BearHttpsRequest_set_headder(BearHttpsRequest *self ,char *key,char *value)
 }
 
 void BearHttpsRequest_set_body_with_onwership_config(BearHttpsRequest *self ,unsigned char *body,long size,short body_ownership_mode){
-  
+
     BearHttpsRequest_free_body(self);
     self->body_type = PRIVATE_BEARSSL_HTTPS_BODY_RAW;
     private_BearHttpsBodyRawRequest *body_raw_obj = &self->body_raw;
@@ -65,17 +65,16 @@ void BearHttpsRequest_set_body_file_stream(BearHttpsRequest *self ,const char *p
 }
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
-    private_BearsslHttps_strcpy(method,self->method);
+    private_BearsslHttps_strcpy(self->method,self->method);
 }
 
 void BearHttpsRequest_represent(BearHttpsRequest *self){
     printf("Route: %s\n",self->route);
     printf("Method: %s\n",self->method);
-    
+    printf("Headders:\n");
     for(int i = 0; i < self->headders->size;i++){
         private_BearHttpsKeyVal *key_val = self->headders->keyvals[i];
-        printf("Key: %s: ",key_val->key);
-        printf("Value: %s\n",key_val->value);
+        printf("\t%s: %s\n",key_val->key,key_val->value);
     }
     if(self->body_type == PRIVATE_BEARSSL_HTTPS_BODY_RAW){
         printf("Body: %s\n",self->body_raw.value);

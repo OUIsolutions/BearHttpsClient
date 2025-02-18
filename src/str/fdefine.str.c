@@ -21,10 +21,10 @@ char * private_BearsslHttps_strdup(const char *str){
     return new_str;
 }
 
-char * private_BearsslHttps_strcpy(const char *dest,char *str){
-    long size =  private_BearsslHttps_strlen(dest);
+char * private_BearsslHttps_strcpy( char *dest,char *str){
+    long size =  private_BearsslHttps_strlen(str);
     for(long i = 0; i < size; i++){
-        str[i] = dest[i];
+        dest[i] = str[i];
     }
-    return str;
+    return dest;
 }
