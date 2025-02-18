@@ -5,7 +5,7 @@
 //silver_chain_scope_end
 
 
-typedef struct  BearHttpsHeadder{
+typedef struct  private_BearHttpsHeadders{
     int size;
-    BearHttpsKeyVal **keyvals;
-}BearHttpsHeadders;
+    private_BearHttpsKeyVal **keyvals;
+}private_BearHttpsHeadders;
