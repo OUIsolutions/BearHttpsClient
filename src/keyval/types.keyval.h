@@ -1,7 +1,7 @@
 
 //silver_chain_scope_start
 //mannaged by silver chain
-#include "../imports/imports.dep_declare.h"
+#include "../imports/imports.macros.h"
 //silver_chain_scope_end
 
 
@@ -13,3 +13,4 @@ typedef struct  BearHttpsKeyVal{
     bool value_owner;
 
 }BearHttpsKeyVal;
+BearHttpsKeyVal  *newBearHttpsKeyVal();
