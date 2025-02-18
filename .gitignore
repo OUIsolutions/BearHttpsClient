@@ -1,7 +1,9 @@
 # Prerequisites
 *.d
-
+dependencies
+darwintypes.lua
 # Object files
+src/imports
 *.o
 *.ko
 *.obj
