@@ -14,6 +14,16 @@ function install_dependencies()
     os.execute(
         "curl -L https://github.com/OUIsolutions/BearSslSingle-Unit/releases/download/0.0.2/BearSSLSingleUnit.c -o dependencies/BearSSLSingleUnit.c")
 
+    ---- trusted anchors
+    darwin.dtw.remove_any("BearSSL")
+    os.execute("git clone https://www.bearssl.org/git/BearSSL")
+    os.execute("curl -L https://curl.se/ca/cacert.pem -o BearSSL/cacert.pem")
+    os.execute("cd BearSSL && make")
+    os.execute("chmod +x BearSSL/build/brssl")
+    os.execute("./BearSSL/build/brssl ta BearSSL/cacert.pem > dependencies/BearSSLTrustAnchors.h")
+    darwin.dtw.remove_any("BearSSL")
+
+
     local new_hasher = darwin.dtw.newHasher()
     new_hasher.digest_folder_by_content("dependencies")
     print("new hasher is: " .. new_hasher.get_value())
