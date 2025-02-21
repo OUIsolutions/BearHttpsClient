@@ -5,14 +5,8 @@
 //silver_chain_scope_end
 
 
-
-//silver_chain_scope_start
-//mannaged by silver chain
-#include "../../imports/imports.fdeclare.h"
-//silver_chain_scope_end
-
-
 static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self, const char *host, int port) {
+
     struct addrinfo hints = {0};
     hints.ai_family = PF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
@@ -25,6 +19,7 @@ static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self, const 
         BearHttpsResponse_set_error_msg(self, gai_strerror(status));
         return -1;
     }
+
     int found_socket = -1;
     for (struct addrinfo *current_addr = addr_info; current_addr != NULL; current_addr = current_addr->ai_next) {
         found_socket = Universal_socket(current_addr->ai_family, current_addr->ai_socktype, current_addr->ai_protocol);
@@ -37,6 +32,7 @@ static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self, const 
         }
         break;
     }
+
     if (found_socket < 0) {
         BearHttpsResponse_set_error_msg(self, "ERROR: failed to connect\n");
     }
