@@ -43,3 +43,13 @@ char * private_BearsslHttps_strndup(const char *str,int size){
     }
     return new_str;
 }
+
+int private_BearsslHttps_indexof_from_point(const char *str,char c,int start){
+    long size = private_BearsslHttps_strlen(str);
+    for(int i = start; i < size; i++){
+        if(str[i] == c){
+            return i;
+        }
+    }
+    return -1;
+}

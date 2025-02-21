@@ -18,6 +18,8 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
         if(default_port == 0){
             self->port = 80;
         }
+        int end = private_BearsslHttps_indexof_from_point(route,'/',sizeof("http://")-1);
+        self->hostname = private_BearsslHttps_strndup(route+sizeof("http://"),end-sizeof("http://"));
         self->type = BEARSSL_HTTP_REQUISITION_TYPE;
     }
 
@@ -25,6 +27,8 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
         if(default_port == 0){
             self->port = 443;
         }
+        int end = private_BearsslHttps_indexof_from_point(route,'/',sizeof("https://")-1);
+        self->hostname = private_BearsslHttps_strndup(route+sizeof("https://"),end-sizeof("https://"));
         self->type = BEAR_HTTPS_HTTPS_REQUISITION_TYPE;
     }
 
