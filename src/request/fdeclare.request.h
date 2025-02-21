@@ -25,6 +25,7 @@ void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method);
 
 void BearHttpsRequest_represent(BearHttpsRequest *self);
 
+BearHttpsResponse *  BearHttpsRequest_fetch(BearHttpsRequest *self,int max_headders_size);
 
 void BearHttpsRequest_free(BearHttpsRequest *self);
 

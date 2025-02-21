@@ -13,6 +13,7 @@ typedef struct BearHttpsRequest{
     private_BearHttpsHeadders *headders;
     char method[30];
     bool method_owner;
+    int body_chunck_read_size;
     short body_type;
     union{
         private_BearHttpsBodyRawRequest body_raw;
