@@ -1,8 +1,8 @@
 function install_dependencies()
     local hasher = darwin.dtw.newHasher()
     hasher.digest_folder_by_content("dependencies")
-    local expected_sha = 'dcba115ed5ca113b7cb255b5a201b0f4a1753b2afc433ab46c072e83c45c67de'
-    if hasher.get_value() == expected_sha then
+    local EXPECTED_SHA = '382b9eeb98141888f0a1f751f9d6cd255141a151df77d0d9a3a24b71fcf16e69'
+    if hasher.get_value() == EXPECTED_SHA then
         return
     end
 
@@ -21,7 +21,13 @@ function install_dependencies()
     os.execute("cd BearSSL && make")
     os.execute("chmod +x BearSSL/build/brssl")
     os.execute("./BearSSL/build/brssl ta BearSSL/cacert.pem > dependencies/BearSSLTrustAnchors.h")
+
     darwin.dtw.remove_any("BearSSL")
+    os.execute(
+        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.4/UniversalSocket.c -o dependencies/UniversalSocket.c")
+    os.execute(
+        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.4/UniversalSocket.h -o dependencies/UniversalSocket.h")
+
 
 
     local new_hasher = darwin.dtw.newHasher()

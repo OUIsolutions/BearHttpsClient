@@ -1,4 +1,5 @@
 # Prerequisites
+server
 *.d
 BearSSL
 dependencies

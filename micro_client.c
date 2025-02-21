@@ -109,7 +109,6 @@ sock_write(void *ctx, const unsigned char *buf, size_t len)
 {
 	for (;;) {
 		ssize_t wlen;
-
 		wlen = write(*(int *)ctx, buf, len);
 		if (wlen <= 0) {
 			if (wlen < 0 && errno == EINTR) {
