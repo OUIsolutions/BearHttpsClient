@@ -6,12 +6,17 @@
 
 private_BearHttpsHeadders *private_newBearHttpsHeadders(){
     private_BearHttpsHeadders *self = (private_BearHttpsHeadders *)BearsslHttps_allocate(sizeof(private_BearHttpsHeadders));
+    *self  = (private_BearHttpsHeadders){0};
     self->keyvals = (private_BearHttpsKeyVal **)BearsslHttps_allocate(0);
     return self;
 }
 
 void private_BearHttpsHeadders_add_keyval(private_BearHttpsHeadders *self, private_BearHttpsKeyVal *keyval){
-    self->keyvals = (private_BearHttpsKeyVal **)realloc(self->keyvals, sizeof(private_BearHttpsKeyVal *) * (self->size + 1));
+    self->keyvals = (private_BearHttpsKeyVal **)realloc(
+        self->keyvals,
+        sizeof(private_BearHttpsKeyVal*) * (self->size + 1)
+
+    );
     self->keyvals[self->size] = keyval;
     self->size++;
 }

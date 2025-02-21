@@ -6,6 +6,7 @@
 
 private_BearHttpsKeyVal  *private_newBearHttpsKeyVal(){
     private_BearHttpsKeyVal *self = (private_BearHttpsKeyVal *)BearsslHttps_allocate(sizeof(private_BearHttpsKeyVal));
+    *self = (private_BearHttpsKeyVal){0};
     self->key = NULL;
     self->value = NULL;
     self->key_owner =false;
