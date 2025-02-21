@@ -7,6 +7,10 @@
 
 typedef struct BearHttpsResponse{
     unsigned char *content;
+    long body_readded;
+    long body_size;
+    
+    unsigned char *body;
     bool error;
     int error_code;
     char *error_msg;

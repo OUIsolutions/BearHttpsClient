@@ -9,6 +9,7 @@ BearHttpsResponse *private_newBearHttpsResponse();
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
 
 bool BearHttpsResponse_error(BearHttpsResponse*self);
+
 char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);
 
 bool BearHttpsResponse_is_body_str(BearHttpsResponse*self);
