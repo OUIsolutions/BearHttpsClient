@@ -4,6 +4,6 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
-BearHttpsResponse *  BearHttpsRequest_fetch(BearHttpsRequest *self,int max_headders_size){
+BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
 }
