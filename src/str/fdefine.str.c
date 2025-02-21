@@ -11,7 +11,15 @@ long private_BearsslHttps_strlen(const char *str){
     }
     return size;
 }
-
+bool private_BearsslHttps_startswith(const char *str,const char *prefix){
+    long size = private_BearsslHttps_strlen(prefix);
+    for(long i = 0; i < size; i++){
+        if(str[i] != prefix[i]){
+            return false;
+        }
+    }
+    return true;
+}
 char * private_BearsslHttps_strdup(const char *str){
     long size =  private_BearsslHttps_strlen(str);
     char *new_str = (char *)BearsslHttps_allocate(size+1);
@@ -27,4 +35,11 @@ char * private_BearsslHttps_strcpy( char *dest,char *str){
         dest[i] = str[i];
     }
     return dest;
+}
+char * private_BearsslHttps_strndup(const char *str,int size){
+    char *new_str = (char *)BearsslHttps_allocate(size+1);
+    for(int i = 0; i < size; i++){
+        new_str[i] = str[i];
+    }
+    return new_str;
 }
