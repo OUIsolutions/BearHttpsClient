@@ -10,9 +10,21 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     self->status_code = 0;
     self->headders = private_newBearHttpsHeadders();
     self->body = NULL;
-    return response;
+    return self;
 }
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self){
     return self->status_code;
+}
+
+bool BearHttpsResponse_error(BearHttpsResponse*self){
+    return self->error_msg != NULL;
+}
+
+void BearHttpsResponse_set_error_msg(BearHttpsResponse*self, char *msg){
+    self->error_msg = private_BearsslHttps_strdup(msg);
+}
+
+char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
+    return self->error_msg;
 }

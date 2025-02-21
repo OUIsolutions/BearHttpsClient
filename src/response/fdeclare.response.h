@@ -12,8 +12,6 @@ bool BearHttpsResponse_error(BearHttpsResponse*self);
 
 char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);
 
-bool BearHttpsResponse_is_body_str(BearHttpsResponse*self);
-
-char * BearHttpsResponse_get_body_str(BearHttpsResponse*self);
+void BearHttpsResponse_set_error_msg(BearHttpsResponse*self, char *msg);
 
 void BearHttpsResponse_free(BearHttpsResponse *self);
