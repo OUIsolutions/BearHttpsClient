@@ -6,6 +6,8 @@
 
 BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short route_ownernership_mode){
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
+    *self = (BearHttpsRequest){0};
+
     private_BearsslHttps_set_str_considering_ownership(&self->route,route,&self->route_owner,route_ownernership_mode);
     self->headders = private_newBearHttpsHeadders();
     self->body_type =PRIVATE_BEARSSL_HTTPS_BODY_UNDEFINED;
@@ -63,6 +65,8 @@ void BearHttpsRequest_set_body_file_stream_with_ownershio_config(BearHttpsReques
 void BearHttpsRequest_set_body_file_stream(BearHttpsRequest *self ,const char *path){
     BearHttpsRequest_set_body_file_stream_with_ownershio_config(self,(char*)path,BEARSSL_DEFAULT_STRATEGY);
 }
+
+
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
     private_BearsslHttps_strcpy(self->method,self->method);

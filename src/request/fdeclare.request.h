@@ -23,6 +23,7 @@ void BearHttpsRequest_set_body_file_stream_with_ownershio_config(BearHttpsReques
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method);
 
+
 void BearHttpsRequest_represent(BearHttpsRequest *self);
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);

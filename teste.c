@@ -6,7 +6,6 @@ int main(){
     BearHttpsRequest_add_headder(request, "name", "mateus");
     BearHttpsRequest_set_body_file_stream(request,"teste.png");
 
-    BearHttpsResponse *response =BearHttpsRequest_fetch(request);
-    //BearHttpsRequest_free(request);
-    //BearHttpsResponse_free(response);
+//    BearHttpsResponse *response =BearHttpsRequest_fetch(request);
+
 }

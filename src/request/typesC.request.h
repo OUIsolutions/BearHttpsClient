@@ -10,10 +10,14 @@
 typedef struct BearHttpsRequest{
     char *route;
     bool route_owner;
+
     private_BearHttpsHeadders *headders;
     char method[30];
-    bool method_owner;
-    int body_chunck_read_size;
+    int port;
+
+    int response_max_headders_size;
+
+
     short body_type;
     union{
         private_BearHttpsBodyRawRequest body_raw;

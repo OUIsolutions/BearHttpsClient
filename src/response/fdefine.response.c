@@ -21,7 +21,7 @@ bool BearHttpsResponse_error(BearHttpsResponse*self){
     return self->error_msg != NULL;
 }
 
-void BearHttpsResponse_set_error_msg(BearHttpsResponse*self, char *msg){
+void BearHttpsResponse_set_error_msg(BearHttpsResponse*self,const char *msg){
     self->error_msg = private_BearsslHttps_strdup(msg);
 }
 
