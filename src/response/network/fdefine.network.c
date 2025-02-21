@@ -39,22 +39,20 @@ static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self,const c
 		if (addr != NULL) {
 			Universal_inet_ntop(p->ai_family, addr, tmp, sizeof tmp);
 		} else {
-			sprintf(tmp, "<unknown family: %d>",
-				(int)sa->sa_family);
+			sprintf(tmp, "<unknown family: %d>",(int)sa->sa_family);
 		}
-		fprintf(stderr, "connecting to: %s\n", tmp);
+
 		main_file_descriptor = Universal_socket(p->ai_family, p->ai_socktype, p->ai_protocol);
 		if (main_file_descriptor < 0) {
-			perror("socket()");
 			continue;
 		}
 		if (Universal_connect(main_file_descriptor, p->ai_addr, p->ai_addrlen) < 0) {
-			perror("connect()");
 			Universal_close(main_file_descriptor);
 			continue;
 		}
 		break;
 	}
+
 	if (p == NULL) {
 		Universal_freeaddrinfo(si);
 		BearHttpsResponse_set_error_msg(self,"ERROR: failed to connect\n");

@@ -14,6 +14,7 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
         return NULL;
     }
     private_BearHttpsRequisitionProps *self = (private_BearHttpsRequisitionProps *)malloc(sizeof(private_BearHttpsRequisitionProps));
+    *self = (private_BearHttpsRequisitionProps){0};
     short start_size;
     if(private_BearsslHttps_startswith(route,"http://")){
         self->port = default_port ?  default_port: 80;
@@ -30,6 +31,7 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
         private_BearHttpsRequisitionProps_free(self);
         return NULL;
     }
+
     int end = private_BearsslHttps_indexof_from_point(route,'/',start_size-1);
     if(end == -1){
         end = route_size;

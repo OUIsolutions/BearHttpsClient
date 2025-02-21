@@ -41,6 +41,7 @@ char * private_BearsslHttps_strndup(const char *str,int size){
     for(int i = 0; i < size; i++){
         new_str[i] = str[i];
     }
+    new_str[size] = 0;
     return new_str;
 }
 

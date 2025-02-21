@@ -2,6 +2,7 @@
 //silver_chain_scope_start
 //mannaged by silver chain
 #include "../imports/imports.fdeclare.h"
+#include <netinet/in.h>
 //silver_chain_scope_end
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
@@ -12,8 +13,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         BearHttpsResponse_set_error_msg(response, "failt to start unisocket");
         return response;
     }
-
-
     private_BearHttpsRequisitionProps *requisition_props = private_new_private_BearHttpsRequisitionProps(
         self->route,
         self->port
@@ -22,11 +21,15 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         BearHttpsResponse_set_error_msg(response, "failt to create requisition props");
         return response;
     }
-//    printf("hostname: %s\n",requisition_props->hostname);
-  //  printf("port: %d\n",requisition_props->port);
-    return response;
 
- //   int main_file_descriptor =private_BearHttpsRequest_host_connect(response,self->route,self->port);
+    int main_file_descriptor =private_BearHttpsRequest_host_connect(
+        response,
+        requisition_props->hostname,
+        requisition_props->port
+    );
 
+    private_BearHttpsRequisitionProps_free(requisition_props);
+
+ return response;
 
 }
