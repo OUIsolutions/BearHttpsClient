@@ -28,3 +28,11 @@ void BearHttpsResponse_set_error_msg(BearHttpsResponse*self,const char *msg){
 char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
     return self->error_msg;
 }
+void BearHttpsResponse_free(BearHttpsResponse *self){
+    private_BearHttpsHeadders_free(self->headders);
+    if(self->content){
+        free(self->content);
+    }
+    free(self);
+
+}

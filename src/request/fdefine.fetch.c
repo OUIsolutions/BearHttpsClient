@@ -22,8 +22,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         BearHttpsResponse_set_error_msg(response, "failt to create requisition props");
         return response;
     }
-    printf("hostname: %s\n",requisition_props->hostname);
-    printf("port: %d\n",requisition_props->port);
+//    printf("hostname: %s\n",requisition_props->hostname);
+  //  printf("port: %d\n",requisition_props->port);
     return response;
 
  //   int main_file_descriptor =private_BearHttpsRequest_host_connect(response,self->route,self->port);
