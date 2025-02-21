@@ -5,6 +5,7 @@ BearSSL
 dependencies
 darwintypes.lua
 # Object files
+.vscode
 src/imports
 test.c
 *.o
