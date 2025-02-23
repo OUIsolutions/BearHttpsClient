@@ -4,6 +4,8 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
+
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
    BearHttpsResponse *response =  private_newBearHttpsResponse();
@@ -12,10 +14,12 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         BearHttpsResponse_set_error_msg(response, "failt to start unisocket");
         return response;
     }
+
     private_BearHttpsRequisitionProps *requisition_props = private_new_private_BearHttpsRequisitionProps(
         self->route,
         self->port
     );
+    
     if (requisition_props == NULL) {
         BearHttpsResponse_set_error_msg(response, "failt to create requisition props");
         return response;
@@ -26,6 +30,18 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         requisition_props->hostname,
         requisition_props->port
     );
+
+    if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
+        br_ssl_client_context sc;
+        br_x509_minimal_context xc;
+        br_ssl_client_init_full(&sc, &xc, TAs, TAs_NUM);
+        br_ssl_engine_set_all_flags(&sc.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
+        unsigned char iobuf[BR_SSL_BUFSIZE_BIDI];
+	    br_ssl_engine_set_buffer(&sc.eng, iobuf, sizeof iobuf, 1);
+        br_ssl_client_reset(&sc,requisition_props->hostname, 0);
+
+    }
+
 
     private_BearHttpsRequisitionProps_free(requisition_props);
 
