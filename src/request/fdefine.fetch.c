@@ -43,6 +43,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         unsigned char iobuf[BR_SSL_BUFSIZE_BIDI];
 	    br_ssl_engine_set_buffer(&sc.eng, iobuf, sizeof iobuf, 1);
         br_ssl_client_reset(&sc,requisition_props->hostname, 0);
+        br_sslio_init(&ioc, &sc.eng, sock_read, &fd, sock_write, &fd);
+
     }
 
 
