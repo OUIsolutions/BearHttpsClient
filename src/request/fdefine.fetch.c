@@ -41,10 +41,20 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
       private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname);
     }
 
-
-
-
-
+    private_BearHttpsResponse_write(response, self->method, private_BearsslHttps_strlen(self->method));
+    private_BearHttpsResponse_write(response, self->route, private_BearsslHttps_strlen(self->route));
+    const char *HOST_TEXT =" HTTP/1.0\r\nHost: ";
+    private_BearHttpsResponse_write(response, HOST_TEXT, sizeof(HOST_TEXT)-1);
+    private_BearHttpsResponse_write(response, requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
+    for(int i = 0; i < self->headders->size; i++){
+        private_BearHttpsKeyVal *keyval = self->headders->keyvals[i];
+        private_BearHttpsResponse_write(response, keyval->key, private_BearsslHttps_strlen(keyval->key));
+        private_BearHttpsResponse_write(response, ": ", 2);
+        private_BearHttpsResponse_write(response, keyval->value, private_BearsslHttps_strlen(keyval->value));
+        private_BearHttpsResponse_write(response, "\r\n", 2);
+    }
+    private_BearHttpsResponse_write(response, "\r\n\r\n", 4);
+    
     private_BearHttpsRequisitionProps_free(requisition_props);
 
  return response;
