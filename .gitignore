@@ -8,6 +8,7 @@ darwintypes.lua
 .vscode
 src/imports
 release
+micro_client.c
 test.c
 *.o
 *.ko
