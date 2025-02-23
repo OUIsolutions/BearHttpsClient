@@ -26,6 +26,7 @@ void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method);
 
 void BearHttpsRequest_represent(BearHttpsRequest *self);
 
+void BearHttpsRequest_fetch_https(BearHttpsRequest *self, BearHttpsResponse *response,const char *hostname,int connection_file_descriptor);
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 
