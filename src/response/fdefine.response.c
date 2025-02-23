@@ -31,16 +31,14 @@ int private_BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,
 
 void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname) {
     self->is_https = true;
-    br_ssl_client_context ssl_client;
-    br_x509_minimal_context certification_context;
-    br_ssl_client_init_full(&ssl_client, &certification_context, TAs, TAs_NUM);
-    br_ssl_engine_set_all_flags(&ssl_client.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
+    br_ssl_client_init_full(&self->ssl_client, &self->certification_context, TAs, TAs_NUM);
+    br_ssl_engine_set_all_flags(& self->ssl_client.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
     
-    unsigned char buffer[BR_SSL_BUFSIZE_BIDI];
-    br_ssl_engine_set_buffer(&ssl_client.eng, buffer, sizeof buffer, 1);
+   
+    br_ssl_engine_set_buffer(&self->ssl_client.eng, self->bear_buffer, sizeof(self->bear_buffer), 1);
     
-    br_ssl_client_reset(&ssl_client, hostname, 0);
-    br_sslio_init(&self->ssl_io, &ssl_client.eng, private_BearHttps_sock_read, 
+    br_ssl_client_reset(&self->ssl_client, hostname, 0);
+    br_sslio_init(&self->ssl_io, &self->ssl_client.eng, private_BearHttps_sock_read, 
                   &self->connection_file_descriptor, 
                   private_BearHttps_sock_write, 
                   &self->connection_file_descriptor
