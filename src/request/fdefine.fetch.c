@@ -42,19 +42,28 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     }
 
     private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
-    private_BearHttpsResponse_write(response, (unsigned char*)self->route, private_BearsslHttps_strlen(self->route));
-    const char *HOST_TEXT =" HTTP/1.0\r\nHost: ";
-    private_BearHttpsResponse_write(response, (unsigned char*)HOST_TEXT, sizeof(HOST_TEXT)-1);
+    private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);
+    private_BearHttpsResponse_write(response, (unsigned char*)"/", 1);
+    private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", strlen(" HTTP/1.0\r\nHost: "));
     private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
-    for(int i = 0; i < self->headders->size; i++){
+    private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
+
+    for (int i = 0; i < self->headders->size; i++) {
         private_BearHttpsKeyVal *keyval = self->headders->keyvals[i];
         private_BearHttpsResponse_write(response, (unsigned char*)keyval->key, private_BearsslHttps_strlen(keyval->key));
         private_BearHttpsResponse_write(response, (unsigned char*)": ", 2);
         private_BearHttpsResponse_write(response, (unsigned char*)keyval->value, private_BearsslHttps_strlen(keyval->value));
         private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
     }
-    private_BearHttpsResponse_write(response, (unsigned char*)"\r\n\r\n", 4);
-    br_sslio_flush(&response->ssl_io);
+
+    private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
+
+
+
+
+    if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
+         br_sslio_flush(&response->ssl_io);
+    }
 
     private_BearHttpsRequisitionProps_free(requisition_props);
 
