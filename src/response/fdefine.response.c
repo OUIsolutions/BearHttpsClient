@@ -15,7 +15,7 @@ BearHttpsResponse *private_newBearHttpsResponse(){
 }
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size){
-    printf("%s",bufer);
+    //printf("%s",bufer);
     if(self->is_https){
       return br_sslio_write_all(&self->ssl_io, bufer, size);
     }
