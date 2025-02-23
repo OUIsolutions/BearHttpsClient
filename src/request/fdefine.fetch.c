@@ -16,7 +16,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     }
 
     private_BearHttpsRequisitionProps *requisition_props = private_new_private_BearHttpsRequisitionProps(
-        self->route,
+        self->url,
         self->port
     );
     
@@ -57,9 +57,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     }
 
     private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
-
-
-
 
     if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
          br_sslio_flush(&response->ssl_io);

@@ -8,7 +8,7 @@
 
 
 typedef struct BearHttpsRequest{
-    char *route;
+    char *url;
     bool route_owner;
 
     private_BearHttpsHeadders *headders;

@@ -8,7 +8,7 @@ BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short r
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
     *self = (BearHttpsRequest){0};
 
-    private_BearsslHttps_set_str_considering_ownership(&self->route,route,&self->route_owner,route_ownernership_mode);
+    private_BearsslHttps_set_str_considering_ownership(&self->url,route,&self->route_owner,route_ownernership_mode);
     self->headders = private_newBearHttpsHeadders();
     self->body_type =PRIVATE_BEARSSL_HTTPS_BODY_UNDEFINED;
     private_BearsslHttps_strcpy(self->method,"GET");
@@ -73,7 +73,7 @@ void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
 }
 
 void BearHttpsRequest_represent(BearHttpsRequest *self){
-    printf("Route: %s\n",self->route);
+    printf("Route: %s\n",self->url);
     printf("Method: %s\n",self->method);
     printf("Headders:\n");
     for(int i = 0; i < self->headders->size;i++){

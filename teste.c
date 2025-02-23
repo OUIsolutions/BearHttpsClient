@@ -1,7 +1,7 @@
 #include "src/one.c"
 
 int main(){
-    BearHttpsRequest *request = newBearHttpsRequest("https://example.com/");
+    BearHttpsRequest *request = newBearHttpsRequest("https://pt.wikipedia.org/wiki/China");
     BearHttpsResponse *response =BearHttpsRequest_fetch(request);
     if(BearHttpsResponse_error(response)){
         printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
