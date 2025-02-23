@@ -1,4 +1,4 @@
-#include "src/one.c"
+#include "release/BearHttpsClientOne.c"
 
 int main(){
     BearHttpsRequest *request = newBearHttpsRequest("https://pt.wikipedia.org/wiki/China");
