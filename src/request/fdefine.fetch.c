@@ -54,7 +54,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
     }
     private_BearHttpsResponse_write(response, (unsigned char*)"\r\n\r\n", 4);
-    
+    br_sslio_flush(&response->ssl_io);
+
     private_BearHttpsRequisitionProps_free(requisition_props);
 
  return response;
