@@ -5,9 +5,13 @@
 //silver_chain_scope_end
 
 BearHttpsResponse *private_newBearHttpsResponse();
+
 int BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,long size);
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
+
+int private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(BearHttpsResponse *self,int chunk_size,int limit);
+
 
 void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self,const char *hostname);
 
