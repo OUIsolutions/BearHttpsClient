@@ -6,7 +6,7 @@
 
 BearHttpsResponse *private_newBearHttpsResponse();
 
-int BearHttpsResponse_read_body(BearHttpsResponse *self,unsigned char *bufer,long size);
+int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bufer,long size);
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 

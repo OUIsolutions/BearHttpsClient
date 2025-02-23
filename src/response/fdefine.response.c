@@ -22,7 +22,7 @@ int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer
     return write(self->connection_file_descriptor, bufer, size);
 }
 
-int BearHttpsResponse_read_body(BearHttpsResponse *self,unsigned char *bufer,long size){
+int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bufer,long size){
     if(self->is_https){
       return br_sslio_read(&self->ssl_io, bufer, size);
     }
