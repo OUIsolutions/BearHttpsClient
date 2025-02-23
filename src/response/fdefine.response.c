@@ -14,6 +14,8 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     return self;
 }
 
+
+
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self){
     return self->status_code;
 }
