@@ -25,7 +25,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         return response;
     }
 
-    int main_file_descriptor =private_BearHttpsRequest_host_connect(
+    int conection_file_descriptor =private_BearHttpsRequest_host_connect(
         response,
         requisition_props->hostname,
         requisition_props->port
@@ -39,8 +39,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         unsigned char iobuf[BR_SSL_BUFSIZE_BIDI];
 	    br_ssl_engine_set_buffer(&sc.eng, iobuf, sizeof iobuf, 1);
         br_ssl_client_reset(&sc,requisition_props->hostname, 0);
-
     }
+
 
 
     private_BearHttpsRequisitionProps_free(requisition_props);
