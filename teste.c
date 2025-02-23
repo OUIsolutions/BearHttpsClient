@@ -11,7 +11,7 @@ int main(){
         printf("buffer: %s\n",buffer);
         memset(buffer,0,sizeof(buffer));
     }
-
+    BearHttpsRequest_free(request);
     BearHttpsResponse_free(response);
 
 }
