@@ -9,6 +9,7 @@ typedef struct BearHttpsResponse{
 
     int connection_file_descriptor;
     bool is_https;
+    br_sslio_context ssl_io;
 
     unsigned char *content;
     long content_readed;

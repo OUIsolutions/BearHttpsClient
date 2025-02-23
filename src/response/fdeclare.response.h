@@ -7,7 +7,7 @@
 BearHttpsResponse *private_newBearHttpsResponse();
 
 
-void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self);
+void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self,const char *hostname);
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
 

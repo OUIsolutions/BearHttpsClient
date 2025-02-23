@@ -14,17 +14,22 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     return self;
 }
 
-
-void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self){
-    br_sslio_context ioc;
-    br_ssl_client_context sc;
-    br_x509_minimal_context xc;
-    br_ssl_client_init_full(&sc, &xc, TAs, TAs_NUM);
-    br_ssl_engine_set_all_flags(&sc.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
-    unsigned char iobuf[BR_SSL_BUFSIZE_BIDI];
-	br_ssl_engine_set_buffer(&sc.eng, iobuf, sizeof iobuf, 1);
-    br_ssl_client_reset(&sc,hostname, 0);
-    br_sslio_init(&ioc, &sc.eng, private_BearHttps_sock_read, &connection_file_descriptor, private_BearHttps_sock_write, &connection_file_descriptor);
+void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname) {
+    self->is_https = true;
+    br_ssl_client_context ssl_client;
+    br_x509_minimal_context certification_context;
+    br_ssl_client_init_full(&ssl_client, &certification_context, TAs, TAs_NUM);
+    br_ssl_engine_set_all_flags(&ssl_client.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
+    
+    unsigned char buffer[BR_SSL_BUFSIZE_BIDI];
+    br_ssl_engine_set_buffer(&ssl_client.eng, buffer, sizeof buffer, 1);
+    
+    br_ssl_client_reset(&ssl_client, hostname, 0);
+    br_sslio_init(&self->ssl_io, &ssl_client.eng, private_BearHttps_sock_read, 
+                  &self->connection_file_descriptor, 
+                  private_BearHttps_sock_write, 
+                  &self->connection_file_descriptor
+    );
 }
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self){
