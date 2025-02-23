@@ -5,11 +5,11 @@
 //silver_chain_scope_end
 
 private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProps(const char *route,int default_port){
-    int route_size = private_BearsslHttps_strlen(route);
+    int url_size = private_BearsslHttps_strlen(route);
     const short HTTP_START_SIZE = sizeof("http://");
     const short HTTPS_START_SIZE = sizeof("https://");
 
-    if(route_size < HTTP_START_SIZE+1){
+    if(url_size < HTTP_START_SIZE+1){
         return NULL;
     }
     private_BearHttpsRequisitionProps *self = (private_BearHttpsRequisitionProps *)malloc(sizeof(private_BearHttpsRequisitionProps));
@@ -31,11 +31,18 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
         return NULL;
     }
     //1000 //2000
-    int end = private_BearsslHttps_indexof_from_point(route,'/',start_size-1);
-    if(end == -1){
-        end = route_size;
+    int end_host_name_and_start_of_route = private_BearsslHttps_indexof_from_point(route,'/',start_size-1);
+    if(end_host_name_and_start_of_route == -1){
+        end_host_name_and_start_of_route = url_size;
     }
-    self->hostname = private_BearsslHttps_strndup((route+start_size-1),end-start_size+1);
+    self->hostname = private_BearsslHttps_strndup((route+start_size-1),end_host_name_and_start_of_route-start_size+1);
+    if(end_host_name_and_start_of_route == url_size){
+        self->route = private_BearsslHttps_strdup("/");
+        return self;
+    }
+
+    self->route = private_BearsslHttps_strndup((route+end_host_name_and_start_of_route),url_size-end_host_name_and_start_of_route+1);
+
     return self;
 }
 
