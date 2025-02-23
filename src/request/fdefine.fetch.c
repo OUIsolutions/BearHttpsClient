@@ -31,6 +31,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         requisition_props->port
     );
 
+    if(conection_file_descriptor < 0){
+        return response;
+    }
+
     if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
         br_ssl_client_context sc;
         br_x509_minimal_context xc;
