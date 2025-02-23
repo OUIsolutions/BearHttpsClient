@@ -18,14 +18,14 @@ int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer
     if(self->is_https){
       return br_sslio_write_all(&self->ssl_io, bufer, size);
     }
-    return Universal_write(self->connection_file_descriptor, bufer, size);
+    return write(self->connection_file_descriptor, bufer, size);
 }
 
 int private_BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,long size){
     if(self->is_https){
       return br_sslio_read(&self->ssl_io, bufer, size);
     }
-    return Universal_read(self->connection_file_descriptor, bufer, size);
+    return read(self->connection_file_descriptor, bufer, size);
 }
 
 
