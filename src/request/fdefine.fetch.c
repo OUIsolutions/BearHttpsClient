@@ -25,13 +25,15 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         return response;
     }
 
-    int conection_file_descriptor =private_BearHttpsRequest_host_connect(
+    response->connection_file_descriptor =private_BearHttpsRequest_host_connect(
         response,
         requisition_props->hostname,
         requisition_props->port
     );
 
-    if(conection_file_descriptor < 0){
+
+    if(response->connection_file_descriptor < 0){
+        private_BearHttpsRequisitionProps_free(requisition_props);
         return response;
     }
 

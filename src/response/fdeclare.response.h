@@ -6,6 +6,8 @@
 
 BearHttpsResponse *private_newBearHttpsResponse();
 
+
+
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
 
 bool BearHttpsResponse_error(BearHttpsResponse*self);
