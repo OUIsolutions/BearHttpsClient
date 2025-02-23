@@ -6,6 +6,7 @@
 
 BearHttpsResponse *private_newBearHttpsResponse();
 
+int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 
 void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self,const char *hostname);
 

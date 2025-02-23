@@ -14,6 +14,21 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     return self;
 }
 
+int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size){
+    if(self->is_https){
+      return br_sslio_write_all(&self->ssl_io, bufer, size);
+    }
+    return Universal_write(self->connection_file_descriptor, bufer, size);
+}
+
+int private_BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,long size){
+    if(self->is_https){
+      return br_sslio_read(&self->ssl_io, bufer, size);
+    }
+    return Universal_read(self->connection_file_descriptor, bufer, size);
+}
+
+
 void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname) {
     self->is_https = true;
     br_ssl_client_context ssl_client;
