@@ -38,8 +38,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     }
 
     if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
-      
+      private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname);
     }
+
+
 
 
 
