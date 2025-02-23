@@ -5,6 +5,7 @@
 //silver_chain_scope_end
 
 BearHttpsResponse *private_newBearHttpsResponse();
+int BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,long size);
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 

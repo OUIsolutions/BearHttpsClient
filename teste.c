@@ -8,9 +8,10 @@ int main(){
     }
     printf("chegou aqui\n");
     char buffer[1024];
-    while(private_BearHttpsResponse_read(response, (unsigned char*)buffer, 1024) > 0){
-        printf("%s",buffer);
-    }
+    int size = BearHttpsResponse_read(response,(unsigned char*)buffer,1024);
+    printf("size: %d\n",size);
+    printf("buffer: %s\n",buffer);
+
     BearHttpsResponse_free(response);
 
 }

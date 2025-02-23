@@ -21,7 +21,7 @@ int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer
     return write(self->connection_file_descriptor, bufer, size);
 }
 
-int private_BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,long size){
+int BearHttpsResponse_read(BearHttpsResponse *self,unsigned char *bufer,long size){
     if(self->is_https){
       return br_sslio_read(&self->ssl_io, bufer, size);
     }
