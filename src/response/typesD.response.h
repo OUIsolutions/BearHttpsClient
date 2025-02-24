@@ -14,8 +14,10 @@ typedef struct BearHttpsResponse{
     unsigned char bear_buffer[BR_SSL_BUFSIZE_BIDI];
     br_x509_minimal_context certification_context;
 
+
     unsigned char *content;
-    long content_readed;
+    long content_allocated;
+
 
     private_BearHttpsHeadders *headders;
     long body_size;

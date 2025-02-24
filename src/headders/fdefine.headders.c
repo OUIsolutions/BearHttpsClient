@@ -12,7 +12,7 @@ private_BearHttpsHeadders *private_newBearHttpsHeadders(){
 }
 
 void private_BearHttpsHeadders_add_keyval(private_BearHttpsHeadders *self, private_BearHttpsKeyVal *keyval){
-    self->keyvals = (private_BearHttpsKeyVal **)realloc(
+    self->keyvals = (private_BearHttpsKeyVal **)BearsslHttps_reallocate(
         self->keyvals,
         sizeof(private_BearHttpsKeyVal*) * (self->size + 1)
 
