@@ -17,7 +17,9 @@ it will generate all the **releases** in the **/release** dir
 #include "BearHttpsClientOne.c"
 
 int main(){
-    BearHttpsRequest *request = newBearHttpsRequest("https://pt.wikipedia.org/wiki/China");
+    BearHttpsRequest *request = newBearHttpsRequest("https://serjaoberranteiroserver.com.br/");
+    BearHttpsRequest_add_headder(request, "nome", "samuel");
+    BearHttpsRequest_set_method(request, "GET");
     BearHttpsResponse *response =BearHttpsRequest_fetch(request);
     if(BearHttpsResponse_error(response)){
         printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
