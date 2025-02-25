@@ -33,9 +33,7 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
-
     long total_prev_sended = 0;
-
     while (self->extra_body_remaning_to_send > 0) {
         if(total_prev_sended >= size){
             return total_prev_sended;
@@ -201,6 +199,10 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->raw_content){
         free(self->raw_content);
     }
+    if(self->error_msg){
+        free(self->error_msg);
+    }
+    
     free(self);
 
 }

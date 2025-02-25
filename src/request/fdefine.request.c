@@ -4,11 +4,11 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
-BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short route_ownernership_mode){
+BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short route_ownernership_mode){
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
     *self = (BearHttpsRequest){0};
 
-    private_BearsslHttps_set_str_considering_ownership(&self->url,route,&self->route_owner,route_ownernership_mode);
+    private_BearsslHttps_set_str_considering_ownership(&self->url,url,&self->route_owner,route_ownernership_mode);
     self->headders = private_newBearHttpsHeadders();
     self->body_type =PRIVATE_BEARSSL_HTTPS_BODY_UNDEFINED;
     self->headder_chunk_read_size = BEARSSL_HEADDER_CHUNK;
@@ -17,8 +17,8 @@ BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short r
     return self;
 }
 
-BearHttpsRequest * newBearHttpsRequest(char *route){
-    return newBearHttpsRequest_with_ownership_config(route,BEARSSL_DEFAULT_STRATEGY);
+BearHttpsRequest * newBearHttpsRequest(char *url){
+    return newBearHttpsRequest_with_ownership_config(url,BEARSSL_DEFAULT_STRATEGY);
 }
 
 void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner){

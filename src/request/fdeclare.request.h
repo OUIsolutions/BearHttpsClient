@@ -5,9 +5,9 @@
 //silver_chain_scope_end
 
 
-BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short route_ownernership_mode);
+BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short route_ownernership_mode);
 
-BearHttpsRequest * newBearHttpsRequest(char *route);
+BearHttpsRequest * newBearHttpsRequest(char *url);
 
 void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
 
