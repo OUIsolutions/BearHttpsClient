@@ -15,6 +15,9 @@ typedef struct BearHttpsRequest{
     char method[30];
     int port;
 
+    int headder_chunk_read_size;
+    int headder_chunk_reallocator_facctor;
+
     int response_max_headders_size;
 
 

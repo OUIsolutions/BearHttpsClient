@@ -2,7 +2,6 @@
 //silver_chain_scope_start
 //mannaged by silver chain
 #include "../imports/imports.fdeclare.h"
-
 //silver_chain_scope_end
 
 
@@ -31,40 +30,70 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 }
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
-    return private_BearHttpsResponse_read_chunck_raw(self,buffer,size);
+
+    long total_prev_sended = 0;
+
+    while (self->extra_body_remaning_to_send > 0) {
+        if(total_prev_sended >= size){
+            return total_prev_sended;
+        }
+        buffer[total_prev_sended] = self->body[total_prev_sended];
+        self->extra_body_remaning_to_send-=1;
+        total_prev_sended+=1;
+    }
+    long readded =  private_BearHttpsResponse_read_chunck_raw(self,buffer+total_prev_sended,size-total_prev_sended);
+    self->body_readded+=readded;
+    return readded + total_prev_sended;
 }
 
-void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(BearHttpsResponse *self,int headder){
 
-    const int START_ALLOC_CONTENT = 100;
-    const int CHUNK = START_ALLOC_CONTENT;
-    const int FACTOR  = 2.5;
-    self->content = malloc(START_ALLOC_CONTENT);
-    self->content_allocated  = START_ALLOC_CONTENT;
+void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headders_end){
+    const short WAITING_FIRST_SPACE = 0;
+    const short WAITING_STATUS_CODE = 1;
+    const short WAITING_STATUS_CODE_TERMINATION = 2;
+    const short WAITING_FIRST_LINE_TERMINATION  = 3;
+    const short COLECTING_KEY = 4;
+    const short COLECTING_VAL = 4;
+    short state = WAITING_FIRST_SPACE;
+    for(int i =0 ; i < headders_end;i++){
+       // printf("%c",self->raw_content[i]);
+    }
+    ///printf("\n------------\n");
+    //printf("%s",self->raw_content);
+}
+void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
+    BearHttpsResponse *self,
+    int chunk_size,
+    double factor_headders_growth
+){
+
+
+    self->raw_content = BearsslHttps_allocate(chunk_size+2);
+    self->content_allocated  = chunk_size;
     long content_size = 0;
 
 
     while(true){
         //apply the factor realloc
-        while(content_size >= (self->content_allocated -1)){
-            self->content_allocated = self->content_allocated * FACTOR;
-            self->content = (unsigned char*)BearsslHttps_reallocate(self->content,self->content_allocated);
+        while(content_size + chunk_size >= self->content_allocated -2 ){
+            self->content_allocated = (long)(self->content_allocated * factor_headders_growth);
+            self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,self->content_allocated);
         }
-
         //we create a buff str , to allow 'append' into the content
-        unsigned char *content_point = (self->content + content_size);
-        int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, CHUNK);
+        unsigned char *content_point = (self->raw_content +content_size);
+
+        int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
         if(readded == 0){
             return;
         }
-        if(readded <0){
+        if(readded < 0){
             char error_buff[100] ={0};
             sprintf(error_buff,"invalid read code: %d",readded);
             BearHttpsResponse_set_error_msg(self,error_buff);
             return;
         }
 
-        content_size+=readded;
+
         for(int i = 3; i < readded;i++){
             if(
                 content_point[i-3] == '\r' &&
@@ -72,12 +101,22 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(BearHttps
                 content_point[i-1] == '\r' &&
                 content_point[i] == '\n' )
             {
-                self->body = (content_point+i);
-                self->body_size = readded;
+                self->body_start =content_size + i+1;
+                self->body_size = ((content_size+readded) - self->body_start);
+                self->extra_body_remaning_to_send = self->body_size;
+                self->body_readded = self->body_size;
+                self->body = (self->raw_content+ self->body_start);
+                private_BearHttpsResponse_parse_headders(self,content_size + i-3);
                 return;
             }
         }
+        content_size+=readded;
+
     }
+
+
+    BearHttpsResponse_set_error_msg(self,"invalid http response");
+
 
 }
 
@@ -114,8 +153,8 @@ char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
 }
 void BearHttpsResponse_free(BearHttpsResponse *self){
     private_BearHttpsHeadders_free(self->headders);
-    if(self->content){
-        free(self->content);
+    if(self->raw_content){
+        free(self->raw_content);
     }
     free(self);
 

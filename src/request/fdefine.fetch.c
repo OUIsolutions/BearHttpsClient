@@ -19,7 +19,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         self->url,
         self->port
     );
-    
+
     if (requisition_props == NULL) {
         BearHttpsResponse_set_error_msg(response, "failt to create requisition props");
         return response;
@@ -40,13 +40,15 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
       private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname);
     }
-
     private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
     private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);
     private_BearHttpsResponse_write(response, (unsigned char*)"/", 1);
+
     private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->route, private_BearsslHttps_strlen(requisition_props->route));
-    private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", strlen(" HTTP/1.0\r\nHost: "));
+    private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.0\r\nHost: "));
+
     private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
+
     private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
 
     for (int i = 0; i < self->headders->size; i++) {
@@ -61,6 +63,13 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
          br_sslio_flush(&response->ssl_io);
+    }
+
+    private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(response,self->headder_chunk_read_size,self->headder_chunk_read_size);
+
+    if(BearHttpsResponse_error(response)){
+        printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
+        return 0;
     }
 
     private_BearHttpsRequisitionProps_free(requisition_props);

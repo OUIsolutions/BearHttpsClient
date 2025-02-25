@@ -15,13 +15,17 @@ typedef struct BearHttpsResponse{
     br_x509_minimal_context certification_context;
 
 
-    unsigned char *content;
+    unsigned char *raw_content;
     long content_allocated;
 
-
     private_BearHttpsHeadders *headders;
-    long body_size;
+
+    long body_start;
     unsigned char *body;
+    long body_size;
+    long extra_body_remaning_to_send;
+    long body_readded;
+
     bool error;
     int error_code;
     char *error_msg;

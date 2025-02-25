@@ -11,6 +11,8 @@ BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *route,short r
     private_BearsslHttps_set_str_considering_ownership(&self->url,route,&self->route_owner,route_ownernership_mode);
     self->headders = private_newBearHttpsHeadders();
     self->body_type =PRIVATE_BEARSSL_HTTPS_BODY_UNDEFINED;
+    self->headder_chunk_read_size = BEARSSL_HEADDER_CHUNK;
+    self->headder_chunk_reallocator_facctor = BEARSSL_HEADDER_REALLOC_FACTOR;
     private_BearsslHttps_strcpy(self->method,"GET");
     return self;
 }

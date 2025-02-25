@@ -12,7 +12,11 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 
-void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(BearHttpsResponse *self,int headder);
+void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
+    BearHttpsResponse *self,
+    int chunk,
+    double factor_headders_growth
+);
 
 
 void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self,const char *hostname);

@@ -26,6 +26,7 @@ char * private_BearsslHttps_strdup(const char *str){
     for(long i = 0; i < size; i++){
         new_str[i] = str[i];
     }
+    new_str[size] = '\0';
     return new_str;
 }
 
