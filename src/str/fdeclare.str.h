@@ -5,6 +5,8 @@
 //silver_chain_scope_end
 long private_BearsslHttps_strlen(const char *str);
 
+int private_BearsslHttp_strcmp(const char *str1,const char *str2);
+
 bool private_BearsslHttps_startswith(const char *str,const char *prefix);
 
 char * private_BearsslHttps_strdup(const char *str);
