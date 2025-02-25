@@ -9,7 +9,7 @@ bool private_BearHttps_is_sanitize_key(const char *key,const char *sanitized,int
     int comparation_size = 0;
     for(int i=0; i < key_size;i++){
         char current = key[i];
-        if(current == ' ' || current == '\t' || current == '\n' || current == '\r'){
+        if(current == ' ' || current == '\t' || current == '\n' || current == '\r'|| current == '-'|| current == '_'){
             continue;
         }
         if(comparation_size > sanitized_size){
@@ -22,6 +22,9 @@ bool private_BearHttps_is_sanitize_key(const char *key,const char *sanitized,int
             return false;
         }
         comparation_size++;
+    }
+    if(comparation_size != sanitized_size){
+        return false;
     }
     return true;
 }

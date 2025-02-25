@@ -239,10 +239,10 @@ char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const ch
 
 
 char* BearHttpsResponse_get_headder_value_by_sanitized_key(BearHttpsResponse*self,const char *key){
-
+    long key_size = private_BearsslHttps_strlen(key);
     for(int i = 0; i < self->headders->size;i++){
         private_BearHttpsKeyVal * current_key_val = self->headders->keyvals[i];
-        if(private_BearsslHttp_strcmp(current_key_val->key,key) == 0){
+        if(private_BearHttps_is_sanitize_key(current_key_val->key,key,key_size)){
             return current_key_val->value;
         }
     }
