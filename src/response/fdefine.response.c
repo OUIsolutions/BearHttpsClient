@@ -32,6 +32,11 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
+    
+    if(self->body_readded == self->user_content_length){
+        return 0;
+    }
+    
     long total_prev_sended = 0;
     while (self->extra_body_remaning_to_send > 0) {
         if(total_prev_sended >= size){
@@ -44,6 +49,9 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
 
     long readded =  private_BearHttpsResponse_read_chunck_raw(self,buffer+total_prev_sended,size-total_prev_sended);
+    if(readded == -1){
+        printf("error on read\n");
+    }
     if(readded> 0){
         self->body_readded+=readded;
     }
@@ -102,6 +110,10 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
             continue;
         }
 
+    }
+    char *content_length = BearHttpsResponse_get_headder_value_by_sanitized_key(self,"contentlength");
+    if(content_length != NULL){
+        self->user_content_length = atol(content_length);
     }
     ///printf("\n------------\n");
     //printf("%s",self->raw_content);

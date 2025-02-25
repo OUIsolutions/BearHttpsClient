@@ -19,7 +19,7 @@ typedef struct BearHttpsResponse{
     long content_allocated;
 
     private_BearHttpsHeadders *headders;
-
+    long user_content_length;
     long body_start;
     unsigned char *body;
     long body_size;
