@@ -50,9 +50,15 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 }
 unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size,long *size){
     if(!self->user_content_length){
-        *size = NULL;
+        *size = 0;
         return NULL;
     }
+    
+    if(self->body_readded == self->user_content_length){
+        *size = self->body_size;
+        return self->body;
+    }
+
 
     long new_size = self->body_start_index + self->user_content_length + 2;
     self->raw_content = (unsigned char *)BearsslHttps_reallocate(self->raw_content,new_size);
@@ -70,6 +76,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         if(readded == 0){
             break;
         }
+        
         self->body_readded += readded;
         self->body_size += readded;
         if(self->body_readded == self->user_content_length){
