@@ -10,6 +10,8 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bufer,long size);
 
+unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size);
+
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 
 void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
