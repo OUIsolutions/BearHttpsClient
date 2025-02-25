@@ -11,6 +11,21 @@ long private_BearsslHttps_strlen(const char *str){
     }
     return size;
 }
+int private_BearsslHttp_strcmp(const char *str1,const char *str2){
+    long size1 = private_BearsslHttps_strlen(str1);
+    long size2 = private_BearsslHttps_strlen(str2);
+    if(size1 != size2){
+        return 1;
+    }
+    for(long i = 0; i < size1; i++){
+        if(str1[i] != str2[i]){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
 bool private_BearsslHttps_startswith(const char *str,const char *prefix){
     long size = private_BearsslHttps_strlen(prefix);
     for(long i = 0; i < size; i++){

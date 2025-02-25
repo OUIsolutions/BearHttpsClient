@@ -2,6 +2,7 @@
 //silver_chain_scope_start
 //mannaged by silver chain
 #include "../imports/imports.fdeclare.h"
+#include <string.h>
 //silver_chain_scope_end
 
 
@@ -199,4 +200,31 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     }
     free(self);
 
+}
+int BearHttpsResponse_get_headders_size(BearHttpsResponse*self){
+    return self->headders->size;
+}
+
+char* BearHttpsResponse_get_headder_value_by_index(BearHttpsResponse*self,int index){
+    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeadders_get_key_val_by_index(self->headders,index);
+    if(key_vall == NULL){
+        return NULL;
+    }
+    return key_vall->value;
+}
+char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int index){
+    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeadders_get_key_val_by_index(self->headders,index);
+    if(key_vall == NULL){
+        return NULL;
+    }
+    return key_vall->value;
+}
+char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const char *key){
+    for(int i = 0; i < self->headders->size;i++){
+        private_BearHttpsKeyVal * current_key_val = self->headders->keyvals[i];
+        if(private_BearsslHttp_strcmp(current_key_val->key,key) == 0){
+            return current_key_val->value;
+        }
+    }
+    return NULL;
 }

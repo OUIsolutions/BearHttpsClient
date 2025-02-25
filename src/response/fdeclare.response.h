@@ -23,6 +23,15 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self,const
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
 
+int BearHttpsResponse_get_headders_size(BearHttpsResponse*self);
+
+char* BearHttpsResponse_get_headder_value_by_index(BearHttpsResponse*self,int index);
+
+char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const char *key);
+
+char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int index);
+
+
 bool BearHttpsResponse_error(BearHttpsResponse*self);
 
 char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);

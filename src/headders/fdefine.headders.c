@@ -2,6 +2,7 @@
 //silver_chain_scope_start
 //mannaged by silver chain
 #include "../imports/imports.fdeclare.h"
+#include <string.h>
 //silver_chain_scope_end
 
 private_BearHttpsHeadders *private_newBearHttpsHeadders(){
@@ -27,4 +28,10 @@ void private_BearHttpsHeadders_free(private_BearHttpsHeadders *self){
     }
     free(self->keyvals);
     free(self);
+}
+private_BearHttpsKeyVal * private_BearHttpsHeadders_get_key_val_by_index(private_BearHttpsHeadders *self,int index){
+    if(self->size <= index){
+        return NULL;
+    }
+    return self->keyvals[index];
 }
