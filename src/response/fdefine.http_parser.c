@@ -15,7 +15,6 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
     const short WAITING_END_VAL = 7;
     short state = WAITING_FIRST_SPACE;
     private_BearHttpsKeyVal *current_key_vall = NULL;
-
     for(int i =3 ; i < headders_end;i++){
         if(self->raw_content[i] == ' ' && state == WAITING_FIRST_SPACE){
             state = WAITING_STATUS_CODE;
@@ -48,7 +47,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
             continue;
         }
 
-        if(self->raw_content[i] == '\n' && self->raw_content[i-1] =='\r' && state == WAITING_END_VAL){
+        if( self->raw_content[i-1] =='\r' && self->raw_content[i] == '\n'  && state == WAITING_END_VAL){
             self->raw_content[i-1] = '\0';
             private_BearHttpsHeadders_add_keyval(self->headders,current_key_vall);
             current_key_vall = NULL;
@@ -57,6 +56,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
         }
 
     }
+   
     char *content_length = BearHttpsResponse_get_headder_value_by_sanitized_key(self,"contentlength");
     if(content_length != NULL){
         self->user_content_length = atol(content_length);
@@ -105,12 +105,13 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
                 content_point[i-1] == '\r' &&
                 content_point[i] == '\n' )
             {
+                
                 self->body_start_index =content_size + i+1;
                 self->body_size = ((content_size+readded) - self->body_start_index);
                 self->extra_body_remaning_to_send = self->body_size;
                 self->body_readded = self->body_size;
                 self->body = (self->raw_content+ self->body_start_index);
-                private_BearHttpsResponse_parse_headders(self,content_size + i-3);
+                private_BearHttpsResponse_parse_headders(self,content_size + i-1);
                 return;
             }
         }

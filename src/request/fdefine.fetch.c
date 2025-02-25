@@ -69,6 +69,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     if(BearHttpsResponse_error(response)){
         printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
+        private_BearHttpsRequisitionProps_free(requisition_props);
         return 0;
     }
 
