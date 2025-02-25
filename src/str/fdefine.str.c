@@ -70,3 +70,10 @@ int private_BearsslHttps_indexof_from_point(const char *str,char c,int start){
     }
     return -1;
 }
+
+char  private_BearsslHttps_parse_char_to_lower(char c){
+    if(c >= 'A' && c <= 'Z'){
+        return c + 32;
+    }
+    return c;
+}

@@ -31,6 +31,8 @@ char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const ch
 
 char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int index);
 
+char* BearHttpsResponse_get_headder_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
+
 
 bool BearHttpsResponse_error(BearHttpsResponse*self);
 
