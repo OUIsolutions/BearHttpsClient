@@ -105,11 +105,11 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
                 content_point[i-1] == '\r' &&
                 content_point[i] == '\n' )
             {
-                self->body_start =content_size + i+1;
-                self->body_size = ((content_size+readded) - self->body_start);
+                self->body_start_index =content_size + i+1;
+                self->body_size = ((content_size+readded) - self->body_start_index);
                 self->extra_body_remaning_to_send = self->body_size;
                 self->body_readded = self->body_size;
-                self->body = (self->raw_content+ self->body_start);
+                self->body = (self->raw_content+ self->body_start_index);
                 private_BearHttpsResponse_parse_headders(self,content_size + i-3);
                 return;
             }

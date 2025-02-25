@@ -21,8 +21,6 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
     self->is_https = true;
     br_ssl_client_init_full(&self->ssl_client, &self->certification_context, TAs, TAs_NUM);
     br_ssl_engine_set_all_flags(& self->ssl_client.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
-
-
     br_ssl_engine_set_buffer(&self->ssl_client.eng, self->bear_buffer, sizeof(self->bear_buffer), 1);
 
     br_ssl_client_reset(&self->ssl_client, hostname, 0);
@@ -35,6 +33,10 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self){
     return self->status_code;
+}
+
+int BearHttpsResponse_get_body_size(BearHttpsResponse*self){
+    return self->body_size;
 }
 
 bool BearHttpsResponse_error(BearHttpsResponse*self){

@@ -48,3 +48,32 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
     }
     return readded + total_prev_sended;
 }
+unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size,long *size){
+    if(!self->user_content_length){
+        *size = NULL;
+        return NULL;
+    }
+
+    long new_size = self->body_start_index + self->user_content_length + 2;
+    self->raw_content = (unsigned char *)realloc(self->raw_content,new_size);
+    self->body = self->raw_content + self->body_start_index;
+    
+    long size_to_read =self->user_content_length - self->body_readded;
+    if(size_to_read > max_size){
+        size_to_read = max_size;
+    }
+
+    unsigned char *buffer = self->raw_content + self->body_start_index + self->body_readded;
+
+    while(true){
+        long readded = BearHttpsResponse_read_body_chunck(self,buffer,size_to_read);
+        if(readded == 0){
+            break;
+        }
+        self->body_readded += readded;
+        self->body_size += readded;
+        size_to_read -= readded;
+        buffer += readded;
+    }
+    
+}
