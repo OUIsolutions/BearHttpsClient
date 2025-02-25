@@ -17,20 +17,21 @@ it will generate all the **releases** in the **/release** dir
 #include "BearHttpsClientOne.c"
 
 int main(){
-    BearHttpsRequest *request = newBearHttpsRequest("https://serjaoberranteiroserver.com.br/");
-    BearHttpsRequest_add_headder(request, "nome", "samuel");
-    BearHttpsRequest_set_method(request, "GET");
+    BearHttpsRequest *request = newBearHttpsRequest("https://example.com");
     BearHttpsResponse *response =BearHttpsRequest_fetch(request);
+    const int MAX_CONTENT = 2000;
+    char *body = BearHttpsResponse_read_body(response,MAX_CONTENT);
+    if(body){
+        printf("body: %s\n",body);
+    }
+
     if(BearHttpsResponse_error(response)){
         printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
     }
-    char buffer[1024] ={0};
-    while(BearHttpsResponse_read_body_chunck(response,(unsigned char*)buffer,sizeof(buffer)) > 0){
-        printf("buffer: %s\n",buffer);
-        memset(buffer,0,sizeof(buffer));
-    }
+
     BearHttpsRequest_free(request);
     BearHttpsResponse_free(response);
 
 }
+
 ```
