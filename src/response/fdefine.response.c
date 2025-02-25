@@ -29,6 +29,8 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
     return read(self->connection_file_descriptor, buffer, size);
 
 }
+
+
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
 
     long total_prev_sended = 0;
@@ -50,13 +52,51 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headders_end){
     const short WAITING_FIRST_SPACE = 0;
     const short WAITING_STATUS_CODE = 1;
-    const short WAITING_STATUS_CODE_TERMINATION = 2;
     const short WAITING_FIRST_LINE_TERMINATION  = 3;
     const short COLECTING_KEY = 4;
-    const short COLECTING_VAL = 4;
+    const short COLECTING_VAL = 5;
+    const short WAITING_END_VAL = 6;
     short state = WAITING_FIRST_SPACE;
-    for(int i =0 ; i < headders_end;i++){
-       // printf("%c",self->raw_content[i]);
+    private_BearHttpsKeyVal *current_key_vall = NULL;
+
+    for(int i =3 ; i < headders_end;i++){
+        if(self->raw_content[i] == ' ' && state == WAITING_FIRST_SPACE){
+            state = WAITING_STATUS_CODE;
+            continue;
+        }
+        if(self->raw_content[i] != ' ' && state == WAITING_STATUS_CODE){
+            self->status_code = atoi((const char*)self->raw_content + i);
+            state = WAITING_FIRST_LINE_TERMINATION;
+            continue;
+        }
+        if(self->raw_content[i] == '\n' && self->raw_content[i-1] =='\r' && state == WAITING_FIRST_LINE_TERMINATION){
+            state = COLECTING_KEY;
+            continue;
+        }
+        if(state == COLECTING_KEY && self->raw_content[i] != ' '){
+            current_key_vall = private_newBearHttpsKeyVal();
+            private_BearHttpsKeyVal_set_key(current_key_vall,(char*)self->raw_content+i,BEARSSL_HTTPS_REFERENCE);
+        }
+
+        if(state == COLECTING_KEY && self->raw_content[i] == ':'){
+            self->raw_content[i] = '\0';
+            state = COLECTING_VAL;
+            continue;
+        }
+        if(state == COLECTING_VAL && self->raw_content[i] != ' '){
+            private_BearHttpsKeyVal_set_value(current_key_vall,(char*)self->raw_content+i,BEARSSL_HTTPS_REFERENCE);
+            state = WAITING_END_VAL;
+            continue;
+        }
+
+        if(self->raw_content[i] == '\n' && self->raw_content[i-1] =='\r' && state == WAITING_END_VAL){
+            self->raw_content[i] = '\0';
+            private_BearHttpsHeadders_add_keyval(self->headders,current_key_vall);
+            current_key_vall = NULL;
+            state = COLECTING_KEY;
+            continue;
+        }
+
     }
     ///printf("\n------------\n");
     //printf("%s",self->raw_content);
@@ -86,6 +126,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
         if(readded == 0){
             return;
         }
+
         if(readded < 0){
             char error_buff[100] ={0};
             sprintf(error_buff,"invalid read code: %d",readded);
