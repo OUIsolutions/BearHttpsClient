@@ -68,18 +68,16 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         size_to_read = max_size;
     }
 
-    unsigned char *buffer = self->body + self->body_readded;
-
+    unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
+ 
     while(true){
         
         if(self->body_readded == self->user_content_length){
-             printf("pegou aqui\n");
-              self->body[self->body_size] = '\0';
-              return self->body;
+            break;
         }
    
 
-        long readded = BearHttpsResponse_read_body_chunck(self,buffer,size_to_read);
+        long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
         if(readded == 0){
             break;
         }
@@ -88,6 +86,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
             BearHttpsResponse_set_error_msg(self,"error reading body");
             return NULL;
         }
+
         self->body_readded += readded;
         self->body_size += readded;
         size_to_read -= readded;
@@ -95,6 +94,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
 
     }
 
-    return NULL;
+    self->body[self->body_size] = '\0';
+    return self->body;
     
 }
