@@ -23,7 +23,10 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
-
+    if(self->error){
+        return -1;
+    }
+    
     if(self->body_readded == self->user_content_length){
         return 0;
     }
@@ -50,6 +53,10 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
     return readded + total_prev_sended;
 }
 unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size){
+    if(self->error){
+        return NULL;
+    }
+
     if(!self->user_content_length){
         return NULL;
     }
@@ -97,4 +104,19 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     self->body[self->body_size] = '\0';
     return self->body;
     
+}
+
+const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self,long max_size){
+    unsigned char *body = BearHttpsResponse_read_body(self,max_size);
+    if(body == NULL){
+        return NULL;
+    }
+
+    //check if its a binary
+    for(int i  = 0; i < self->body_size; i++){
+        if(body[i] == '\0'){
+           return NULL;
+        }
+    }
+    return (const char *)body;
 }
