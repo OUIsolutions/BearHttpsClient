@@ -40,8 +40,9 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
 
     long readded =  private_BearHttpsResponse_read_chunck_raw(self,buffer+total_prev_sended,size-total_prev_sended);
-    if(readded == -1){
-        printf("error on read\n");
+    if(readded < 0){
+        BearHttpsResponse_set_error_msg(self,"error reading body");
+        return readded;
     }
     if(readded> 0){
         self->body_readded+=readded;
@@ -76,7 +77,11 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         if(readded == 0){
             break;
         }
-        
+        if(readded < 0){
+            BearHttpsResponse_set_error_msg(self,"error reading body");
+            *size = 0;
+            return NULL;
+        }
         self->body_readded += readded;
         self->body_size += readded;
         if(self->body_readded == self->user_content_length){
@@ -86,7 +91,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         buffer += readded;
     }
 
-    self->body[self->body_size] = '\0';
+   // self->body[self->body_size] = '\0';
     *size = self->body_size;
     return self->body;
     
