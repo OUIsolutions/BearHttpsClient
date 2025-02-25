@@ -55,8 +55,9 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
     const short WAITING_STATUS_CODE = 1;
     const short WAITING_FIRST_LINE_TERMINATION  = 3;
     const short COLECTING_KEY = 4;
-    const short COLECTING_VAL = 5;
-    const short WAITING_END_VAL = 6;
+    const short WAITING_END_KEY = 5;
+    const short COLECTING_VAL = 6;
+    const short WAITING_END_VAL = 7;
     short state = WAITING_FIRST_SPACE;
     private_BearHttpsKeyVal *current_key_vall = NULL;
 
@@ -77,9 +78,11 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
         if(state == COLECTING_KEY && self->raw_content[i] != ' '){
             current_key_vall = private_newBearHttpsKeyVal();
             private_BearHttpsKeyVal_set_key(current_key_vall,(char*)self->raw_content+i,BEARSSL_HTTPS_REFERENCE);
+            state = WAITING_END_KEY;
+            continue;
         }
 
-        if(state == COLECTING_KEY && self->raw_content[i] == ':'){
+        if(state == WAITING_END_KEY && self->raw_content[i] == ':'){
             self->raw_content[i] = '\0';
             state = COLECTING_VAL;
             continue;
@@ -91,7 +94,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
         }
 
         if(self->raw_content[i] == '\n' && self->raw_content[i-1] =='\r' && state == WAITING_END_VAL){
-            self->raw_content[i] = '\0';
+            self->raw_content[i-1] = '\0';
             private_BearHttpsHeadders_add_keyval(self->headders,current_key_vall);
             current_key_vall = NULL;
             state = COLECTING_KEY;
