@@ -78,6 +78,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         size_to_read -= readded;
         buffer += readded;
     }
+
+    self->body[self->body_size] = '\0';
     *size = self->body_size;
     return self->body;
     
