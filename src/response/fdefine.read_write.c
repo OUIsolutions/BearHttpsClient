@@ -65,7 +65,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         return self->body;
     }
 
-    self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->user_content_length);
+    self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->user_content_length+2);
     
     long size_to_read =self->user_content_length - self->body_readded;
     if(size_to_read > max_size){
