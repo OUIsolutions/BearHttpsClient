@@ -3,7 +3,7 @@ server
 *.d
 BearSSL
 dependencies
-
+BearHttpsClientOne.c
 darwintypes.lua
 # Object files
 .vscode
