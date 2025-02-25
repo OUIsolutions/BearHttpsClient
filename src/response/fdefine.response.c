@@ -42,8 +42,12 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         self->extra_body_remaning_to_send-=1;
         total_prev_sended+=1;
     }
+
+
     long readded =  private_BearHttpsResponse_read_chunck_raw(self,buffer+total_prev_sended,size-total_prev_sended);
-    self->body_readded+=readded;
+    if(readded> 0){
+        self->body_readded+=readded;
+    }
     return readded + total_prev_sended;
 }
 
@@ -202,7 +206,7 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->error_msg){
         free(self->error_msg);
     }
-    
+
     free(self);
 
 }
