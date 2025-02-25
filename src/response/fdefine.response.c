@@ -217,7 +217,7 @@ char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int inde
     if(key_vall == NULL){
         return NULL;
     }
-    return key_vall->value;
+    return key_vall->key;
 }
 char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const char *key){
     for(int i = 0; i < self->headders->size;i++){
