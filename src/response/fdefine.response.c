@@ -55,6 +55,9 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->raw_content){
         free(self->raw_content);
     }
+    if(self->body){
+        free(self->body);
+    }
     if(self->error_msg){
         free(self->error_msg);
     }
