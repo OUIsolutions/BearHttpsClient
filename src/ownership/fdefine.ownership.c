@@ -7,7 +7,7 @@
 
 void private_BearsslHttps_free_considering_ownership(void **value,bool *owner){
     if(*owner){
-        free(*value);
+        BearsslHttps_free(*value);
     }
     *owner = false;
     *value = NULL;
@@ -19,6 +19,8 @@ void private_BearsslHttps_set_str_considering_ownership(
     bool *owner,
     short ownership_mode
     ){
+    private_BearsslHttps_free_considering_ownership((void**)dest,owner);
+
     if(ownership_mode == BEARSSL_HTTPS_COPY){
         *dest = private_BearsslHttps_strdup(value);
         *owner = true;

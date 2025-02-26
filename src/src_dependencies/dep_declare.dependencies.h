@@ -15,6 +15,10 @@
 #define BearsslHttps_reallocate realloc
 #endif
 
+#ifndef BearsslHttps_free
+#define BearsslHttps_free free
+#endif
+
 #define BR_ENABLE_INTRINSICS   1
 
 #include "../../dependencies/BearSSLSingleUnit.h"

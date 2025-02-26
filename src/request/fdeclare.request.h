@@ -33,7 +33,6 @@ void BearHttpsRequest_represent(BearHttpsRequest *self);
 
 void BearHttpsRequest_fetch_https(BearHttpsRequest *self, BearHttpsResponse *response,const char *hostname,int connection_file_descriptor);
 
-BearHttpsResponse * private_BearHttpsRequest_fetch_recursive(BearHttpsRequest *self,int total_follows);
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 
