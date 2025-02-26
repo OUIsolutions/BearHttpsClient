@@ -105,7 +105,9 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
 
         self->body_readded += readded;
         self->body_size += readded;
-        size_to_read -= readded;
+        if(self->user_content_length){
+            size_to_read -= readded;
+        }
         buffer += readded;
 
     }
