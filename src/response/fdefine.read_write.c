@@ -58,7 +58,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     }
 
     long body_allocated = self->body_size;
-    long size_to_read = self->body_chunk_read;
+    long size_to_read = max_size;
 
     if(self->body_readded == self->user_content_length){
         return self->body;
@@ -67,7 +67,11 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     if(self->user_content_length){
         self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->user_content_length+2);
         body_allocated = self->user_content_length+2;
-        size_to_read =self->user_content_length - self->body_readded;
+        size_to_read = self->user_content_length - self->body_readded;
+    }
+    else{
+        self->body = (unsigned char *)BearsslHttps_reallocate(self->body,max_size+2);
+        body_allocated = max_size+2;
     }
 
     if(size_to_read > max_size){
@@ -77,41 +81,19 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
     while(true){
 
-
-        if(body_allocated - self->body_size < size_to_read){
-            self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->body_size + size_to_read + 2);
-            body_allocated = self->body_size + size_to_read + 2;
-            buffer = (unsigned char*)(self->body + self->body_readded);
-        }
-
-        if(self->body_readded >= max_size){
-            break;
-        }
-
         if(self->body_readded == self->user_content_length){
             break;
         }
-
-
         
         long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
-        
-        
-        if(readded < 0){
+        if(readded <= 0 ){
+            printf("readded %ld\n",readded);
             break;
         }
-
-        if(readded == 0){
-            break;
-        }
-
-        
 
         self->body_readded += readded;
         self->body_size += readded;
-        if(self->user_content_length){
-            size_to_read -= readded;
-        }
+        size_to_read -= readded;
         buffer += readded;
 
     }

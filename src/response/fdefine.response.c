@@ -8,7 +8,6 @@
 BearHttpsResponse *private_newBearHttpsResponse(){
     BearHttpsResponse *self = (BearHttpsResponse *)malloc(sizeof(BearHttpsResponse));
     *self = (BearHttpsResponse){0};
-    self->body_chunk_read = 2000;
     self->status_code = 0;
     self->headders = private_newBearHttpsHeadders();
     self->body = NULL;
