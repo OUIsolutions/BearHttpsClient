@@ -10,6 +10,7 @@
 typedef struct BearHttpsRequest{
     char *url;
     bool route_owner;
+    int max_redirections;
 
     private_BearHttpsHeadders *headders;
     char method[30];

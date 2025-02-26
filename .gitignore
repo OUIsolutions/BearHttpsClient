@@ -1,6 +1,8 @@
 # Prerequisites
 server
 *.d
+saida.jpg
+doTheWorld.h
 BearSSL
 dependencies
 BearHttpsClientOne.c

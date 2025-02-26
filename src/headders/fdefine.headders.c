@@ -28,6 +28,7 @@ void private_BearHttpsHeadders_free(private_BearHttpsHeadders *self){
     free(self->keyvals);
     free(self);
 }
+
 private_BearHttpsKeyVal * private_BearHttpsHeadders_get_key_val_by_index(private_BearHttpsHeadders *self,int index){
     if(self->size <= index){
         return NULL;

@@ -7,9 +7,14 @@
 
 BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short route_ownernership_mode);
 
-BearHttpsRequest * newBearHttpsRequest(char *url);
+BearHttpsRequest * newBearHttpsRequest(const char *url);
 
 void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
+
+void BearHttpsRequest_set_url_with_ownership_config(BearHttpsRequest *self , char *url,short url_ownership_mode);
+
+void BearHttpsRequest_set_url(BearHttpsRequest *self ,const char *url);
+
 
 void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value);
 
@@ -27,6 +32,8 @@ void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method);
 void BearHttpsRequest_represent(BearHttpsRequest *self);
 
 void BearHttpsRequest_fetch_https(BearHttpsRequest *self, BearHttpsResponse *response,const char *hostname,int connection_file_descriptor);
+
+BearHttpsResponse * private_BearHttpsRequest_fetch_recursive(BearHttpsRequest *self,int total_follows);
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 

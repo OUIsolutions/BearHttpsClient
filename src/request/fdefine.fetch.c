@@ -2,11 +2,11 @@
 //silver_chain_scope_start
 //mannaged by silver chain
 #include "../imports/imports.fdeclare.h"
+#include <string.h>
 //silver_chain_scope_end
 
 
-
-BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
+BearHttpsResponse * private_BearHttpsRequest_fetch_recursive(BearHttpsRequest *self,int total_follows){
 
    BearHttpsResponse *response =  private_newBearHttpsResponse();
     int uni_start = Universal_start_all();
@@ -74,7 +74,25 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     }
 
     private_BearHttpsRequisitionProps_free(requisition_props);
+    if(total_follows <= self->max_redirections){
+        const int REDIRECT_CODE = 301;
+        if(response->status_code == REDIRECT_CODE){
+            char *location = BearHttpsResponse_get_headder_value_by_sanitized_key(response,"location");
+            printf("localização %s\n",location);
 
+            if(location == NULL){
+                return response;
+            }
+            BearHttpsRequest_set_url_with_ownership_config(self,location,BEARSSL_HTTPS_COPY );
+            BearHttpsResponse *new_response = private_BearHttpsRequest_fetch_recursive(self,total_follows+1);
+            BearHttpsResponse_free(response);
+            return new_response;
+        }
+    }
  return response;
 
+}
+
+BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
+return private_BearHttpsRequest_fetch_recursive(self,0);
 }

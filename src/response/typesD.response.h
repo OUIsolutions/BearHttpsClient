@@ -6,7 +6,6 @@
 
 
 typedef struct BearHttpsResponse{
-
     int connection_file_descriptor;
     bool is_https;
     br_sslio_context ssl_io;
@@ -24,7 +23,7 @@ typedef struct BearHttpsResponse{
     unsigned char *body;
 
 
-    long body_size; 
+    long body_size;
     long body_readded;
     long extra_body_remaning_to_send;
 
