@@ -75,7 +75,6 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     }
 
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
-
     while(true){
 
 
@@ -95,13 +94,13 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
 
 
         long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
+        printf("--readded: %ld\n",readded);
         if(readded == 0){
             break;
         }
 
         if(readded < 0){
-            BearHttpsResponse_set_error_msg(self,"error reading body");
-            return NULL;
+            break;
         }
 
         self->body_readded += readded;
