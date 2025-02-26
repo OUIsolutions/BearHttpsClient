@@ -56,7 +56,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
         }
 
     }
-   
+
     char *content_length = BearHttpsResponse_get_headder_value_by_sanitized_key(self,"contentlength");
     if(content_length != NULL){
         self->user_content_length = atol(content_length);
@@ -72,20 +72,23 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 
 
     self->raw_content = BearsslHttps_allocate(chunk_size+2);
-    self->content_allocated  = chunk_size;
+    long content_allocated  = chunk_size;
     long content_size = 0;
-
 
     while(true){
         //apply the factor realloc
-        while(content_size + chunk_size >= self->content_allocated -2 ){
-            self->content_allocated = (long)(self->content_allocated * factor_headders_growth);
-            self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,self->content_allocated);
+        while(content_size + chunk_size >= content_allocated -2 ){
+            content_allocated = (long)(content_allocated * factor_headders_growth);
+            self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,content_allocated);
         }
         //we create a buff str , to allow 'append' into the content
         unsigned char *content_point = (self->raw_content +content_size);
 
         int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
+        for(int i = 0; i < readded;i++){
+            printf("%c",content_point[i]);;
+        }
+
         if(readded == 0){
             return;
         }
@@ -105,7 +108,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
                 content_point[i-1] == '\r' &&
                 content_point[i] == '\n' )
             {
-                
+
                 self->body_start_index =content_size + i+1;
                 self->body_size = ((content_size+readded) - self->body_start_index);
                 self->extra_body_remaning_to_send = self->body_size;

@@ -15,7 +15,6 @@ typedef struct BearHttpsResponse{
 
 
     unsigned char *raw_content;
-    long content_allocated;
 
     private_BearHttpsHeadders *headders;
     long user_content_length;
