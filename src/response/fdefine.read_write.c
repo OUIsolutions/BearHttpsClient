@@ -26,7 +26,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
     if(self->error){
         return -1;
     }
-    
+
     if(self->body_readded == self->user_content_length){
         return 0;
     }
@@ -57,31 +57,45 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         return NULL;
     }
 
-    if(!self->user_content_length){
-        return NULL;
-    }
-    
+    long body_allocated = self->body_size;
+    long size_to_read = self->body_chunk_read;
+
     if(self->body_readded == self->user_content_length){
         return self->body;
     }
-
-    self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->user_content_length+2);
     
-    long size_to_read =self->user_content_length - self->body_readded;
+    if(self->user_content_length){
+        self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->user_content_length+2);
+        body_allocated = self->user_content_length+2;
+        size_to_read =self->user_content_length - self->body_readded;
+    }
+
     if(size_to_read > max_size){
         size_to_read = max_size;
     }
 
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
- 
+
     while(true){
-        
+
+
+        if(body_allocated - self->body_size < size_to_read){
+            self->body = (unsigned char *)BearsslHttps_reallocate(self->body,self->body_size + size_to_read + 2);
+            body_allocated = self->body_size + size_to_read + 2;
+            buffer = (unsigned char*)(self->body + self->body_readded);
+        }
+
+        if(self->body_readded >= max_size){
+            break;
+        }
+
         if(self->body_readded == self->user_content_length){
             break;
         }
-   
+
 
         long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
+        printf("readded: %ld\n",readded);
         if(readded == 0){
             break;
         }
@@ -100,7 +114,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
 
     self->body[self->body_size] = '\0';
     return self->body;
-    
+
 }
 
 const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self,long max_size){
