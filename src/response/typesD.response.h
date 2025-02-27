@@ -14,6 +14,7 @@ typedef struct BearHttpsResponse{
     br_x509_minimal_context certification_context;
 
     long body_chunk_read;
+    long body_realloc_factor;
     unsigned char *raw_content;
 
     private_BearHttpsHeadders *headders;

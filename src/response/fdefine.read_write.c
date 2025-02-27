@@ -58,8 +58,12 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     }
 
     long body_allocated = self->body_size;
-    long size_to_read ;
-
+    long size_to_read = self->body_chunk_read;
+    
+    if(size_to_read > max_size){
+            size_to_read = max_size;
+    }
+    
     if(self->body_readded == self->user_content_length){
         return self->body;
     }
@@ -70,9 +74,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         size_to_read = self->user_content_length - self->body_readded;
     }
     else{
-        self->body = (unsigned char *)BearsslHttps_reallocate(self->body,max_size+2);
-        body_allocated = max_size+2;
-        size_to_read = max_size - self->body_readded;
+        body_allocated = self->body_size  + size_to_read+2;
+        self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
     }
 
     if(size_to_read > max_size){
@@ -81,6 +84,14 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
 
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
     while(true){
+
+
+        while(body_allocated < (self->body_size + size_to_read) +2){
+            body_allocated = body_allocated * self->body_realloc_factor;
+            
+            self->body = (unsigned char *)BearsslHttps_reallocate(self->body, body_allocated);
+            buffer = (unsigned char*)(self->body + self->body_readded);
+        }
 
         if(self->body_readded == self->user_content_length){
             break;
@@ -94,7 +105,11 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
 
         self->body_readded += readded;
         self->body_size += readded;
-        size_to_read -= readded;
+
+        if(self->user_content_length){
+            size_to_read -= readded;
+        }
+
         buffer += readded;
 
     }
