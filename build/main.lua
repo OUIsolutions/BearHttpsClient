@@ -6,6 +6,11 @@ function main()
         tags = { "dep_declare", "macros", "consts", "types", "fdeclare", "fdefine" },
         implement_main = false
     })
+
+    if darwin.argv.one_of_args_exist("only_silverchain") then
+        return 
+    end 
+
     local MAX_CONNTENT = darwin.camalgamator.ONE_MB * 20
     local MAX_RECURSION = 100
 
