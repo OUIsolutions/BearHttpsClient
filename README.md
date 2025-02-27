@@ -6,10 +6,10 @@ a Unoficial BearSSL Https Client
 
 | item          | What Is |
 |-------        |-----------|
-| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.1/BearHttpsClient.zip)| Full Folder Mode  |
-| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.1/BearHttpsClientOne.c)| Single File Version|
-| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.1/BearHttpsClient.h)|Declaration |
-| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.1/BearHttpsClient.c)|Definition |
+| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.2/BearHttpsClient.zip)| Full Folder Mode  |
+| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.2/BearHttpsClientOne.c)| Single File Version|
+| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.2/BearHttpsClient.h)|Declaration |
+| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.2/BearHttpsClient.c)|Definition |
 
 
 ### Most simple example
@@ -17,9 +17,9 @@ a Unoficial BearSSL Https Client
 #include "BearHttpsClientOne.c"
 
 int main(){
-    BearHttpsRequest *request = newBearHttpsRequest("https://example.com");
+    BearHttpsRequest *request = newBearHttpsRequest("https://google.com");
     BearHttpsResponse *response =BearHttpsRequest_fetch(request);
-    const int MAX_CONTENT = 2000;
+    const int MAX_CONTENT = 100000;
     unsigned char *body = BearHttpsResponse_read_body(response,MAX_CONTENT);
     if(body){
         printf("body: %s\n",body);
