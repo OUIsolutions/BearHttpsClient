@@ -88,7 +88,6 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
         
         long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
         if(readded <= 0 ){
-            printf("readded %ld\n",readded);
             break;
         }
 
