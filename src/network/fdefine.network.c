@@ -46,7 +46,7 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
 	for (;;) {
 		ssize_t read_len;
 
-		read_len = read(*(int *)ctx, buf, len);
+		read_len = Universal_recv(*(int*)ctx, buf, len,0);
 		if (read_len <= 0) {
 			if (read_len < 0 && errno == EINTR) {
 				continue;
@@ -62,7 +62,7 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
 {
 	for (;;) {
 		ssize_t write_len;
-		write_len = write(*(int *)ctx, buf, len);
+		write_len = Universal_send(*(int *)ctx, buf, len,0);
 		if (write_len <= 0) {
 			if (write_len < 0 && errno == EINTR) {
 				continue;
