@@ -86,7 +86,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 
         int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
 
-
+        printf("total lido %d\n",readded);
         if(readded == 0){
             return;
         }
