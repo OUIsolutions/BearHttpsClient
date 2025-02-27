@@ -10,9 +10,9 @@ function install_dependencies()
 
     os.execute("mkdir -p dependencies")
     os.execute(
-        "curl -L https://github.com/OUIsolutions/BearSslSingle-Unit/releases/download/0.0.2/BearSSLSingleUnit.h -o dependencies/BearSSLSingleUnit.h ")
+        "curl -L https://github.com/OUIsolutions/BearSslSingle-Unit/releases/download/0.0.3/BearSSLSingleUnit.h -o dependencies/BearSSLSingleUnit.h ")
     os.execute(
-        "curl -L https://github.com/OUIsolutions/BearSslSingle-Unit/releases/download/0.0.2/BearSSLSingleUnit.c -o dependencies/BearSSLSingleUnit.c")
+        "curl -L https://github.com/OUIsolutions/BearSslSingle-Unit/releases/download/0.0.3/BearSSLSingleUnit.c -o dependencies/BearSSLSingleUnit.c")
 
     ---- trusted anchors
     darwin.dtw.remove_any("BearSSL")

@@ -62,3 +62,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+./dep.LuaCEmbed.h

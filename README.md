@@ -20,7 +20,7 @@ int main(){
     BearHttpsRequest *request = newBearHttpsRequest("https://example.com");
     BearHttpsResponse *response =BearHttpsRequest_fetch(request);
     const int MAX_CONTENT = 2000;
-    char *body = BearHttpsResponse_read_body(response,MAX_CONTENT);
+    unsigned char *body = BearHttpsResponse_read_body(response,MAX_CONTENT);
     if(body){
         printf("body: %s\n",body);
     }
