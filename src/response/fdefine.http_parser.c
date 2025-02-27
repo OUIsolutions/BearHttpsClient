@@ -77,10 +77,11 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 
     while(true){
         //apply the factor realloc
-        while(content_size + chunk_size >= content_allocated -2 ){
+        while(content_allocated <=  (content_size + chunk_size +2 )){
             content_allocated = (long)(content_allocated * factor_headders_growth);
             self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,content_allocated);
         }
+
         //we create a buff str , to allow 'append' into the content
         unsigned char *content_point = (self->raw_content +content_size);
 
