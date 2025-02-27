@@ -77,8 +77,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              return response;
          }
          private_BearHttpsRequisitionProps_free(requisition_props);
-         const int REDIRECT_CODE = 301;
-         if(response->status_code == REDIRECT_CODE  && i < self->max_redirections -1){
+         const int REDIRECT_CODE = 300;
+        const int REDIRECT_CODE2 = 301;
+
+         if((response->status_code == REDIRECT_CODE || response->status_code == REDIRECT_CODE2)  && i < self->max_redirections -1){
             char *location = BearHttpsResponse_get_headder_value_by_sanitized_key(response,"location");
             if(location == NULL){
                 return response;
