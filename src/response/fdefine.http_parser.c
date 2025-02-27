@@ -71,7 +71,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 ){
 
 
-    self->raw_content = BearsslHttps_allocate(chunk_size+2);
+    self->raw_content = (unsigned char *)BearsslHttps_allocate(chunk_size+2);
     long content_allocated  = chunk_size;
     long content_size = 0;
 

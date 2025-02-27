@@ -11,7 +11,7 @@ bool private_BearsslHttps_startswith(const char *str,const char *prefix);
 
 char * private_BearsslHttps_strdup(const char *str);
 
-char * private_BearsslHttps_strcpy( char *dest,char *str);
+char * private_BearsslHttps_strcpy( char *dest,const char *str);
 
 char * private_BearsslHttps_strndup(const char *str,int size);
 

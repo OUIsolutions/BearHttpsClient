@@ -20,8 +20,8 @@
 #endif
 
 #define BR_ENABLE_INTRINSICS   1
+#include "../../dependencies/UniversalSocket.h"
 
 #include "../../dependencies/BearSSLSingleUnit.h"
-#include "../../dependencies/UniversalSocket.h"
 
 #include "../../dependencies/BearSSLTrustAnchors.h"

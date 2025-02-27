@@ -48,7 +48,7 @@ void BearHttpsRequest_set_body_with_onwership_config(BearHttpsRequest *self ,uns
     self->body_type = PRIVATE_BEARSSL_HTTPS_BODY_RAW;
     private_BearHttpsBodyRawRequest *body_raw_obj = &self->body_raw;
     if(body_ownership_mode == BEARSSL_HTTPS_COPY){
-        body_raw_obj->value =BearsslHttps_allocate(size);;
+        body_raw_obj->value =(unsigned char*)BearsslHttps_allocate(size);;
         for(int i = 0; i < size;i++){
             body_raw_obj->value[i] = body[i];
         }

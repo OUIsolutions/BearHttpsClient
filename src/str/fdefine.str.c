@@ -45,7 +45,7 @@ char * private_BearsslHttps_strdup(const char *str){
     return new_str;
 }
 
-char * private_BearsslHttps_strcpy( char *dest,char *str){
+char * private_BearsslHttps_strcpy( char *dest,const char *str){
     long size =  private_BearsslHttps_strlen(str);
     for(long i = 0; i < size; i++){
         dest[i] = str[i];
