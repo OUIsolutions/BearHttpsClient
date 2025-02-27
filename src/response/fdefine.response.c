@@ -51,6 +51,10 @@ char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
     return self->error_msg;
 }
 void BearHttpsResponse_free(BearHttpsResponse *self){
+    Universal_close(self->connection_file_descriptor);
+    if(self->is_https){
+        br_ssl_client_zero(&self->ssl_client);
+    }
     private_BearHttpsHeadders_free(self->headders);
     if(self->raw_content){
         free(self->raw_content);
