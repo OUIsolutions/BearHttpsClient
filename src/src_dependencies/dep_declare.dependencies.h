@@ -19,9 +19,8 @@
 #define BearsslHttps_free free
 #endif
 
-#define BR_ENABLE_INTRINSICS   1
 #include "../../dependencies/UniversalSocket.h"
-
+#define BR_ENABLE_INTRINSICS   1
 #include "../../dependencies/BearSSLSingleUnit.h"
 
 #include "../../dependencies/BearSSLTrustAnchors.h"
