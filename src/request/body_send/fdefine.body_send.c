@@ -45,7 +45,27 @@ void BearHttpsRequest_send_any_with_ownership_control(BearHttpsRequest *self,uns
     }
 
 }
+void BearHttpsRequest_send_any(BearHttpsRequest *self,unsigned char *content, long size,short ownership_mode){
+    BearHttpsRequest_send_any_with_ownership_control(self,content,size,BEARSSL_DEFAULT_STRATEGY);
+}
 
-void BearHttpsRequest_send_str_winth_ownership_control(BearHttpsRequest *self, char *content,short ownership_mode){
+void BearHttpsRequest_send_str_with_ownership_control(BearHttpsRequest *self, char *content,short ownership_mode){
     BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,strlen(content),ownership_mode);
+}
+void BearHttpsRequest_send_str(BearHttpsRequest *self, char *content,short ownership_mode){
+    BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,strlen(content),BEARSSL_DEFAULT_STRATEGY);
+}
+
+void BearHttpsRequest_send_file_with_ownership_control(BearHttpsRequest *self, char *content,short ownership_mode){
+   private_BearHttpsRequest_free_body(self);
+    private_BearsslHttps_set_str_considering_ownership(
+        &self->body_file.path,
+        content,
+        &self->body_file.onwer,
+        ownership_mode);
+    self->body_type = PRIVATE_BEARSSL_BODY_FILE;
+}
+
+void BearHttpsRequest_send_file(BearHttpsRequest *self, char *content,short ownership_mode){
+    BearHttpsRequest_send_file_with_ownership_control(self,content,BEARSSL_DEFAULT_STRATEGY);
 }
