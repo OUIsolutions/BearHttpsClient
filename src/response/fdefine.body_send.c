@@ -10,6 +10,8 @@ void private_BearHttpsResponse_sand_raw_body(BearHttpsResponse *self,private_Bea
     long size_to_send = raw_body->size;
     while(size_to_send > 0){
        long send = private_BearHttpsResponse_write(self,raw_body->value,size_to_send);
+        printf("send: %ld\n",send);
+
         if(send <= 0){
             return;
         }
