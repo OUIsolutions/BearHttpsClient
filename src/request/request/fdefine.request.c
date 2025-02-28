@@ -32,6 +32,15 @@ void BearHttpsRequest_set_url(BearHttpsRequest *self ,const char *url){
 
 
 void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner){
+    //verify if the key already exists
+    for(int i = 0; i < self->headders->size;i++){
+        private_BearHttpsKeyVal *key_val = self->headders->keyvals[i];
+        if(private_BearsslHttps_strcmp(key_val->key,key) == 0){
+            private_BearHttpsKeyVal_set_value(key_val,value,value_owner);
+            return;
+        }
+    }
+   
     private_BearHttpsKeyVal * key_obj = private_newBearHttpsKeyVal();
     private_BearHttpsKeyVal_set_key(key_obj,key,key_ownership_mode);
     private_BearHttpsKeyVal_set_value(key_obj,value,value_owner);
