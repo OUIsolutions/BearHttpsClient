@@ -97,23 +97,17 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     }
 
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
-    while(true){
 
-        if(self->body_readded == self->user_content_length){
-            break;
-        }
         
-        long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
-        if(readded <= 0 ){
-            break;
-        }
-
+    long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
+    if(readded >= 0 ){
         self->body_readded += readded;
         self->body_size += readded;
         size_to_read -= readded;
         buffer += readded;
-
     }
+
+    
     self->body[self->body_size] = '\0';
     return self->body;
 

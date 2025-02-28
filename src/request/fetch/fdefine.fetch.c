@@ -72,7 +72,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
         
         if(self->body_type == PRIVATE_BEARSSL_BODY_RAW){
-            private_BearHttpsResponse_write(response,&self->body_raw.value,self->body_raw.size);
+            private_BearHttpsResponse_write(response,self->body_raw.value,self->body_raw.size);
         }
 
 
