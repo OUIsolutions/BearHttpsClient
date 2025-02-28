@@ -50,12 +50,12 @@ void BearHttpsRequest_send_any(BearHttpsRequest *self,unsigned char *content, lo
 }
 
 void BearHttpsRequest_send_body_str_with_ownership_control(BearHttpsRequest *self, char *content,short ownership_mode){
-    BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,strlen(content),ownership_mode);
+    BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,private_BearsslHttps_strlen(content),ownership_mode);
 }
 
 
 void BearHttpsRequest_send_body_str(BearHttpsRequest *self, char *content){
-    BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,strlen(content),BEARSSL_DEFAULT_STRATEGY);
+    BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,private_BearsslHttps_strlen(content),BEARSSL_DEFAULT_STRATEGY);
 }
 
 void BearHttpsRequest_send_file_with_ownership_control(BearHttpsRequest *self, char *content,short ownership_mode){

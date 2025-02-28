@@ -66,7 +66,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             char content_length[100];
             sprintf(content_length,"Content-Length: %ld\r\n",self->body_raw.size);
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
-            private_BearHttpsResponse_write(response,(unsigned char*)"\r\n",2);
         }
 
 
