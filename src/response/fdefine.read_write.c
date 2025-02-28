@@ -8,9 +8,17 @@
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size){
     //printf("%s",bufer);
     if(self->is_https){
-      return br_sslio_write(&self->ssl_io, bufer, size);
+      return br_sslio_write_all(&self->ssl_io, bufer, size);
     }
-    return Universal_send(self->connection_file_descriptor, bufer, size,0);
+    long sended  = 0;
+    while(sended < size){
+        long sended_now = Universal_send(self->connection_file_descriptor, bufer+sended, size-sended,0);
+        if(sended_now < 0){
+            return sended_now;
+        }
+        sended += sended_now;
+    }
+    return sended;
 }
 
 int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size){
