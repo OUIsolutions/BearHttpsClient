@@ -3,6 +3,7 @@ server
 *.d
 saida.jpg
 doTheWorld.h
+basic.png
 teste2.c
 BearSSL
 dependencies

@@ -45,7 +45,7 @@ void BearHttpsRequest_send_any_with_ownership_control(BearHttpsRequest *self,uns
     }
 
 }
-void BearHttpsRequest_send_any(BearHttpsRequest *self,unsigned char *content, long size,short ownership_mode){
+void BearHttpsRequest_send_any(BearHttpsRequest *self,unsigned char *content, long size){
     BearHttpsRequest_send_any_with_ownership_control(self,content,size,BEARSSL_DEFAULT_STRATEGY);
 }
 
