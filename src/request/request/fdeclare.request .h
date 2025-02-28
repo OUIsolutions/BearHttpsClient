@@ -8,6 +8,8 @@ BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short rou
 
 BearHttpsRequest * newBearHttpsRequest(const char *url);
 
+BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,...);
+
 void BearHttpsRequest_set_url_with_ownership_config(BearHttpsRequest *self , char *url,short url_ownership_mode);
 
 void BearHttpsRequest_set_url(BearHttpsRequest *self ,const char *url);

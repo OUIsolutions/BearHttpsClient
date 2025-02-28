@@ -20,7 +20,15 @@ BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short rou
 BearHttpsRequest * newBearHttpsRequest(const char *url){
     return newBearHttpsRequest_with_ownership_config((char*)url,BEARSSL_DEFAULT_STRATEGY);
 }
-
+BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,..){
+    va_list args;
+    char *formmated = private_BearHttps_format_vaarg(url,args);
+    va_end(args);
+    if(formmated == NULL){
+        return NULL;
+    }
+    return newBearHttpsRequest_with_ownership_config(formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
+}
 void BearHttpsRequest_set_url_with_ownership_config(BearHttpsRequest *self , char *url,short url_ownership_mode){
     private_BearsslHttps_set_str_considering_ownership(&self->url,url,&self->route_owner,url_ownership_mode);
 
