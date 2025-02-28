@@ -8,34 +8,17 @@
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size){
     //printf("%s",bufer);
     if(self->is_https){
-      return br_sslio_write_all(&self->ssl_io, bufer, size);
+      return br_sslio_write(&self->ssl_io, bufer, size);
     }
-    
-    long sended = 0;
-    while(sended < size){
-        long send = Universal_send(self->connection_file_descriptor, bufer+sended, size-sended,0);
-        if(send <= 0){
-            return send;
-        }
-        sended += send;
-    }
-    return 0;
+    return Universal_send(self->connection_file_descriptor, bufer, size,0);
 }
 
 int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size){
     if(self->is_https){
-      return br_sslio_read_all(&self->ssl_io, buffer, size);
+      return br_sslio_read(&self->ssl_io, buffer, size);
     }
+    return Universal_recv(self->connection_file_descriptor, buffer, size,0);
 
-   long readded = 0;
-    while(readded < size){
-        long readed = Universal_recv(self->connection_file_descriptor, buffer+readded, size-readded,0);
-        if(readed <= 0){
-            return readed;
-        }
-        readded += readed;
-    }
-    return 0;
 }
 
 
@@ -97,17 +80,23 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size
     }
 
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
+    while(true){
 
+        if(self->body_readded == self->user_content_length){
+            break;
+        }
         
-    long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
-    if(readded >= 0 ){
+        long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
+        if(readded <= 0 ){
+            break;
+        }
+
         self->body_readded += readded;
         self->body_size += readded;
         size_to_read -= readded;
         buffer += readded;
-    }
 
-    
+    }
     self->body[self->body_size] = '\0';
     return self->body;
 
