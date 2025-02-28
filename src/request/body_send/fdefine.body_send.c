@@ -35,12 +35,12 @@ void BearHttpsRequest_send_any_with_ownership_control(BearHttpsRequest *self,uns
     } 
     if(ownership_mode == BEARSSL_HTTPS_GET_OWNERSHIP){
             self->body_raw.value = content;
-            self->body_raw.onwer = false;
+            self->body_raw.onwer = true;
             self->body_raw.size = size;
     }
     if(ownership_mode == BEARSSL_HTTPS_REFERENCE){
         self->body_raw.value = content;
-        self->body_raw.onwer = true;
+        self->body_raw.onwer = false;
         self->body_raw.size = size;
     }
 
@@ -54,7 +54,7 @@ void BearHttpsRequest_send_str_with_ownership_control(BearHttpsRequest *self, ch
 }
 
 
-void BearHttpsRequest_send_str(BearHttpsRequest *self, char *content,short ownership_mode){
+void BearHttpsRequest_send_str(BearHttpsRequest *self, char *content){
     BearHttpsRequest_send_any_with_ownership_control(self,(unsigned char *)content,strlen(content),BEARSSL_DEFAULT_STRATEGY);
 }
 
