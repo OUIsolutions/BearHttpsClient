@@ -111,6 +111,8 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
                 self->body_readded = self->body_size;
                 self->body = (unsigned char*)BearsslHttps_allocate(self->body_size+2);
                 memcpy(self->body,self->raw_content + self->body_start_index,self->body_size);
+                self->body[self->body_size] = '\0';
+
                 private_BearHttpsResponse_parse_headders(self,content_size + i-1);
                 return;
             }
