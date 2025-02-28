@@ -84,20 +84,20 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
         //we create a buff str , to allow 'append' into the content
         unsigned char *content_point = (self->raw_content +content_size);
 
-        int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
-        if(readded == 0){
+        int error  = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
+        if(error == 0){
             return;
         }
 
-        if(readded < 0){
+        if(error < 0){
             char error_buff[100] ={0};
-            sprintf(error_buff,"invalid read code: %d",readded);
+            sprintf(error_buff,"invalid read code: %d",error);
             BearHttpsResponse_set_error_msg(self,error_buff);
             return;
         }
 
 
-        for(int i = 3; i < readded;i++){
+        for(int i = 3; i < chunk_size;i++){
             if(
                 content_point[i-3] == '\r' &&
                 content_point[i-2] == '\n' &&
@@ -106,7 +106,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
             {
 
                 self->body_start_index =content_size + i+1;
-                self->body_size = ((content_size+readded) - self->body_start_index);
+                self->body_size = ((content_size+chunk_size) - self->body_start_index);
                 self->extra_body_remaning_to_send = self->body_size;
                 self->body_readded = self->body_size;
                 self->body = (unsigned char*)BearsslHttps_allocate(self->body_size+2);
@@ -117,10 +117,9 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
                 return;
             }
         }
-        content_size+=readded;
+        content_size+=chunk_size;
 
     }
-
 
     BearHttpsResponse_set_error_msg(self,"invalid http response");
 
