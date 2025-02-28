@@ -13,5 +13,6 @@ typedef struct private_BearHttpsBodyRawRequest{
 
 typedef struct private_BearHttpsBodyRequestFile{
     char *path;
+    char content_type[100];
     bool onwer;
 }private_BearHttpsBodyRequestFile;
