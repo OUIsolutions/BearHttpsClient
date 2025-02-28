@@ -50,7 +50,15 @@ void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,
 void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value){
     BearHttpsRequest_add_headder_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,value,BEARSSL_DEFAULT_STRATEGY);
 }
-
+void BearHttpsRequest_add_headder_fmt(BearHttpsRequest *self ,char *key,char *format,...){
+    va_list args;
+    char *formmated = private_BearHttps_format_vaarg(format,args);
+    va_end(args);
+    if(formmated == NULL){
+        return;
+    }
+    BearHttpsRequest_add_headder_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
+}
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
     private_BearsslHttps_strcpy(self->method,self->method);

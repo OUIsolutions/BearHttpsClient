@@ -28,3 +28,14 @@ bool private_BearHttps_is_sanitize_key(const char *key,const char *sanitized,int
     }
     return true;
 }
+
+char * private_BearHttps_format_vaarg(const char *expresion, va_list args){
+
+    va_list args_copy;
+    va_copy(args_copy, args);
+    long required_size = vsnprintf(NULL, 0,expresion,args_copy);
+    va_end(args_copy);
+    char *buffer = (char*)malloc(sizeof(char) * required_size + 2);
+    vsnprintf(buffer,sizeof (char) * required_size+1,expresion,args);
+    return buffer;
+}
