@@ -85,6 +85,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
         unsigned char *content_point = (self->raw_content +content_size);
 
         int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
+        printf("readded: %d\n",readded);
         if(readded == 0){
             return;
         }
