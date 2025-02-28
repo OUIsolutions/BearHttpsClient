@@ -77,20 +77,26 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                 private_BearHttpsRequisitionProps_free(requisition_props);
                 return response;
             }
+            
+            char content_type[100];
+            sprintf(content_type,"Content-Type: %s\r\n",self->body_file.content_type);
+            private_BearHttpsResponse_write(response,(unsigned char*)content_type,strlen(content_type));
+
+
             fseek(file, 0, SEEK_END);
             long size = ftell(file);
             fseek(file, 0, SEEK_SET);
             char content_length[100];
             sprintf(content_length,"Content-Length: %ld\r\n\r\n",size);
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
-            unsigned char send_buff[1024];
+  
+            unsigned char send_buff[BEARSSL_BODY_CHUNK_SIZE];
             while (1) {
-                size_t read_size = fread(send_buff, 1, 1024, file);
+                size_t read_size = fread(send_buff, 1, BEARSSL_BODY_CHUNK_SIZE, file);
                 if (read_size == 0) {
                     break;
                 }
                 private_BearHttpsResponse_write(response, send_buff, read_size);
-                memset(send_buff, 0, 1024);
             }
             fclose(file);
 
