@@ -35,7 +35,7 @@ void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,
     //verify if the key already exists
     for(int i = 0; i < self->headders->size;i++){
         private_BearHttpsKeyVal *key_val = self->headders->keyvals[i];
-        if(private_BearsslHttps_strcmp(key_val->key,key) == 0){
+        if(private_BearsslHttp_strcmp(key_val->key,key) == 0){
             private_BearHttpsKeyVal_set_value(key_val,value,value_owner);
             return;
         }
