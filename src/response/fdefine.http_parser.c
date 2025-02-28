@@ -61,8 +61,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
     if(content_length != NULL){
         self->user_content_length = atol(content_length);
     }
-    ///printf("\n------------\n");
-    //printf("%s",self->raw_content);
+   
 }
 void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
     BearHttpsResponse *self,
@@ -86,7 +85,6 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 
         int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
 
-        printf("readded: %d\n",readded);
         if(readded == 0){
             return;
         }
