@@ -69,11 +69,11 @@ void BearHttpsRequest_send_file_with_ownership_control(BearHttpsRequest *self, c
     self->body_type = PRIVATE_BEARSSL_BODY_FILE;
 }
 
-void BearHttpsRequest_send_file(BearHttpsRequest *self, char *content,short ownership_mode,const char *content_type){
-    BearHttpsRequest_send_file_with_ownership_control(self,content,BEARSSL_DEFAULT_STRATEGY,content_type);
+void BearHttpsRequest_send_file(BearHttpsRequest *self,const  char *path,const char *content_type){
+    BearHttpsRequest_send_file_with_ownership_control(self,(char*)path,BEARSSL_DEFAULT_STRATEGY,content_type);
 }
 
-void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self, char *path,short ownership_mode){
+void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,const  char *path){
 
     char extension[100] = {0};
     bool found = false;
@@ -91,7 +91,7 @@ void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,
         }
     }
     if(!found){
-        BearHttpsRequest_send_file_with_ownership_control(self,path,ownership_mode,"application/octet-stream");
+        BearHttpsRequest_send_file(self,path,"application/octet-stream");
         return;
     }
     const char *content_type = "application/octet-stream";
@@ -128,8 +128,8 @@ void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,
     else if(private_BearsslHttp_strcmp(extension,"xml") == 0){
         content_type = "application/xml";
     }    
-    
 
-    BearHttpsRequest_send_file_with_ownership_control(self,path,ownership_mode,content_type);
+
+    BearHttpsRequest_send_file(self,path,content_type);
 
 }
