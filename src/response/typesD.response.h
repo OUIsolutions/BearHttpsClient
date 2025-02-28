@@ -19,7 +19,8 @@ typedef struct BearHttpsResponse{
     long user_content_length;
     long body_start_index;
     unsigned char *body;
-
+    
+    cJSON *json_body;
 
     long body_size;
     long body_readded;

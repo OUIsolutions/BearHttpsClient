@@ -59,6 +59,9 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->raw_content){
         free(self->raw_content);
     }
+    if(self->json_body){
+        cJSON_Delete(self->json_body);
+    }
     if(self->body){
         free(self->body);
     }

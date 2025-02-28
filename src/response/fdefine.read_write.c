@@ -116,3 +116,21 @@ const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self,long max_si
     }
     return (const char *)body;
 }
+
+cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self,long max_size){
+   
+    const char *body = BearHttpsResponse_read_body_str(self,max_size);
+    if(body == NULL){
+        return NULL;
+    }
+    
+    self->json_body = cJSON_Parse(body);
+    free((void *)body);
+    self->body = NULL;
+
+    if(self->json_body == NULL){
+        BearHttpsResponse_set_error_msg(self,"error parsing json");
+        return NULL;
+    }
+    return self->json_body;
+}
