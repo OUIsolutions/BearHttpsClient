@@ -74,10 +74,10 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
     self->raw_content = (unsigned char *)BearsslHttps_allocate(chunk_size+2);
     long content_allocated  = chunk_size;
     long content_size = 0;
-
     while(true){
         //apply the factor realloc
         while(content_size + chunk_size >= content_allocated -2 ){
+            
             content_allocated = (long)(content_allocated * factor_headders_growth);
             self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,content_allocated);
         }
@@ -85,6 +85,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
         unsigned char *content_point = (self->raw_content +content_size);
 
         int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
+
         printf("readded: %d\n",readded);
         if(readded == 0){
             return;

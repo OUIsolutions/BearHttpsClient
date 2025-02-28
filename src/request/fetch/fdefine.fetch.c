@@ -79,8 +79,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          }        
 
 
-         private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(response,self->headder_chunk_read_size,self->headder_chunk_read_size);
-        printf("chegou aqui\n");
+         private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(response,self->headder_chunk_read_size,self->headder_chunk_reallocator_facctor);
 
          if(BearHttpsResponse_error(response)){
              printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
