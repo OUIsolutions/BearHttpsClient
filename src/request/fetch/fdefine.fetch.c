@@ -42,7 +42,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          }
 
          if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
-           private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname);
+           private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname,self->trust_anchors,self->trusted_anchors_size);
          }
          private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
          private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);

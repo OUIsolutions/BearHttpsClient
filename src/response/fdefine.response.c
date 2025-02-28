@@ -17,9 +17,15 @@ BearHttpsResponse *private_newBearHttpsResponse(){
 
 
 
-void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname) {
+void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size) {
     self->is_https = true;
-    br_ssl_client_init_full(&self->ssl_client, &self->certification_context, TAs, TAs_NUM);
+    if(trust_anchors && trusted_anchors_size > 0){
+       br_ssl_client_init_full(&self->ssl_client, &self->certification_context, trust_anchors, trusted_anchors_size);
+    }
+    else{
+       br_ssl_client_init_full(&self->ssl_client, &self->certification_context, TAs, TAs_NUM);
+
+    }
     br_ssl_engine_set_all_flags(& self->ssl_client.eng, BR_OPT_TOLERATE_NO_CLIENT_AUTH);
     br_ssl_engine_set_buffer(&self->ssl_client.eng, self->bear_buffer, sizeof(self->bear_buffer), 1);
 

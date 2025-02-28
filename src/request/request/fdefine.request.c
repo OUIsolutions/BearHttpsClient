@@ -90,6 +90,11 @@ void BearHttpsRequest_represent(BearHttpsRequest *self){
     }
 }
 
+void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size){
+    self->trust_anchors = trust_anchors;
+    self->trusted_anchors_size = trusted_anchors_size;
+}
+
 void BearHttpsRequest_free(BearHttpsRequest *self){
     private_BearHttpsRequest_free_body(self);
     private_BearHttpsHeadders_free(self->headders);

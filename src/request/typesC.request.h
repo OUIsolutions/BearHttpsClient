@@ -21,6 +21,9 @@ typedef struct BearHttpsRequest{
 
     int response_max_headders_size;
 
+    br_x509_trust_anchor *trust_anchors;
+    size_t trusted_anchors_size;
+
 
     short body_type;
     union{

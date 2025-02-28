@@ -23,7 +23,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 );
 
 
-void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self,const char *hostname);
+void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
 
