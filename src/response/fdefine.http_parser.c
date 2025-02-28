@@ -61,7 +61,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
     if(content_length != NULL){
         self->user_content_length = atol(content_length);
     }
-   
+
 }
 void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
     BearHttpsResponse *self,
@@ -76,7 +76,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
     while(true){
         //apply the factor realloc
         while(content_size + chunk_size >= content_allocated -2 ){
-            
+
             content_allocated = (long)(content_allocated * factor_headders_growth);
             self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,content_allocated);
         }
@@ -91,7 +91,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 
         if(readded < 0){
             char error_buff[100] ={0};
-            sprintf(error_buff,"invalid read code: %d",readded);
+            snprintf(error_buff,sizeof(error_buff),"invalid read code: %d",readded);
             BearHttpsResponse_set_error_msg(self,error_buff);
             return;
         }

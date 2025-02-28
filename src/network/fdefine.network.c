@@ -11,7 +11,7 @@ static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self, const 
     hints.ai_family = PF_UNSPEC;
     hints.ai_socktype = UNI_SOCK_STREAM;
     char port_str[10];
-    sprintf(port_str, "%d", port);
+    snprintf(port_str,sizeof(port_str)-1, "%d", port);
 
     Universal_addrinfo *addr_info;
     int status = Universal_getaddrinfo(host, port_str, &hints, &addr_info);

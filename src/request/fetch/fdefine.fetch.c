@@ -65,7 +65,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
         if(self->body_type ==PRIVATE_BEARSSL_BODY_RAW){
             char content_length[100];
-            sprintf(content_length,"Content-Length: %ld\r\n\r\n",self->body_raw.size);
+            snprintf(content_length,sizeof(content_length)-1,"Content-Length: %ld\r\n\r\n",self->body_raw.size);
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
             private_BearHttpsResponse_write(response,self->body_raw.value,self->body_raw.size);
         }
@@ -81,7 +81,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                 return response;
             }
             char content_type[200];
-            sprintf(content_type,"Content-Type: %s\r\n",self->body_file.content_type);
+            snprintf(content_type,sizeof(content_type)-1, "Content-Type: %s\r\n",self->body_file.content_type);
             private_BearHttpsResponse_write(response,(unsigned char*)content_type,strlen(content_type));
 
             fseek(file, 0, SEEK_END);
