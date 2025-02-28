@@ -6,10 +6,10 @@ a Unoficial BearSSL Https Client
 
 | item          | What Is |
 |-------        |-----------|
-| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.5/BearHttpsClient.zip)| Full Folder Mode  |
-| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.5/BearHttpsClientOne.c)| Single File Version|
-| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.5/BearHttpsClient.h)|Declaration |
-| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.5/BearHttpsClient.c)|Definition |
+| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.6/BearHttpsClient.zip)| Full Folder Mode  |
+| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.6/BearHttpsClientOne.c)| Single File Version|
+| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.6/BearHttpsClient.h)|Declaration |
+| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.6/BearHttpsClient.c)|Definition |
 
 
 ### Most simple example
