@@ -62,8 +62,19 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              private_BearHttpsResponse_write(response, (unsigned char*)keyval->value, private_BearsslHttps_strlen(keyval->value));
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
          }
+        
+        if(self->body_type ==PRIVATE_BEARSSL_BODY_RAW){
+            char content_length[100];
+            sprintf(content_length,"Content-Length: %ld\r\n",self->body_raw.size);
+            private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
+            private_BearHttpsResponse_write(response,(unsigned char*)"\r\n",2);
+        }
+
+
 
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
+         private_BearHttpsResponse_stream_body(response,self);
+
 
          if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
               br_sslio_flush(&response->ssl_io);
