@@ -21,7 +21,7 @@ BearHttpsRequest * newBearHttpsRequest(const char *url){
     return newBearHttpsRequest_with_ownership_config((char*)url,BEARSSL_DEFAULT_STRATEGY);
 }
 
-BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,..){
+BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,...){
     va_list args;
     char *formmated = private_BearHttps_format_vaarg(url,args);
     va_end(args);
