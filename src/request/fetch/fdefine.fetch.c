@@ -70,6 +70,32 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         }
 
 
+        if(self->body_type == PRIVATE_BEARSSL_BODY_FILE){
+             FILE  *file = fopen(self->body_file.path,"rb");
+            if(file == NULL){
+                BearHttpsResponse_set_error_msg(response, "impssible to open file");
+                private_BearHttpsRequisitionProps_free(requisition_props);
+                return response;
+            }
+            fseek(file, 0, SEEK_END);
+            long size = ftell(file);
+            fseek(file, 0, SEEK_SET);
+            char content_length[100];
+            sprintf(content_length,"Content-Length: %ld\r\n\r\n",size);
+            private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
+            unsigned char send_buff[1024];
+            while (1) {
+                size_t read_size = fread(send_buff, 1, 1024, file);
+                if (read_size == 0) {
+                    break;
+                }
+                private_BearHttpsResponse_write(response, send_buff, read_size);
+                memset(send_buff, 0, 1024);
+            }
+            fclose(file);
+
+        }
+
 
         if(self->body_type == PRIVATE_BEARSSL_NO_BODY){
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
