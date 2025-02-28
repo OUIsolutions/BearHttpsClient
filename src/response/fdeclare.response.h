@@ -52,3 +52,7 @@ void private_BearHttpsResponse_sand_raw_body(BearHttpsResponse *self,private_Bea
 
 
 bool private_BearHttpsResponse_stream_body(BearHttpsResponse *self,BearHttpsRequest *request);
+
+#ifndef BEARSSL_HTTPS_MOCK_CJSON
+cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self,long max_size);
+#endif 

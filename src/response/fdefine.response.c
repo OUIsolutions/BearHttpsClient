@@ -59,9 +59,11 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->raw_content){
         free(self->raw_content);
     }
+    #ifndef BEARSSL_HTTPS_MOCK_CJSON
     if(self->json_body){
         cJSON_Delete(self->json_body);
     }
+    #endif
     if(self->body){
         free(self->body);
     }
