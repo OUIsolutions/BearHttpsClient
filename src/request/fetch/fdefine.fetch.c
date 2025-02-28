@@ -61,7 +61,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              private_BearHttpsResponse_write(response, (unsigned char*)keyval->value, private_BearsslHttps_strlen(keyval->value));
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
          }
-        
+
+
         if(self->body_type ==PRIVATE_BEARSSL_BODY_RAW){
             char content_length[100];
             sprintf(content_length,"Content-Length: %ld\r\n\r\n",self->body_raw.size);
@@ -71,17 +72,17 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
 
         if(self->body_type == PRIVATE_BEARSSL_BODY_FILE){
+
              FILE  *file = fopen(self->body_file.path,"rb");
+
             if(file == NULL){
                 BearHttpsResponse_set_error_msg(response, "impssible to open file");
                 private_BearHttpsRequisitionProps_free(requisition_props);
                 return response;
             }
-            
             char content_type[100];
             sprintf(content_type,"Content-Type: %s\r\n",self->body_file.content_type);
             private_BearHttpsResponse_write(response,(unsigned char*)content_type,strlen(content_type));
-
 
             fseek(file, 0, SEEK_END);
             long size = ftell(file);
