@@ -1,12 +1,10 @@
 
 
-#ifndef BEARSSL_HTTPS_CLIENT_NOT_LOAD_LIB
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdarg.h>
 
-#endif
 #ifndef BearsslHttps_allocate
 #define BearsslHttps_allocate malloc
 #endif
