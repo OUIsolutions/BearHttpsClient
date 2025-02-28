@@ -129,7 +129,6 @@ void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,
         content_type = "application/xml";
     }    
 
-
     BearHttpsRequest_send_file(self,path,content_type);
 
 }
