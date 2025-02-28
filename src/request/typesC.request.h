@@ -26,6 +26,11 @@ typedef struct BearHttpsRequest{
     union{
         private_BearHttpsBodyRawRequest body_raw;
         private_BearHttpsBodyRequestFile body_file;
+
+        #ifndef BEARSSL_HTTPS_MOCK_CJSON
+            
+                private_BearHttpsBodyJsonRequest body_json;
+        #endif
     };
 
 }BearHttpsRequest ;

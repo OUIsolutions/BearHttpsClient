@@ -7,6 +7,7 @@
 
 
 void private_BearHttpsRequest_free_body(BearHttpsRequest *self){
+   
     if(self->body_type == PRIVATE_BEARSSL_BODY_RAW){
         private_BearsslHttps_free_considering_ownership(
             (void**)&self->body_raw.value,&self->body_raw.onwer);
@@ -17,7 +18,14 @@ void private_BearHttpsRequest_free_body(BearHttpsRequest *self){
             &self->body_file.onwer
         );
     }
+    if(self->body_type == PRIVATE_BEARSSL_BODY_JSON){
+        if(self->body_json.onwer){
+            cJSON_Delete(self->body_json.json);
+        }
+    
 
+    }
+    self->body_type = PRIVATE_BEARSSL_NO_BODY;
 
 }
 
@@ -132,3 +140,43 @@ void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,
     BearHttpsRequest_send_file(self,path,content_type);
 
 }
+
+#ifndef BEARSSL_HTTPS_MOCK_CJSON
+
+void BearHttpsRequest_send_cJSON_with_ownership_control(BearHttpsRequest *self,cJSON *json,short ownership_mode){
+    private_BearHttpsRequest_free_body(self);
+    self->body_type = PRIVATE_BEARSSL_BODY_JSON;
+    if(ownership_mode == BEARSSL_HTTPS_COPY){
+        self->body_json.json = cJSON_Duplicate(json,true);
+        self->body_json.onwer = true;
+
+    }
+    if(ownership_mode == BEARSSL_HTTPS_GET_OWNERSHIP){
+        self->body_json.json = json;
+        self->body_json.onwer = true;
+    }
+    if(ownership_mode == BEARSSL_HTTPS_REFERENCE){
+        self->body_json.json = json;
+        self->body_json.onwer = false;
+    }
+}
+
+void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json){
+    BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_DEFAULT_STRATEGY);
+}
+
+cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self){
+    cJSON *json = cJSON_CreateObject();
+    BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_HTTPS_GET_OWNERSHIP);
+    return json;
+}
+
+
+cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self){
+    cJSON *json = cJSON_CreateArray();
+    BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_HTTPS_GET_OWNERSHIP);
+    return json;
+}
+
+
+#endif

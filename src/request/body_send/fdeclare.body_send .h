@@ -21,3 +21,17 @@ void BearHttpsRequest_send_file_with_ownership_control(BearHttpsRequest *self, c
 void BearHttpsRequest_send_file(BearHttpsRequest *self,const  char *path,const char *content_type);
 
 void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self, const char *path);
+
+
+#ifndef BEARSSL_HTTPS_MOCK_CJSON
+
+void BearHttpsRequest_send_cJSON_with_ownership_control(BearHttpsRequest *self,cJSON *json,short ownership_mode);
+
+void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json);
+
+cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self);
+
+cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
+
+
+#endif
