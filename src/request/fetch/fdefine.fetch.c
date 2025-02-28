@@ -66,14 +66,13 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             char content_length[100];
             sprintf(content_length,"Content-Length: %ld\r\n",self->body_raw.size);
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
-
         }
         private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
         
         if(self->body_type == PRIVATE_BEARSSL_BODY_RAW){
+
             private_BearHttpsResponse_write(response,self->body_raw.value,self->body_raw.size);
         }
-
 
          if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
               br_sslio_flush(&response->ssl_io);
@@ -82,6 +81,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
 
          private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(response,self->headder_chunk_read_size,self->headder_chunk_read_size);
+        printf("chegou aqui\n");
 
          if(BearHttpsResponse_error(response)){
              printf("error: %s\n",BearHttpsResponse_get_error_msg(response));
