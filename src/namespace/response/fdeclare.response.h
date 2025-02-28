@@ -4,6 +4,4 @@
 #include "../../imports/imports.typesH.h"
 //silver_chain_scope_end
 
-
-
-BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
+BearHttpsResponseNamespace newBearHttpsResponseNamespace();

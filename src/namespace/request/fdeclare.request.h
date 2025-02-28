@@ -5,5 +5,4 @@
 //silver_chain_scope_end
 
 
-
-BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
+BearHttpsRequestNamespace newBearHttpsRequestNamespace();

@@ -4,11 +4,11 @@
 #include "../../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
-BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short route_ownernership_mode){
+BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode){
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
     *self = (BearHttpsRequest){0};
     self->max_redirections = BEARSSL_MAX_REDIRECTIONS;
-    BearHttpsRequest_set_url_with_ownership_config(self,url,route_ownernership_mode);
+    BearHttpsRequest_set_url_with_ownership_config(self,url,url_ownership_mode);
     self->headders = private_newBearHttpsHeadders();
     self->body_type =PRIVATE_BEARSSL_NO_BODY;
     self->headder_chunk_read_size = BEARSSL_HEADDER_CHUNK;
@@ -18,7 +18,7 @@ BearHttpsRequest * newBearHttpsRequest_with_ownership_config(char *url,short rou
 }
 
 BearHttpsRequest * newBearHttpsRequest(const char *url){
-    return newBearHttpsRequest_with_ownership_config((char*)url,BEARSSL_DEFAULT_STRATEGY);
+    return newBearHttpsRequest_with_url_ownership_config((char*)url,BEARSSL_DEFAULT_STRATEGY);
 }
 
 BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,...){
@@ -28,7 +28,7 @@ BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,...){
     if(formmated == NULL){
         return NULL;
     }
-    return newBearHttpsRequest_with_ownership_config(formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
+    return newBearHttpsRequest_with_url_ownership_config(formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
 }
 
 void BearHttpsRequest_set_url_with_ownership_config(BearHttpsRequest *self , char *url,short url_ownership_mode){

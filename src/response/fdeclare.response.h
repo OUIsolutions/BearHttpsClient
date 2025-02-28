@@ -1,7 +1,7 @@
 
 //silver_chain_scope_start
 //mannaged by silver chain
-#include "../imports/imports.typesD.h"
+#include "../imports/imports.typesH.h"
 //silver_chain_scope_end
 
 BearHttpsResponse *private_newBearHttpsResponse();
