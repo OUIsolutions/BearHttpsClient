@@ -5,3 +5,7 @@
 //silver_chain_scope_end
 #include "../../dependencies/UniversalSocket.c"
 #include "../../dependencies/BearSSLSingleUnit.c"
+
+#ifndef BEARSSL_HTTPS_MOCK_CJSON
+#include "../../dependencies/cJSON.c"
+#endif

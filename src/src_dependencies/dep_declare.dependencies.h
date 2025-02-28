@@ -24,3 +24,7 @@
 #include "../../dependencies/BearSSLSingleUnit.h"
 
 #include "../../dependencies/BearSSLTrustAnchors.h"
+
+#ifndef BEARSSL_HTTPS_MOCK_CJSON
+#include "../../dependencies/cJSON.h"
+#endif
