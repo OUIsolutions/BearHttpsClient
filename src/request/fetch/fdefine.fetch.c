@@ -46,7 +46,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          }
          private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
          private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);
-      
+
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->route, private_BearsslHttps_strlen(requisition_props->route));
          private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.0\r\nHost: "));
 
@@ -80,7 +80,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                 private_BearHttpsRequisitionProps_free(requisition_props);
                 return response;
             }
-            char content_type[100];
+            char content_type[200];
             sprintf(content_type,"Content-Type: %s\r\n",self->body_file.content_type);
             private_BearHttpsResponse_write(response,(unsigned char*)content_type,strlen(content_type));
 
@@ -90,7 +90,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             char content_length[100];
             sprintf(content_length,"Content-Length: %ld\r\n\r\n",size);
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
-  
+
             unsigned char send_buff[BEARSSL_BODY_CHUNK_SIZE];
             while (1) {
                 size_t read_size = fread(send_buff, 1, BEARSSL_BODY_CHUNK_SIZE, file);
@@ -121,10 +121,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         }
 
 
-    
+
         if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
               br_sslio_flush(&response->ssl_io);
-         }        
+         }
 
          private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(response,self->headder_chunk_read_size,self->headder_chunk_reallocator_facctor);
 
