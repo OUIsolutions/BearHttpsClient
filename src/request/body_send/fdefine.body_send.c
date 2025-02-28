@@ -91,7 +91,7 @@ void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,
         if(path[i] == '.'){
             //verify if the extension is bigger than 100
             if(path_size - i > 100){
-                break;;
+                break;
             }
             found = true;
             private_BearsslHttps_strcpy(extension,&path[i+1]);
