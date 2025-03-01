@@ -42,7 +42,9 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             response->connection_file_descriptor =private_BearHttpsRequest_connect_host(
                 response,
                 requisition_props->hostname,
-                requisition_props->port
+                requisition_props->port,
+                self->dns_server_ip,
+                self->dns_server_hostname
             );
         }
 

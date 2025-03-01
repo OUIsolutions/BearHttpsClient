@@ -8,7 +8,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port);
 
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self,const char *host,int port);
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname);
 
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len);
