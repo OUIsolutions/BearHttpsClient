@@ -56,7 +56,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
 }
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname) {
 
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
@@ -69,7 +69,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
     Universal_addrinfo *addr_info;
     int status = Universal_getaddrinfo(host, port_str, &hints, &addr_info);
     if (status != 0) {
-        BearHttpsResponse_set_error_msg(self, gai_strerror(status));
+        BearHttpsResponse_set_error_msg(response, gai_strerror(status));
         return -1;
     }
 
@@ -87,22 +87,26 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
     }
 
     if (found_socket < 0) {
-        BearHttpsResponse_set_error_msg(self, "ERROR: failed to connect\n");
+        BearHttpsResponse_set_error_msg(response, "ERROR: failed to connect\n");
     }
     Universal_freeaddrinfo(addr_info);
     return found_socket;
 }
 
 #else 
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
-    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/resolve?name=%s&type=A",DNS_SERVER_IP, host); 
-    dns_request->custom_bear_dns = DNS_SERVER_HOSTNAME;
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname) {
+   
+    const char *chosen_dns_server_ip = dns_server_ip ? dns_server_ip : DNS_SERVER_IP;
+    const char *chosen_dns_server_hostname = dns_server_hostname ? dns_server_hostname : DNS_SERVER_HOSTNAME;
+   
+    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/resolve?name=%s&type=A",chosen_dns_server_ip, host); 
+    dns_request->custom_bear_dns = chosen_dns_server_hostname;
 
 
     BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
    
     if(BearHttpsResponse_error(dns_response)){
-        BearHttpsResponse_set_error_msg(self,"ERROR: failed to create dns request\n");
+        BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
         BearHttpsRequest_free(dns_request);
         BearHttpsResponse_free(dns_response);
         return -1;
@@ -110,21 +114,21 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
 
     cJSON * body = BearHttpsResponse_read_body_json(dns_response, 20000);
     if(BearHttpsResponse_error(dns_response)){
-        BearHttpsResponse_set_error_msg(self,"ERROR: failed to et json from dns\n");
+        BearHttpsResponse_set_error_msg(response,"ERROR: failed to et json from dns\n");
         BearHttpsRequest_free(dns_request);
         BearHttpsResponse_free(dns_response);
         return -1;
     }
     cJSON * answer = cJSON_GetObjectItem(body, "Answer");
     if(answer == NULL){
-        BearHttpsResponse_set_error_msg(self,"ERROR: failed to get answer from dns\n");
+        BearHttpsResponse_set_error_msg(response,"ERROR: failed to get answer from dns\n");
         BearHttpsRequest_free(dns_request);
         BearHttpsResponse_free(dns_response);
         return -1;
     }
     long size = cJSON_GetArraySize(answer);
     if(size == 0){
-        BearHttpsResponse_set_error_msg(self,"ERROR: failed to get answer from dns\n");
+        BearHttpsResponse_set_error_msg(response,"ERROR: failed to get answer from dns\n");
         BearHttpsRequest_free(dns_request);
         BearHttpsResponse_free(dns_response);
         return -1;
