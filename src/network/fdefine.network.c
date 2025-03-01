@@ -35,11 +35,13 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
 
     Universal_addrinfo hints = {0};
+    memset(&hints, 0, sizeof(hints));
+
     hints.ai_family = PF_UNSPEC;
     hints.ai_socktype = UNI_SOCK_STREAM;
+
     char port_str[10];
     snprintf(port_str,sizeof(port_str)-1, "%d", port);
-    memset(&hints, 0, sizeof(hints));
     Universal_addrinfo *addr_info;
     int status = Universal_getaddrinfo(host, port_str, &hints, &addr_info);
     if (status != 0) {
