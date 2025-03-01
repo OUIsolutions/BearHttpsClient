@@ -57,7 +57,10 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
     if(readded> 0){
         self->body_readded+=readded;
     }
-    return readded + total_prev_sended;
+    int total_readded = readded + total_prev_sended;
+    buffer[total_readded] = 0;
+    return total_readded;
+
 }
 unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size){
     if(self->error){
