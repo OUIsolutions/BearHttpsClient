@@ -34,37 +34,21 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
 
-    Universal_addrinfo hints = {0};
-    hints.ai_family = PF_UNSPEC;
-    hints.ai_socktype = UNI_SOCK_STREAM;
-    char port_str[10];
-    snprintf(port_str,sizeof(port_str)-1, "%d", port);
+    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("8.8.8.8/resolve?name=%s&type=A", host); 
 
-    Universal_addrinfo *addr_info;
-    int status = Universal_getaddrinfo(host, port_str, &hints, &addr_info);
-    if (status != 0) {
-        BearHttpsResponse_set_error_msg(self, gai_strerror(status));
+    BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
+   
+    if(BearHttpsResponse_error(dns_response)){
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to create dns request\n");
+        BearHttpsRequest_free(dns_request);
+        BearHttpsResponse_free(dns_response);
         return -1;
     }
+    printf("aaa\n");
+    const char *body = BearHttpsResponse_read_body_str(dns_response, 10000);
+    printf("body: %s\n", body);
+    return -1;
 
-    int found_socket = -1;
-    for (Universal_addrinfo *current_addr = addr_info; current_addr != NULL; current_addr = current_addr->ai_next) {
-        found_socket = Universal_socket(current_addr->ai_family, current_addr->ai_socktype, current_addr->ai_protocol);
-        if (found_socket < 0) {
-            continue;
-        }
-        if (Universal_connect(found_socket, current_addr->ai_addr, current_addr->ai_addrlen) < 0) {
-            Universal_close(found_socket);
-            continue;
-        }
-        break;
-    }
-
-    if (found_socket < 0) {
-        BearHttpsResponse_set_error_msg(self, "ERROR: failed to connect\n");
-    }
-    Universal_freeaddrinfo(addr_info);
-    return found_socket;
 }
 
 

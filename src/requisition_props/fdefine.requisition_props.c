@@ -9,9 +9,7 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
     const short HTTP_START_SIZE = sizeof("http://")-1;
     const short HTTPS_START_SIZE = sizeof("https://")-1;
 
-    if(url_size < HTTP_START_SIZE+1){
-        return NULL;
-    }
+
     private_BearHttpsRequisitionProps *self = (private_BearHttpsRequisitionProps *)malloc(sizeof(private_BearHttpsRequisitionProps));
     *self = (private_BearHttpsRequisitionProps){0};
     short start_size;

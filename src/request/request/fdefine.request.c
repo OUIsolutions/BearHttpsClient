@@ -23,6 +23,7 @@ BearHttpsRequest * newBearHttpsRequest(const char *url){
 
 BearHttpsRequest * newBearHttpsRequest_fmt(const char *url,...){
     va_list args;
+    va_start(args,url);
     char *formmated = private_BearHttps_format_vaarg(url,args);
     va_end(args);
     if(formmated == NULL){
