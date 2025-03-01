@@ -113,19 +113,20 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
         }
 
+        #ifndef BEARSSL_HTTPS_MOCK_CJSON
+            if(self->body_type == PRIVATE_BEARSSL_BODY_JSON){
+                const char *content_type = "Content-Type: application/json\r\n";
+                private_BearHttpsResponse_write(response,(unsigned char*)content_type,strlen(content_type));
+                char * dumped = cJSON_Print(self->body_json.json);
+                long dumped_size = private_BearsslHttps_strlen(dumped);
+                char content_length[100];
+                sprintf(content_length,"Content-Length: %ld\r\n\r\n",dumped_size);
+                private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
+                private_BearHttpsResponse_write(response,(unsigned char*)dumped,dumped_size);
+                BearsslHttps_free(dumped);
+            }
 
-        if(self->body_type == PRIVATE_BEARSSL_BODY_JSON){
-            const char *content_type = "Content-Type: application/json\r\n";
-            private_BearHttpsResponse_write(response,(unsigned char*)content_type,strlen(content_type));
-            char * dumped = cJSON_Print(self->body_json.json);
-            long dumped_size = private_BearsslHttps_strlen(dumped);
-            char content_length[100];
-            sprintf(content_length,"Content-Length: %ld\r\n\r\n",dumped_size);
-            private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
-            private_BearHttpsResponse_write(response,(unsigned char*)dumped,dumped_size);
-            BearsslHttps_free(dumped);
-        }
-
+         #endif
         if(self->body_type == PRIVATE_BEARSSL_NO_BODY){
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
         }
