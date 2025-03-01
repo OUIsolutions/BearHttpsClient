@@ -53,7 +53,9 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          }
 
          if(requisition_props->is_https){
-           private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname,self->trust_anchors,self->trusted_anchors_size);
+
+           const char *chosen_host = self->custom_bear_dns ? self->custom_bear_dns : requisition_props->hostname;
+           private_BearHttpsResponse_start_bearssl_props(response,chosen_host,self->trust_anchors,self->trusted_anchors_size);
          }
          private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
          private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);
