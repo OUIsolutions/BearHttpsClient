@@ -35,6 +35,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
 
     BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("8.8.8.8/resolve?name=%s&type=A", host); 
+    printf("aaa\n");
 
     BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
    
