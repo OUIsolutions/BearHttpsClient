@@ -111,8 +111,8 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
         BearHttpsResponse_free(dns_response);
         return -1;
     }
-
-    cJSON * body = BearHttpsResponse_read_body_json(dns_response, 20000);
+    
+    cJSON * body = BearHttpsResponse_read_body_json(dns_response);
     if(BearHttpsResponse_error(dns_response)){
         BearHttpsResponse_set_error_msg(response,"ERROR: failed to et json from dns\n");
         BearHttpsRequest_free(dns_request);

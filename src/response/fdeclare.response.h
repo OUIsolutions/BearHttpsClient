@@ -10,9 +10,9 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bufer,long size);
 
-unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self,long max_size);
+unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self);
 
-const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self,long max_size);
+const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 
@@ -52,5 +52,5 @@ void BearHttpsResponse_free(BearHttpsResponse *self);
 
 
 #ifndef BEARSSL_HTTPS_MOCK_CJSON
-cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self,long max_size);
+cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
 #endif 

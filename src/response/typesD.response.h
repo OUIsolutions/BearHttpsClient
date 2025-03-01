@@ -27,6 +27,8 @@ typedef struct BearHttpsResponse{
     long body_readded;
     long extra_body_remaning_to_send;
 
+    int body_chunk_size;
+    double body_realloc_factor;
 
     bool error;
     int error_code;

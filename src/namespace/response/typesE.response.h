@@ -7,8 +7,8 @@ typedef struct BearHttpsResponseNamespace{
 
 
     int (*read_body_chunck)(BearHttpsResponse *self,unsigned char *bufer,long size);
-    unsigned char *(*read_body)(BearHttpsResponse *self,long max_size);
-    const  char *(*read_body_str)(BearHttpsResponse *self,long max_size);
+    unsigned char *(*read_body)(BearHttpsResponse *self);
+    const  char *(*read_body_str)(BearHttpsResponse *self);
 
 
     int (*get_status_code)(BearHttpsResponse*self);
@@ -34,6 +34,6 @@ typedef struct BearHttpsResponseNamespace{
 
 
     #ifndef BEARSSL_HTTPS_MOCK_CJSON
-    cJSON * (*read_body_json)(BearHttpsResponse *self,long max_size);
+    cJSON * (*read_body_json)(BearHttpsResponse *self);
     #endif
 } BearHttpsResponseNamespace;
