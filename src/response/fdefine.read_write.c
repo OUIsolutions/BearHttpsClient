@@ -76,6 +76,10 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
     
     if(self->user_content_length){
         body_allocated = self->user_content_length+2;
+        if(self->max_body_size != -1 && body_allocated > self->max_body_size){
+            BearHttpsResponse_set_error_msg(self,"body size is bigger than max body size");
+            return NULL;
+        }
         self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
         size_to_read = self->user_content_length - self->body_readded;
     }
@@ -91,9 +95,13 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
 
         while(self->body_size + self->body_chunk_size + 2  > body_allocated){
             body_allocated = body_allocated * self->body_realloc_factor;
+            if(self->max_body_size != -1 && body_allocated > self->max_body_size){
+                BearHttpsResponse_set_error_msg(self,"body size is bigger than max body size");
+                return NULL;
+            }
             self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
             buffer = (unsigned char*)(self->body + self->body_readded);
-            printf("reallocating body to %ld\n",body_allocated);
+            //printf("reallocating body to %ld\n",body_allocated);
         }
 
         if(self->body_readded == self->user_content_length){

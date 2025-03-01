@@ -12,7 +12,7 @@ typedef struct BearHttpsResponse{
     br_ssl_client_context ssl_client;
     unsigned char bear_buffer[BR_SSL_BUFSIZE_BIDI];
     br_x509_minimal_context certification_context;
-
+    long max_body_size;
     unsigned char *raw_content;
 
     private_BearHttpsHeadders *headders;
