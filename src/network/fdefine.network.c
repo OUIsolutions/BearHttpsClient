@@ -71,6 +71,26 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
 }
 
 #else 
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
+    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://8.8.8.8/resolve?name=%s&type=A", host); 
+    dns_request->custom_bear_dns ="dns.google.com";
+
+    printf("aa\n");
+
+    BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
+   
+    if(BearHttpsResponse_error(dns_response)){
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to create dns request\n");
+        BearHttpsRequest_free(dns_request);
+        BearHttpsResponse_free(dns_response);
+        return -1;
+    }
+    const char *body = BearHttpsResponse_read_body_str(dns_response, 10000);
+    printf("body: %s\n", body);
+    BearHttpsResponse_set_error_msg(self,"ERROR: failed to create dns request\n");
+    return -1;
+
+}
 
 
 #endif
