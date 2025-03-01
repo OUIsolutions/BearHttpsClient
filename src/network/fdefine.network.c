@@ -32,7 +32,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     return sockfd;
 }
 
-#ifdef BEARSSL_USSE_GET_ADDRINFO
+#if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
 
     Universal_addrinfo hints = {0};
@@ -74,7 +74,6 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
     BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://8.8.8.8/resolve?name=%s&type=A", host); 
     dns_request->custom_bear_dns ="dns.google.com";
-    printf("aa\n");
 
 
     BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
