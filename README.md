@@ -15,7 +15,6 @@ a Unoficial BearSSL Https Client
 ### Most simple example
 ```c
 #include "BearHttpsClientOne.c"
-
 BearHttpsNamespace bear ;
 int main(){
     bear = newBearHttpsNamespace();
@@ -23,24 +22,19 @@ int main(){
     BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com");
 
     BearHttpsResponse *response =bear.request.fetch(request);
-
+    const char *body = bear.response.read_body_str(response);
 
     if(bear.response.error(response)){
         printf("error: %s\n",bear.response.get_error_msg(response));
         return 0;
     }
-    char chunk[1024] = {0};
-    while(bear.response.read_body_chunck(response,chunk,1024-1) > 0){
-        printf("%s",chunk);
-        ///memset(chunk,0,1024);
+    if(body){
+        printf("%s",body);
     }
-
     bear.request.free(request);
     bear.response.free(response);
 
 }
-
-
 
 ```
 
