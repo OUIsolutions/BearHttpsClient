@@ -39,7 +39,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         
 
         if(requisition_props->is_ipv4 == false){
-
             response->connection_file_descriptor =private_BearHttpsRequest_connect_host(
                 response,
                 requisition_props->hostname,
@@ -58,12 +57,9 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          }
          private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
          private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);
-
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->route, private_BearsslHttps_strlen(requisition_props->route));
          private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.0\r\nHost: "));
-
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
-
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
 
          for (int i = 0; i < self->headders->size; i++) {
@@ -145,7 +141,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          }
          private_BearHttpsRequisitionProps_free(requisition_props);
          const int REDIRECT_CODE = 300;
-        const int REDIRECT_CODE2 = 301;
+         const int REDIRECT_CODE2 = 301;
 
          if((response->status_code == REDIRECT_CODE || response->status_code == REDIRECT_CODE2)  && i < self->max_redirections -1){
             char *location = BearHttpsResponse_get_headder_value_by_sanitized_key(response,"location");
