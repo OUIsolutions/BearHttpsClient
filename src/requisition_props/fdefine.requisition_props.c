@@ -15,6 +15,8 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
     private_BearHttpsRequisitionProps *self = (private_BearHttpsRequisitionProps *)malloc(sizeof(private_BearHttpsRequisitionProps));
     *self = (private_BearHttpsRequisitionProps){0};
     short start_size;
+
+    //setuping defaults elements
     if(private_BearsslHttps_startswith(route,"http://")){
         self->port = default_port ?  default_port: 80;
         self->type = BEARSSL_HTTP_REQUISITION_TYPE;
@@ -27,22 +29,38 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
         start_size = HTTPS_START_SIZE;
     }
     else{
-        private_BearHttpsRequisitionProps_free(self);
-        return NULL;
+        self->port = default_port ?  default_port: 80;
+        self->type = BEARSSL_HTTP_REQUISITION_TYPE;
+        start_size = 0;
     }
+
     //1000 //2000
     int end_host_name_and_start_of_route = private_BearsslHttps_indexof_from_point(route,'/',start_size-1);
+
     if(end_host_name_and_start_of_route == -1){
         end_host_name_and_start_of_route = url_size;
     }
+
     self->hostname = private_BearsslHttps_strndup((route+start_size-1),end_host_name_and_start_of_route-start_size+1);
+    long host_name_size = private_BearsslHttps_strlen(self->hostname);
+
     if(end_host_name_and_start_of_route == url_size){
-        self->route = private_BearsslHttps_strdup("/");
-        return self;
+        self->route = private_BearsslHttps_strdup("/");    }
+    else{
+         self->route = private_BearsslHttps_strndup((route+end_host_name_and_start_of_route),url_size-end_host_name_and_start_of_route+1);
     }
-
-    self->route = private_BearsslHttps_strndup((route+end_host_name_and_start_of_route),url_size-end_host_name_and_start_of_route+1);
-
+    //detect if self.hostname its ipv4
+    if(default_port == 0){
+    int start_port = private_BearsslHttps_indexof_from_point(self->hostname,':',0);
+        if(start_port  != -1){
+        
+            char *port_str = private_BearsslHttps_strndup(self->hostname+start_port+1,host_name_size+1);
+            self->hostname[start_port] = '\0';
+            self->port = atoi(port_str);
+            free(port_str);
+        }
+    }
+  
     return self;
 }
 

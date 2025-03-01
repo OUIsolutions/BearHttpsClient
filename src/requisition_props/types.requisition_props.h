@@ -9,6 +9,8 @@
 typedef struct private_BearHttpsRequisitionProps{
     char *hostname;
     char *route;
+    bool is_ipv4;
+    bool is_ipv6;
     int type;
     int port;
 }private_BearHttpsRequisitionProps ;
