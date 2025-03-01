@@ -23,6 +23,12 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              self->url,
              self->port
          );
+
+        if(requisition_props == NULL){
+            BearHttpsResponse_set_error_msg(response, "invalid url");
+            return response;
+        }
+        
         if(requisition_props->is_ipv4){
                 response->connection_file_descriptor = private_BearHttpsRequest_connect_ipv4(
                     response,
