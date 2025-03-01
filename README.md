@@ -6,10 +6,10 @@ a Unoficial BearSSL Https Client
 
 | item          | What Is |
 |-------        |-----------|
-| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.7/BearHttpsClient.zip)| Full Folder Mode  |
-| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.7/BearHttpsClientOne.c)| Single File Version|
-| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.7/BearHttpsClient.h)|Declaration |
-| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.7/BearHttpsClient.c)|Definition |
+| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.8/BearHttpsClient.zip)| Full Folder Mode  |
+| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.8/BearHttpsClientOne.c)| Single File Version|
+| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.8/BearHttpsClient.h)|Declaration |
+| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.8/BearHttpsClient.c)|Definition |
 
 
 ### Most simple example
@@ -20,22 +20,26 @@ BearHttpsNamespace bear ;
 int main(){
     bear = newBearHttpsNamespace();
 
-    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://google.com");
+    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com");
+
     BearHttpsResponse *response =bear.request.fetch(request);
-    const int MAX_CONTENT = 100000;
-    unsigned char *body = bear.response.read_body(response,MAX_CONTENT);
-    if(body){
-        printf("body: %s\n",body);
-    }
+
 
     if(bear.response.error(response)){
         printf("error: %s\n",bear.response.get_error_msg(response));
+        return 0;
+    }
+    char chunk[1024] = {0};
+    while(bear.response.read_body_chunck(response,chunk,1024-1) > 0){
+        printf("%s",chunk);
+        ///memset(chunk,0,1024);
     }
 
     bear.request.free(request);
     bear.response.free(response);
 
 }
+
 
 
 ```
