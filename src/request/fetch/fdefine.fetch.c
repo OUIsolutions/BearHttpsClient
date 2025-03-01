@@ -28,14 +28,17 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             BearHttpsResponse_set_error_msg(response, "invalid url");
             return response;
         }
-        
+
         if(requisition_props->is_ipv4){
                 response->connection_file_descriptor = private_BearHttpsRequest_connect_ipv4(
                     response,
                     requisition_props->hostname,
                     requisition_props->port
                 );
-        }else{
+        }
+        
+
+        if(requisition_props->is_ipv4 == false){
 
             response->connection_file_descriptor =private_BearHttpsRequest_connect_host(
                 response,
@@ -122,13 +125,12 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             sprintf(content_length,"Content-Length: %ld\r\n\r\n",dumped_size);
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
             private_BearHttpsResponse_write(response,(unsigned char*)dumped,dumped_size);
-            free(dumped);
+            BearsslHttps_free(dumped);
         }
 
         if(self->body_type == PRIVATE_BEARSSL_NO_BODY){
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
         }
-
 
 
         if(requisition_props->is_https){

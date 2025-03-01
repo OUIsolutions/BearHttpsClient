@@ -80,7 +80,7 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
             char *port_str = private_BearsslHttps_strndup(self->hostname+start_port+1,host_name_size+1);
             self->hostname[start_port] = '\0';
             self->port = atoi(port_str);
-            free(port_str);
+            BearsslHttps_free(port_str);
         }
     }
   
@@ -88,7 +88,7 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
 }
 
 void private_BearHttpsRequisitionProps_free(private_BearHttpsRequisitionProps *self){
-    free(self->hostname);
-    free(self->route);
-    free(self);
+    BearsslHttps_free(self->hostname);
+    BearsslHttps_free(self->route);
+    BearsslHttps_free(self);
 }
