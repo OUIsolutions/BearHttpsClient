@@ -6,8 +6,8 @@
 
 private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProps(const char *url,int default_port){
     int url_size = private_BearsslHttps_strlen(url);
-    const short HTTP_START_SIZE = sizeof("http://");
-    const short HTTPS_START_SIZE = sizeof("https://");
+    const short HTTP_START_SIZE = sizeof("http://")-1;
+    const short HTTPS_START_SIZE = sizeof("https://")-1;
 
     if(url_size < HTTP_START_SIZE+1){
         return NULL;
@@ -19,29 +19,29 @@ private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProp
     //setuping defaults elements
     if(private_BearsslHttps_startswith(url,"http://")){
         self->port = default_port ?  default_port: 80;
-        self->type = BEARSSL_HTTP_REQUISITION_TYPE;
+        self->is_https = false;
         start_size = HTTP_START_SIZE;
     }
 
     else if(private_BearsslHttps_startswith(url,"https://")){
         self->port = default_port ?  default_port: 443;
-        self->type = BEAR_HTTPS_HTTPS_REQUISITION_TYPE;
+        self->is_https = true;
         start_size = HTTPS_START_SIZE;
     }
     else{
         self->port = default_port ?  default_port: 80;
-        self->type = BEARSSL_HTTP_REQUISITION_TYPE;
+        self->is_https = false;
         start_size = 0;
     }
 
     //1000 //2000
-    int end_host_name_and_start_of_route = private_BearsslHttps_indexof_from_point(url,'/',start_size-1);
+    int end_host_name_and_start_of_route = private_BearsslHttps_indexof_from_point(url,'/',start_size);
 
     if(end_host_name_and_start_of_route == -1){
         end_host_name_and_start_of_route = url_size;
     }
 
-    self->hostname = private_BearsslHttps_strndup((url+start_size-1),end_host_name_and_start_of_route-start_size+1);
+    self->hostname = private_BearsslHttps_strndup((url+start_size),end_host_name_and_start_of_route-start_size);
     long host_name_size = private_BearsslHttps_strlen(self->hostname);
 
     if(end_host_name_and_start_of_route == url_size){

@@ -5,7 +5,34 @@
 //silver_chain_scope_end
 
 
-static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self, const char *host, int port) {
+static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
+    int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to create socket\n");
+        return -1; 
+    }
+
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port); 
+
+    if (inet_pton(AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
+        BearHttpsResponse_set_error_msg(self,"ERROR: invalid address\n");
+        Universal_close(sockfd);
+        return -1;
+    }
+
+    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to connect\n");
+        Universal_close(sockfd); 
+        return -1;
+    }
+
+    return sockfd;
+}
+
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
 
     Universal_addrinfo hints = {0};
     hints.ai_family = PF_UNSPEC;

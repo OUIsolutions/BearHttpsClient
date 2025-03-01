@@ -11,6 +11,6 @@ typedef struct private_BearHttpsRequisitionProps{
     char *route;
     bool is_ipv4;
     bool is_ipv6;
-    int type;
+    bool is_https;
     int port;
 }private_BearHttpsRequisitionProps ;

@@ -3,7 +3,10 @@
 //mannaged by silver chain
 #include "../imports/imports.typesH.h"
 //silver_chain_scope_end
-static int private_BearHttpsRequest_host_connect(BearHttpsResponse *self,const char *host,int port);
+
+static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port);
+
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self,const char *host,int port);
 
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len);

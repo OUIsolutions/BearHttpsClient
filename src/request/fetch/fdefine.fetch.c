@@ -23,17 +23,20 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              self->url,
              self->port
          );
+        if(requisition_props->is_ipv4){
+                response->connection_file_descriptor = private_BearHttpsRequest_connect_ipv4(
+                    response,
+                    requisition_props->hostname,
+                    requisition_props->port
+                );
+        }else{
 
-         if (requisition_props == NULL) {
-             BearHttpsResponse_set_error_msg(response, "failt to create requisition props");
-             return response;
-         }
-
-         response->connection_file_descriptor =private_BearHttpsRequest_host_connect(
-             response,
-             requisition_props->hostname,
-             requisition_props->port
-         );
+            response->connection_file_descriptor =private_BearHttpsRequest_connect_host(
+                response,
+                requisition_props->hostname,
+                requisition_props->port
+            );
+        }
 
 
          if(response->connection_file_descriptor < 0){
@@ -41,7 +44,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              return response;
          }
 
-         if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
+         if(requisition_props->is_https){
            private_BearHttpsResponse_start_bearssl_props(response, requisition_props->hostname,self->trust_anchors,self->trusted_anchors_size);
          }
          private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
@@ -122,7 +125,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
 
 
-        if(requisition_props->type == BEAR_HTTPS_HTTPS_REQUISITION_TYPE){
+        if(requisition_props->is_https){
               br_sslio_flush(&response->ssl_io);
          }
 
