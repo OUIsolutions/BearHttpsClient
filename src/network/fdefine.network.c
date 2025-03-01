@@ -31,6 +31,29 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
     return sockfd;
 }
+static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port) {
+    int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        return -1; 
+    }
+
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port); 
+
+    if (inet_pton(AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
+        Universal_close(sockfd);
+        return -1;
+    }
+
+    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        Universal_close(sockfd); 
+        return -1;
+    }
+
+    return sockfd;
+}
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
@@ -72,8 +95,8 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
 
 #else 
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
-    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://8.8.8.8/resolve?name=%s&type=A", host); 
-    dns_request->custom_bear_dns ="dns.google.com";
+    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/resolve?name=%s&type=A",DNS_SERVER_IP, host); 
+    dns_request->custom_bear_dns = DNS_SERVER_HOSTNAME;
 
 
     BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
@@ -84,9 +107,47 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
         BearHttpsResponse_free(dns_response);
         return -1;
     }
-    const char *body = BearHttpsResponse_read_body_str(dns_response, 10000);
-    printf("body: %s\n", body);
-    BearHttpsResponse_set_error_msg(self,"ERROR: failed to create dns request\n");
+
+    cJSON * body = BearHttpsResponse_read_body_json(dns_response, 20000);
+    if(BearHttpsResponse_error(dns_response)){
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to et json from dns\n");
+        BearHttpsRequest_free(dns_request);
+        BearHttpsResponse_free(dns_response);
+        return -1;
+    }
+    cJSON * answer = cJSON_GetObjectItem(body, "Answer");
+    if(answer == NULL){
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to get answer from dns\n");
+        BearHttpsRequest_free(dns_request);
+        BearHttpsResponse_free(dns_response);
+        return -1;
+    }
+    long size = cJSON_GetArraySize(answer);
+    if(size == 0){
+        BearHttpsResponse_set_error_msg(self,"ERROR: failed to get answer from dns\n");
+        BearHttpsRequest_free(dns_request);
+        BearHttpsResponse_free(dns_response);
+        return -1;
+    }
+    for(int i = 0; i < size;i++){
+        cJSON * item = cJSON_GetArrayItem(answer,i);
+        cJSON * data = cJSON_GetObjectItem(item, "data");
+        if(data == NULL){
+            continue;
+        }
+        const char * ipv4 = cJSON_GetStringValue(data);
+        if(ipv4 == NULL){
+            continue;
+        }
+        int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port);
+        if(sockfd < 0){
+            continue;
+        }
+        BearHttpsRequest_free(dns_request);
+        BearHttpsResponse_free(dns_response);
+        return sockfd;
+    }
+
     return -1;
 
 }
