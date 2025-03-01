@@ -32,6 +32,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     return sockfd;
 }
 
+#ifdef BEARSSL_USSE_GET_ADDRINFO
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const char *host, int port) {
 
     Universal_addrinfo hints = {0};
@@ -69,6 +70,10 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *self, const 
     return found_socket;
 }
 
+#else 
+
+
+#endif
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
 {
