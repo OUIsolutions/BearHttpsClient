@@ -96,9 +96,6 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
 #else 
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname) {
    
-    const char *chosen_dns_server_ip = dns_server_ip ? dns_server_ip : DNS_SERVER_IP;
-    const char *chosen_dns_server_hostname = dns_server_hostname ? dns_server_hostname : DNS_SERVER_HOSTNAME;
-   
 
 
     BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/resolve?name=%s&type=A",chosen_dns_server_ip, host); 

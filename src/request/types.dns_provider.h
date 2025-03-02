@@ -7,6 +7,7 @@
 
 
 typedef struct BearHttpsClientDnsProvider {
-    char *dns_server_ip;
-    char *dns_server_hostname;
+    const char *hostname;
+    const  char *route;
+    const char *ip;
 }BearHttpsClientDnsProvider;
