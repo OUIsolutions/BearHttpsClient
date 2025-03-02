@@ -1,4 +1,4 @@
-# WARNING: THESE ITS ALPHA SOFTWARE, USE AT YOUR OWN RISK, NO WARRANTY IS PROVIDED,AND BUGS ARE EXPECTED
+## WARNING: THESE ITS ALPHA SOFTWARE, USE AT YOUR OWN RISK, NO WARRANTY IS PROVIDED,AND BUGS ARE EXPECTED
 
 # BearHttpsClient
 BearHttpsClient is a simple and easy to use Single File Https Client Library for C, that uses [BearSSL](https://bearssl.org/) as its SSL/TLS backend. BearHttpsClient is projected to be a full out of the box solution , providing:
