@@ -52,7 +52,7 @@ void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,
             return;
         }
     }
-   
+
     private_BearHttpsKeyVal * key_obj = private_newBearHttpsKeyVal();
     private_BearHttpsKeyVal_set_key(key_obj,key,key_ownership_mode);
     private_BearHttpsKeyVal_set_value(key_obj,value,value_owner);
@@ -92,7 +92,21 @@ void BearHttpsRequest_represent(BearHttpsRequest *self){
     }
 }
 
-void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size){
+
+void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redirections){
+    self->max_redirections = max_redirections;
+}
+
+void BearHttpsRequest_set_dns_provider(BearHttpsRequest *self ,const char * dns_server_ip,const char * dns_server_hostname){
+    self->dns_server_ip = dns_server_ip;
+    self->dns_server_hostname = dns_server_hostname;
+}
+
+void BearHttpsRequest_set_chunk_headder_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size){
+    self->headder_chunk_read_size = chunk_size;
+    self->headder_chunk_reallocator_facctor = max_chunk_size;
+}
+void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size){
     self->trust_anchors = trust_anchors;
     self->trusted_anchors_size = trusted_anchors_size;
 }
