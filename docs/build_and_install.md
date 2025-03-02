@@ -25,10 +25,24 @@ darwin run_blueprint build/  --mode folder
 it will generate all the **releases** in the **/release** dir
 
 
-## Removing CJSON
-if you want to remove the CJSON dependency, you can remove the **CJSON** defined in the **BearHttpsClientOne.c** file:
+
+### Mocking dependencies or dependencies implementations 
+
+the following flags hide,dependencies entire, or just the definitions
+(its usefull) for  working with dynamic compilation, or mocking dependencies
 ```c
+// unallow universal socket definition
+#define BEARSSL_HTTPS_MOCK_UNIVERSAL_SOCKET_DEFINE
+// unallow universal socket implementation
+#define BEARSSL_HTTPS_MOCK_BEARSSL_DEFINE
+// unallow cjson at all
+// note ,that hiding cjson, will obrigate the lib to use **get_addrinfo**, witch,
+//can geerate leak memorys in some cases
 #define BEARSSL_HTTPS_MOCK_CJSON
+
+// unallow cjson definition
+#define BEARSSL_HTTPS_MOCK_CJSON_DEFINE
+
+//import the lib , only after the flags
 #include "BearHttpsClientOne.c"
-```
-Note ,that these will obrigate the lib, to use the **getaddrinfo** functions, that can generate leak memorys on some platforms, so use it with caution
+``` 
