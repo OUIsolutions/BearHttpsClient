@@ -91,3 +91,59 @@ note, that these function will drop a error, if the response its a binary
     }
     printf("\n");
 ```
+
+### Reading body json 
+
+```c
+#include "src/one.c"
+BearHttpsNamespace bear ;
+int main(){
+    bear = newBearHttpsNamespace();
+
+    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://jsonplaceholder.typicode.com/todos/1");   
+    BearHttpsResponse *response = bear.request.fetch(request);
+    if(bear.response.error(response)){
+        printf("Error: %s\n",bear.response.get_error_msg(response));
+        bear.request.free(request);
+        bear.response.free(response);
+        return 1;
+    }
+
+    cJSON *json = bear.response.read_body_json(response);
+    char *dumped = cJSON_Print(json);
+    printf("%s\n",dumped);
+    free(dumped);
+    bear.request.free(request);
+    bear.response.free(response);
+    return 0;
+}
+```
+
+### Reading Body Chunk
+you can read the body of the response in chunks, using the following code:
+```c
+
+
+#include "src/one.c"
+
+BearHttpsNamespace bear ;
+int main(){
+    bear = newBearHttpsNamespace();
+
+    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com/");   
+    BearHttpsResponse *response = bear.request.fetch(request);
+    if(bear.response.error(response)){
+        printf("Error: %s\n",bear.response.get_error_msg(response));
+        bear.request.free(request);
+        bear.response.free(response);
+        return 1;
+    }
+    unsigned char chunk[1024];
+    while(bear.response.read_body_chunck(response,chunk,sizeof(chunk)-1) > 0){
+        printf("%s",chunk);
+    }
+    bear.request.free(request);
+    bear.response.free(response);
+    return 0;
+}
+```
