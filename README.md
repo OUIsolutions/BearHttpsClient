@@ -23,7 +23,7 @@ BearHttpsClient is a simple and easy to use Single File Https Client Library for
 
 
 ### Most simple example
-these are the most simple example of using BearHttpsClient,this example fetches a page from example.com and prints it to the console.
+these are the most simple example of using BearHttpsClient with the  [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClientOne.c), this example fetches a page from example.com and prints it to the console.
 ```c
 #include "BearHttpsClientOne.c"
 
