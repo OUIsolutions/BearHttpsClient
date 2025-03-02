@@ -63,7 +63,10 @@ void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value)
     BearHttpsRequest_add_headder_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,value,BEARSSL_DEFAULT_STRATEGY);
 }
 void BearHttpsRequest_add_headder_fmt(BearHttpsRequest *self ,char *key,char *format,...){
+    
+    
     va_list args;
+    va_start(args,format);
     char *formmated = private_BearHttps_format_vaarg(format,args);
     va_end(args);
     if(formmated == NULL){

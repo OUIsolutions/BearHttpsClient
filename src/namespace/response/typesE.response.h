@@ -24,6 +24,9 @@ typedef struct BearHttpsResponseNamespace{
 
     char* (*get_headder_value_by_sanitized_key)(BearHttpsResponse*self,const char *key);
 
+    void (*set_max_body_size)(BearHttpsResponse*self,long size);
+    void (*set_body_read_props)(BearHttpsResponse*self,int chunk_size,double realloc_factor);
+    
 
     bool (*error)(BearHttpsResponse*self);
 

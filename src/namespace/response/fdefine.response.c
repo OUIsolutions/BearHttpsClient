@@ -16,6 +16,8 @@ BearHttpsResponseNamespace newBearHttpsResponseNamespace(){
     self.get_headder_value_by_key = BearHttpsResponse_get_headder_value_by_key;
     self.get_headder_key_by_index = BearHttpsResponse_get_headder_key_by_index;
     self.get_headder_value_by_sanitized_key = BearHttpsResponse_get_headder_value_by_sanitized_key;
+    self.set_max_body_size = BearHttpsResponse_set_max_body_size;
+    self.set_body_read_props = BearHttpsResponse_set_body_read_props;
     self.error = BearHttpsResponse_error;
     self.get_error_msg = BearHttpsResponse_get_error_msg;
     self.free = BearHttpsResponse_free;

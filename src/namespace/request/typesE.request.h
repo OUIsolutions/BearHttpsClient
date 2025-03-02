@@ -29,7 +29,6 @@ typedef struct BearHttpsRequestNamespace{
     void (*set_url)(BearHttpsRequest *self ,const char *url);
     void (*add_headder_with_ownership_config)(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
     void (*add_headder)(BearHttpsRequest *self ,char *key,char *value);
-    void (*set_trusted_anchors)(BearHttpsRequest *self,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
     void (*set_method)(BearHttpsRequest *self ,const char *method);
     void (*set_max_redirections)(BearHttpsRequest *self ,int max_redirections);
     void (*set_dns_provider)(BearHttpsRequest *self ,const char * dns_server_ip,const char * dns_server_hostname);

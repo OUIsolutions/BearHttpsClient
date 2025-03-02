@@ -46,6 +46,10 @@ char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);
 
 void BearHttpsResponse_set_error_msg(BearHttpsResponse*self,const char *msg);
 
+void BearHttpsResponse_set_max_body_size(BearHttpsResponse*self,long size);
+
+void BearHttpsResponse_set_body_read_props(BearHttpsResponse*self,int chunk_size,double realloc_factor);
+
 void BearHttpsResponse_free(BearHttpsResponse *self);
 
 
