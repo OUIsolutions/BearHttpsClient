@@ -98,16 +98,13 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
    
 
     for(int i = 0; i < privateBearHttpsProvidersSize;i++){
-            printf("value of i: %d\n",i);
           
-            
             BearHttpsClientDnsProvider provider = privateBearHttpsProviders[i];
-
-
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s%s?name=%s&type=A",provider.ip,provider.route, host); 
             dns_request->custom_bear_dns = provider.hostname;
+        
             BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
-            /*
+            
 
             if(BearHttpsResponse_error(dns_response)){
                 BearHttpsRequest_free(dns_request);
@@ -152,7 +149,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
                 BearHttpsResponse_free(dns_response);
                 return sockfd;
             }
-            */
+            
     }
 
      BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
