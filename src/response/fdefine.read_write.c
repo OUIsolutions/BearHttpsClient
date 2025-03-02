@@ -78,6 +78,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
         body_allocated = self->user_content_length+2;
         if(self->max_body_size != -1 && body_allocated > self->max_body_size){
             BearHttpsResponse_set_error_msg(self,"body size is bigger than max body size");
+            BearsslHttps_free(self->body);
+            self->body = NULL;
             return NULL;
         }
         self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
@@ -97,6 +99,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
             body_allocated = body_allocated * self->body_realloc_factor;
             if(self->max_body_size != -1 && body_allocated > self->max_body_size){
                 BearHttpsResponse_set_error_msg(self,"body size is bigger than max body size");
+                BearsslHttps_free(self->body);
+                self->body = NULL;
                 return NULL;
             }
             self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
@@ -138,6 +142,9 @@ const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self){
     //check if its a binary
     for(int i  = 0; i < self->body_size; i++){
         if(body[i] == '\0'){
+            BearHttpsResponse_set_error_msg(self,"body is binary");
+            BearsslHttps_free(self->body);
+            self->body = NULL;
            return NULL;
         }
     }
