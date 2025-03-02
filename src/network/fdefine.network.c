@@ -97,60 +97,60 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname) {
    
 
+    for(int i = 0; i < privateBearHttpsProvidersSize;i++){
+            BearHttpsClientDnsProvider provider = privateBearHttpsProviders[i];
+            BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/%s?name=%s&type=A",provider.ip,provider.route, host); 
+            dns_request->custom_bear_dns = provider.hostname;
+            BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
+            if(BearHttpsResponse_error(dns_response)){
+                BearHttpsRequest_free(dns_request);
+                BearHttpsResponse_free(dns_response);
+                continue;
+            }       
+       
+            
+            cJSON * body = BearHttpsResponse_read_body_json(dns_response);
+            if(BearHttpsResponse_error(dns_response)){
+                BearHttpsRequest_free(dns_request);
+                BearHttpsResponse_free(dns_response);
+                continue;
+            }
+            cJSON * answer = cJSON_GetObjectItem(body, "Answer");
+            if(answer == NULL){
+                BearHttpsRequest_free(dns_request);
+                BearHttpsResponse_free(dns_response);
+                continue;
+            }
+            long size = cJSON_GetArraySize(answer);
+            if(size == 0){
+                BearHttpsRequest_free(dns_request);
+                BearHttpsResponse_free(dns_response);
+                continue;
+            }
+            for(int i = 0; i < size;i++){
+                cJSON * item = cJSON_GetArrayItem(answer,i);
+                cJSON * data = cJSON_GetObjectItem(item, "data");
+                if(data == NULL){
+                    continue;
+                }
+                const char * ipv4 = cJSON_GetStringValue(data);
+                if(ipv4 == NULL){
+                    continue;
+                }
+                int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port);
+                if(sockfd < 0){
+                    continue;
+                }
+                BearHttpsRequest_free(dns_request);
+                BearHttpsResponse_free(dns_response);
+                return sockfd;
+            }
 
-    BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/resolve?name=%s&type=A",chosen_dns_server_ip, host); 
-
-    dns_request->custom_bear_dns = chosen_dns_server_hostname;
-    BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
-    if(BearHttpsResponse_error(dns_response)){
-        BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
-        BearHttpsRequest_free(dns_request);
-        BearHttpsResponse_free(dns_response);
-        return -1;
-    }
-    
-    cJSON * body = BearHttpsResponse_read_body_json(dns_response);
-    if(BearHttpsResponse_error(dns_response)){
-        BearHttpsResponse_set_error_msg(response,"ERROR: failed to et json from dns\n");
-        BearHttpsRequest_free(dns_request);
-        BearHttpsResponse_free(dns_response);
-        return -1;
-    }
-    cJSON * answer = cJSON_GetObjectItem(body, "Answer");
-    if(answer == NULL){
-        BearHttpsResponse_set_error_msg(response,"ERROR: failed to get answer from dns\n");
-        BearHttpsRequest_free(dns_request);
-        BearHttpsResponse_free(dns_response);
-        return -1;
-    }
-    long size = cJSON_GetArraySize(answer);
-    if(size == 0){
-        BearHttpsResponse_set_error_msg(response,"ERROR: failed to get answer from dns\n");
-        BearHttpsRequest_free(dns_request);
-        BearHttpsResponse_free(dns_response);
-        return -1;
-    }
-    for(int i = 0; i < size;i++){
-        cJSON * item = cJSON_GetArrayItem(answer,i);
-        cJSON * data = cJSON_GetObjectItem(item, "data");
-        if(data == NULL){
             continue;
-        }
-        const char * ipv4 = cJSON_GetStringValue(data);
-        if(ipv4 == NULL){
-            continue;
-        }
-        int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port);
-        if(sockfd < 0){
-            continue;
-        }
-        BearHttpsRequest_free(dns_request);
-        BearHttpsResponse_free(dns_response);
-        return sockfd;
     }
 
+     BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
     return -1;
-
 }
 
 
