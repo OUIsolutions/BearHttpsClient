@@ -37,7 +37,7 @@ int main(){
         bear.response.free(response);
         return 1;
     }
-    char *body = bear.response.read_body_str(response);
+    const char *body = bear.response.read_body_str(response);
     if(bear.response.error(response)){
             printf("Error: %s\n",bear.response.get_error_msg(response));
             bear.request.free(request);
