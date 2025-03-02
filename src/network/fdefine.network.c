@@ -57,7 +57,6 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers) {
-
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
 
@@ -76,6 +75,8 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     int found_socket = -1;
     for (Universal_addrinfo *current_addr = addr_info; current_addr != NULL; current_addr = current_addr->ai_next) {
         found_socket = Universal_socket(current_addr->ai_family, current_addr->ai_socktype, current_addr->ai_protocol);
+        
+  
         if (found_socket < 0) {
             continue;
         }
@@ -88,6 +89,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
 
     if (found_socket < 0) {
         BearHttpsResponse_set_error(response, "ERROR: failed to connect\n",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        return -1;;
     }
     Universal_freeaddrinfo(addr_info);
     return found_socket;

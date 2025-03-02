@@ -17,6 +17,7 @@ int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer
     while(sended < size){
         long sended_now = Universal_send(self->connection_file_descriptor, bufer+sended, size-sended,0);
         if(sended_now < 0){
+            BearHttpsResponse_set_error(self,"error sending data",BEARSSL_HTTPS_IMPOSSIBLE_TO_SEND_DATA);
             return sended_now;
         }
         sended += sended_now;

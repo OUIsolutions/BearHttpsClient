@@ -18,6 +18,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     //we start at -1 , because the first conection its not consider a redirection
     for(int i = -1; i < self->max_redirections;i++){
+
+
         response =  private_newBearHttpsResponse();
          private_BearHttpsRequisitionProps *requisition_props = private_new_private_BearHttpsRequisitionProps(
              self->url,
@@ -35,7 +37,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                     requisition_props->port
                 );
         }
-
         //these function its used on the private_BearHttpsRequest_connect_host and if returns these
         //means that the dns its wrong formatted
         if(requisition_props->is_ipv4 == false && self->must_be_ipv4){
@@ -54,7 +55,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             );
         }
 
-
          if(response->connection_file_descriptor < 0){
              private_BearHttpsRequisitionProps_free(requisition_props);
              return response;
@@ -71,6 +71,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.0\r\nHost: "));
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
+        if(BearHttpsResponse_error(response)){
+                    private_BearHttpsRequisitionProps_free(requisition_props);
+                    return response;
+        }
 
          for (int i = 0; i < self->headders->size; i++) {
              private_BearHttpsKeyVal *keyval = self->headders->keyvals[i];
@@ -79,6 +83,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              private_BearHttpsResponse_write(response, (unsigned char*)keyval->value, private_BearsslHttps_strlen(keyval->value));
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
          }
+         if(BearHttpsResponse_error(response)){
+            private_BearHttpsRequisitionProps_free(requisition_props);
+            return response;
+        }
 
 
         if(self->body_type ==PRIVATE_BEARSSL_BODY_RAW){
@@ -87,7 +95,10 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
             private_BearHttpsResponse_write(response,(unsigned char*)content_length,strlen(content_length));
             private_BearHttpsResponse_write(response,self->body_raw.value,self->body_raw.size);
         }
-
+        if(BearHttpsResponse_error(response)){
+            private_BearHttpsRequisitionProps_free(requisition_props);
+            return response;
+        }
 
         if(self->body_type == PRIVATE_BEARSSL_BODY_FILE){
 
