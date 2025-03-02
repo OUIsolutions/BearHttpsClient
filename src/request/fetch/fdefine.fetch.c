@@ -23,7 +23,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              self->url,
              self->port
          );
-
         if(requisition_props == NULL){
             BearHttpsResponse_set_error_msg(response, "invalid url");
             return response;
