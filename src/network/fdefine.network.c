@@ -99,12 +99,12 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     const char *chosen_dns_server_ip = dns_server_ip ? dns_server_ip : DNS_SERVER_IP;
     const char *chosen_dns_server_hostname = dns_server_hostname ? dns_server_hostname : DNS_SERVER_HOSTNAME;
    
+
+
     BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/resolve?name=%s&type=A",chosen_dns_server_ip, host); 
+
     dns_request->custom_bear_dns = chosen_dns_server_hostname;
-
-
     BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
-   
     if(BearHttpsResponse_error(dns_response)){
         BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
         BearHttpsRequest_free(dns_request);

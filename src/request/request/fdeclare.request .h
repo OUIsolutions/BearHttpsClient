@@ -1,7 +1,7 @@
 
 //silver_chain_scope_start
 //mannaged by silver chain
-#include "../../imports/imports.typesH.h"
+#include "../../imports/imports.consts.h"
 //silver_chain_scope_end
 
 BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);

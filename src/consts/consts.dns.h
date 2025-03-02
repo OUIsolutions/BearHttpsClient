@@ -1,7 +1,7 @@
 
 //silver_chain_scope_start
 //mannaged by silver chain
-#include "../imports/imports.dep_declare.h"
+#include "../imports/imports.typesH.h"
 //silver_chain_scope_end
 
 #define DNS_SERVER_IP "8.8.8.8"

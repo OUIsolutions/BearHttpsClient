@@ -1,7 +1,7 @@
 
 //silver_chain_scope_start
 //mannaged by silver chain
-#include "../imports/imports.typesH.h"
+#include "../imports/imports.consts.h"
 //silver_chain_scope_end
 
 bool private_BearHttps_is_sanitize_key(const char *key,const char *sanitized,int sanitized_size);
