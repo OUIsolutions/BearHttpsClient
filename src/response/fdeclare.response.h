@@ -44,7 +44,9 @@ bool BearHttpsResponse_error(BearHttpsResponse*self);
 
 char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);
 
-void BearHttpsResponse_set_error_msg(BearHttpsResponse*self,const char *msg);
+int BearHttpsResponse_get_error_code(BearHttpsResponse*self);
+
+void BearHttpsResponse_set_error(BearHttpsResponse*self,const char *msg,int error_code);
 
 void BearHttpsResponse_set_max_body_size(BearHttpsResponse*self,long size);
 

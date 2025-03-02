@@ -12,7 +12,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     int uni_start = Universal_start_all();
     if (uni_start != 0) {
-        BearHttpsResponse_set_error_msg(response, "failt to start unisocket");
+        BearHttpsResponse_set_error(response, "failt to start unisocket",BEARSSL_HTTPS_FAILT_TO_START_UNISOCKET);
         return response;
     }
 
@@ -24,7 +24,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              self->port
          );
         if(requisition_props == NULL){
-            BearHttpsResponse_set_error_msg(response, "invalid url");
+            BearHttpsResponse_set_error(response, "invalid url",BEARSSL_HTTPS_INVALID_URL);
             return response;
         }
 
@@ -39,7 +39,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         //these function its used on the private_BearHttpsRequest_connect_host and if returns these
         //means that the dns its wrong formatted
         if(requisition_props->is_ipv4 == false && self->must_be_ipv4){
-            BearHttpsResponse_set_error_msg(response, "must be ipv4");
+            BearHttpsResponse_set_error(response, "must be ipv4",BEARSSL_HTTPS_MUST_BE_IPV4);
             private_BearHttpsRequisitionProps_free(requisition_props);
             return response;
         }
@@ -94,7 +94,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              FILE  *file = fopen(self->body_file.path,"rb");
 
             if(file == NULL){
-                BearHttpsResponse_set_error_msg(response, "impssible to open file");
+                BearHttpsResponse_set_error(response, "impssible to open file",BEARSSL_HTTPS_IMPOSSIBLE_TO_OPEN_FILE);
                 private_BearHttpsRequisitionProps_free(requisition_props);
                 return response;
             }

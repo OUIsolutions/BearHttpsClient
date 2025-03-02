@@ -55,13 +55,19 @@ bool BearHttpsResponse_error(BearHttpsResponse*self){
     return self->error_msg != NULL;
 }
 
-void BearHttpsResponse_set_error_msg(BearHttpsResponse*self,const char *msg){
+void BearHttpsResponse_set_error(BearHttpsResponse*self,const char *msg,int error_code){
     self->error_msg = private_BearsslHttps_strdup(msg);
+    self->error_code = error_code;
 }
 
 char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
     return self->error_msg;
 }
+
+int BearHttpsResponse_get_error_code(BearHttpsResponse*self){
+    return self->error_code;
+}
+
 void BearHttpsResponse_free(BearHttpsResponse *self){
     Universal_close(self->connection_file_descriptor);
     if(self->is_https){

@@ -85,7 +85,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
 
         int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
         if(readded == 0){
-            BearHttpsResponse_set_error_msg(self,"invalid http response");
+            BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
             return;
 
         }
@@ -93,7 +93,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
         if(readded < 0){
             char error_buff[100] ={0};
             snprintf(error_buff,sizeof(error_buff),"invalid read code: %d",readded);
-            BearHttpsResponse_set_error_msg(self,error_buff);
+            BearHttpsResponse_set_error(self,error_buff,BEARSSL_HTTPS_INVALID_READ_CODE);
             return;
         }
 
@@ -123,7 +123,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
     }
 
 
-    BearHttpsResponse_set_error_msg(self,"invalid http response");
+    BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
 
 
 }

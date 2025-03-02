@@ -8,7 +8,7 @@
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
     int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
-        BearHttpsResponse_set_error_msg(self,"ERROR: failed to create socket\n");
+        BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
         return -1; 
     }
 
@@ -18,13 +18,13 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     server_addr.sin_port = htons(port); 
 
     if (inet_pton(AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
-        BearHttpsResponse_set_error_msg(self,"ERROR: invalid address\n");
+        BearHttpsResponse_set_error(self,"ERROR: invalid address",BEARSSL_HTTPS_INVALID_IPV4);
         Universal_close(sockfd);
         return -1;
     }
 
     if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-        BearHttpsResponse_set_error_msg(self,"ERROR: failed to connect\n");
+        BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd); 
         return -1;
     }
@@ -56,7 +56,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
 }
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname) {
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers) {
 
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
@@ -69,7 +69,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     Universal_addrinfo *addr_info;
     int status = Universal_getaddrinfo(host, port_str, &hints, &addr_info);
     if (status != 0) {
-        BearHttpsResponse_set_error_msg(response, gai_strerror(status));
+        BearHttpsResponse_set_error(response, gai_strerror(status),BEARSSL_HTTPS_UNKNOW_ERROR);
         return -1;
     }
 
@@ -87,7 +87,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     }
 
     if (found_socket < 0) {
-        BearHttpsResponse_set_error_msg(response, "ERROR: failed to connect\n");
+        BearHttpsResponse_set_error(response, "ERROR: failed to connect\n",BEARSSL_HTTPS_FAILT_TO_CONNECT);
     }
     Universal_freeaddrinfo(addr_info);
     return found_socket;
@@ -100,7 +100,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     int chosen_dns_providers_size = total_dns_proviers ? total_dns_proviers : privateBearHttpsProvidersSize;
 
     if(chosen_dns_providers_size == 0){
-        BearHttpsResponse_set_error_msg(response,"ERROR: no dns providers\n");
+        BearHttpsResponse_set_error(response,"ERROR: no dns providers\n",BEARSSL_HTTPS_NO_DNS_PROVIDED);
         return -1;
     }
 
@@ -162,7 +162,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
             
     }
 
-     BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
+     BearHttpsResponse_set_error(response,"ERROR: failed to create dns request",BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
     return -1;
 }
 

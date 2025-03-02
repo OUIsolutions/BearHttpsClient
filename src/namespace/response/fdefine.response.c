@@ -20,6 +20,7 @@ BearHttpsResponseNamespace newBearHttpsResponseNamespace(){
     self.set_body_read_props = BearHttpsResponse_set_body_read_props;
     self.error = BearHttpsResponse_error;
     self.get_error_msg = BearHttpsResponse_get_error_msg;
+    self.get_error_code = BearHttpsResponse_get_error_code;
     self.free = BearHttpsResponse_free;
     #ifndef BEARSSL_HTTPS_MOCK_CJSON
     self.read_body_json = BearHttpsResponse_read_body_json;

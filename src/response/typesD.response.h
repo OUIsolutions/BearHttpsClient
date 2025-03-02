@@ -14,7 +14,7 @@ typedef struct BearHttpsResponse{
     br_x509_minimal_context certification_context;
     long max_body_size;
     unsigned char *raw_content;
-
+    int error_code;
     private_BearHttpsHeadders *headders;
     long user_content_length;
     long body_start_index;
@@ -30,7 +30,6 @@ typedef struct BearHttpsResponse{
     int body_chunk_size;
     double body_realloc_factor;
 
-    int error_code;
     char *error_msg;
     int status_code;
 

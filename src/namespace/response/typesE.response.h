@@ -32,6 +32,7 @@ typedef struct BearHttpsResponseNamespace{
 
     char* (*get_error_msg)(BearHttpsResponse*self);
 
+    int (*get_error_code)(BearHttpsResponse*self);
 
     void (*free)(BearHttpsResponse *self);
 
