@@ -1,7 +1,7 @@
 
 
 ## Install 
-for install the lib , just copy the [Amalgamation](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.8/BearHttpsClientOne.c) into your project and include it in your code:
+for install the lib , just copy the [Amalgamation](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.000/BearHttpsClientOne.c) into your project and include it in your code:
 ```c
 #include "BearHttpsClientOne.c"
 ```
@@ -9,7 +9,7 @@ for install the lib , just copy the [Amalgamation](https://github.com/OUIsolutio
 
 if  you are on linux, you can download the lib with: 
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.0.8/BearHttpsClientOne.c -o BearHttpsClientOne.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.000/BearHttpsClientOne.c -o BearHttpsClientOne.c
 ```
 
 
