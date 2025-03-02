@@ -24,7 +24,7 @@ i686-w64-mingw32-gcc teste.c  main.c -o your_output.exe -lws2_32
 ```
 
 ## Build from scratch
-for buiding from scratch you need to have darwin installed on your machine, for install darwin:
+for buiding from scratch you need to have [darwin](https://github.com/OUIsolutions/Darwin/) installed on your machine, for install darwin:
 ```bash
 curl -L https://github.com/OUIsolutions/Darwin/releases/download/0.020/darwin.out -o darwin.out && chmod +x darwin.out &&  sudo  mv darwin.out /usr/bin/darwin
 ```
