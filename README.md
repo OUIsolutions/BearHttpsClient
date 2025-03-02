@@ -1,6 +1,15 @@
 # BearHttpsClient
-a Unoficial BearSSL Https Client
+BearHttpsClient is a simple and easy to use Single File Https Client Library for C, that uses [BearSSL](https://bearssl.org/) as its SSL/TLS backend. BearHttpsClient is projected to be a full out of the box solution , providing:
 
+- Http Requisitions
+- Https Requisitions
+- Headders Setting
+- File Upload
+- File Download
+- Json Body Parsing
+- Streaming Download
+- Ultra Configurable
+- Single File Lib
 
 ## Releases
 
@@ -13,6 +22,7 @@ a Unoficial BearSSL Https Client
 
 
 ### Most simple example
+these are the most simple example of using BearHttpsClient,this example fetches a page from example.com and prints it to the console.
 ```c
 #include "BearHttpsClientOne.c"
 
