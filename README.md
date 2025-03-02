@@ -1,3 +1,5 @@
+# WARNING: THESE ITS ALPHA SOFTWARE, USE AT YOUR OWN RISK, NO WARRANTY IS PROVIDED,AND BUGS ARE EXPECTED
+
 # BearHttpsClient
 BearHttpsClient is a simple and easy to use Single File Https Client Library for C, that uses [BearSSL](https://bearssl.org/) as its SSL/TLS backend. BearHttpsClient is projected to be a full out of the box solution , providing:
 
@@ -14,10 +16,10 @@ BearHttpsClient is a simple and easy to use Single File Https Client Library for
 
 | item          | What Is |
 |-------        |-----------|
-| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.001/BearHttpsClient.zip)| Full Folder Mode  |
-| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.001/BearHttpsClientOne.c)| Single File Version|
-| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.001/BearHttpsClient.h)|Declaration |
-| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.001/BearHttpsClient.c)|Definition |
+| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClient.zip)| Full Folder Mode  |
+| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClientOne.c)| Single File Version|
+| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClient.h)|Declaration |
+| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClient.c)|Definition |
 
 
 ### Most simple example
