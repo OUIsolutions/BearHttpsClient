@@ -29,8 +29,12 @@ BearHttpsRequestNamespace newBearHttpsRequestNamespace(){
     self.set_url = BearHttpsRequest_set_url;
     self.add_headder_with_ownership_config = BearHttpsRequest_add_headder_with_ownership_config;
     self.add_headder = BearHttpsRequest_add_headder;
-    self.set_trusted_anchors = BearHttpsRequest_set_trusted_anchors;
     self.set_method = BearHttpsRequest_set_method;
+    self.set_max_redirections = BearHttpsRequest_set_max_redirections;
+    self.set_dns_provider = BearHttpsRequest_set_dns_provider;
+    self.set_chunk_headder_read_props = BearHttpsRequest_set_chunk_headder_read_props;
+    self.set_trusted_anchors = BearHttpsRequest_set_trusted_anchors;
+
     self.represent = BearHttpsRequest_represent;
     self.free = BearHttpsRequest_free;
     return self;
