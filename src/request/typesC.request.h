@@ -13,8 +13,8 @@ typedef struct BearHttpsRequest{
     int max_redirections;
     const char *custom_bear_dns;
 
-    const char * dns_server_ip;
-    const char * dns_server_hostname;
+   BearHttpsClientDnsProvider  *dns_providers;
+    int total_dns_providers;
     bool must_be_ipv4;
     
     private_BearHttpsHeadders *headders;

@@ -49,8 +49,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                 response,
                 requisition_props->hostname,
                 requisition_props->port,
-                self->dns_server_ip,
-                self->dns_server_hostname
+                self->dns_providers,
+                self->total_dns_providers
             );
         }
 

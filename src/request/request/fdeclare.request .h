@@ -24,8 +24,7 @@ void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value)
 
 void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redirections);
 
-void BearHttpsRequest_set_dns_provider(BearHttpsRequest *self ,const char * dns_server_ip,const char * dns_server_hostname);
-
+void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers);
 
 void BearHttpsRequest_set_chunk_headder_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
 

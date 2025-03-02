@@ -94,13 +94,21 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
 }
 
 #else 
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,const char *dns_server_ip,const char *dns_server_hostname) {
-   
+static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers) {
+    
+    BearHttpsClientDnsProvider *chosen_dns_providers  = dns_providers ?  dns_providers : privateBearHttpsProviders;
+    int chosen_dns_providers_size = total_dns_proviers ? total_dns_proviers : privateBearHttpsProvidersSize;
 
-    for(int i = 0; i < privateBearHttpsProvidersSize;i++){
+    if(chosen_dns_providers_size == 0){
+        BearHttpsResponse_set_error_msg(response,"ERROR: no dns providers\n");
+        return -1;
+    }
+
+    for(int i = 0; i < chosen_dns_providers_size;i++){
           
-            BearHttpsClientDnsProvider provider = privateBearHttpsProviders[i];
+            BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s:%d%s?name=%s&type=A",provider.ip,provider.port, provider.route, host); 
+            printf("used url %s\n",dns_request->url);
             dns_request->custom_bear_dns = provider.hostname;
 
             //these its require, otherwise can generate indirect recursion error if provider.ip its wrong

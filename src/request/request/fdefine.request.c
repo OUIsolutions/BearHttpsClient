@@ -100,9 +100,9 @@ void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redir
     self->max_redirections = max_redirections;
 }
 
-void BearHttpsRequest_set_dns_provider(BearHttpsRequest *self ,const char * dns_server_ip,const char * dns_server_hostname){
-    self->dns_server_ip = dns_server_ip;
-    self->dns_server_hostname = dns_server_hostname;
+void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers){
+    self->dns_providers= dns_providers;
+    self->total_dns_providers = total_dns_proviers;
 }
 
 void BearHttpsRequest_set_chunk_headder_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size){
