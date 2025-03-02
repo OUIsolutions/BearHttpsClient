@@ -98,17 +98,23 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
    
 
     for(int i = 0; i < privateBearHttpsProvidersSize;i++){
+            printf("value of i: %d\n",i);
+          
+            
             BearHttpsClientDnsProvider provider = privateBearHttpsProviders[i];
-            BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s/%s?name=%s&type=A",provider.ip,provider.route, host); 
+
+
+            BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s%s?name=%s&type=A",provider.ip,provider.route, host); 
             dns_request->custom_bear_dns = provider.hostname;
             BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
+            /*
+
             if(BearHttpsResponse_error(dns_response)){
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }       
-       
-            
+
             cJSON * body = BearHttpsResponse_read_body_json(dns_response);
             if(BearHttpsResponse_error(dns_response)){
                 BearHttpsRequest_free(dns_request);
@@ -127,8 +133,9 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
-            for(int i = 0; i < size;i++){
-                cJSON * item = cJSON_GetArrayItem(answer,i);
+
+            for(int j = 0; j < size;j++){
+                cJSON * item = cJSON_GetArrayItem(answer,j);
                 cJSON * data = cJSON_GetObjectItem(item, "data");
                 if(data == NULL){
                     continue;
@@ -145,8 +152,7 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
                 BearHttpsResponse_free(dns_response);
                 return sockfd;
             }
-
-            continue;
+            */
     }
 
      BearHttpsResponse_set_error_msg(response,"ERROR: failed to create dns request\n");
