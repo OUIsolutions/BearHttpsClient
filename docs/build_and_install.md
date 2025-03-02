@@ -23,3 +23,12 @@ then you can build the project with in the root dir of the project:
 darwin run_blueprint build/  --mode folder
 ```
 it will generate all the **releases** in the **/release** dir
+
+
+## Removing CJSON
+if you want to remove the CJSON dependency, you can remove the **CJSON** defined in the **BearHttpsClientOne.c** file:
+```c
+#define BEARSSL_HTTPS_MOCK_CJSON
+#include "BearHttpsClientOne.c"
+```
+Note ,that these will obrigate the lib, to use the **getaddrinfo** functions, that can generate leak memorys on some platforms, so use it with caution

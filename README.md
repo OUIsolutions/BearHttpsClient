@@ -53,3 +53,4 @@ int main(){
 | [Network](/docs/network_configuration.md)|Lib network Configuration |
 | [Memory](/docs/memoryy_and_limits.md)|Memory Usage and Limits|
 | [Ownership](/docs/ownership_system.md)|OwnerShip Mode |
+| [Dependencies](/docs/dependencies.md)|Dependencies |
