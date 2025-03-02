@@ -15,6 +15,7 @@ typedef struct BearHttpsRequest{
 
     const char * dns_server_ip;
     const char * dns_server_hostname;
+    bool must_be_ipv4;
     
     private_BearHttpsHeadders *headders;
     char method[30];

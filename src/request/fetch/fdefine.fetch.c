@@ -36,7 +36,14 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                     requisition_props->port
                 );
         }
-        
+
+        //these function its used on the private_BearHttpsRequest_connect_host and if returns these
+        //means that the dns its wrong formatted
+        if(requisition_props->is_ipv4 == false && self->must_be_ipv4){
+            BearHttpsResponse_set_error_msg(response, "must be ipv4");
+            private_BearHttpsRequisitionProps_free(requisition_props);
+            return response;
+        }
 
         if(requisition_props->is_ipv4 == false){
             response->connection_file_descriptor =private_BearHttpsRequest_connect_host(

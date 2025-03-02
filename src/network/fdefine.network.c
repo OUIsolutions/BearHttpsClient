@@ -102,7 +102,9 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
             BearHttpsClientDnsProvider provider = privateBearHttpsProviders[i];
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s%s?name=%s&type=A",provider.ip,provider.route, host); 
             dns_request->custom_bear_dns = provider.hostname;
-        
+
+            //these its require, otherwise can generate indirect recursion error if provider.ip its wrong
+            dns_request->must_be_ipv4 = true;
             BearHttpsResponse *dns_response = BearHttpsRequest_fetch(dns_request);
             
 
