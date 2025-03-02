@@ -24,3 +24,13 @@ that you will not free after the request
     unsigned char *text = strdup("what ever");
     bear.request.send_any_with_ownership_control(request2,text,strlen(text),bear.GET_OWNERSHIP);
 ```
+
+
+The following functions allow you to get the ownership of the data:
+```c
+    bear.request.add_headder_with_ownership_config(request2,"key",bear.REFERENCE,"value",bear.REFERENCE);
+```
+
+```c
+    bear.request.set_url_with_ownership_config(request2,"example.com",bear.REFERENCE);
+```
