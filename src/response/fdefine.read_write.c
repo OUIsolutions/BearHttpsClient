@@ -6,6 +6,10 @@
 
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size){
+    if(BearHttpsResponse_error(self)){
+        return -1;
+    }
+
     if(self->is_https){
       return br_sslio_write_all(&self->ssl_io, bufer, size);
     }
@@ -21,6 +25,10 @@ int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer
 }
 
 int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size){
+   
+    if(BearHttpsResponse_error(self)){
+        return -1;
+    }
     if(self->is_https){
       return br_sslio_read(&self->ssl_io, buffer, size);
     }
@@ -30,7 +38,7 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
 
 
 int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
-    if(self->error){
+    if(BearHttpsResponse_error(self)){
         return -1;
     }
 
@@ -63,7 +71,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
 }
 unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
-    if(self->error){
+    if(BearHttpsResponse_error(self)){
         return NULL;
     }
 
@@ -134,6 +142,10 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
 }
 
 const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self){
+    
+    if(BearHttpsResponse_error(self)){
+        return NULL;
+    }
     unsigned char *body = BearHttpsResponse_read_body(self);
     if(body == NULL){
         return NULL;
@@ -152,7 +164,9 @@ const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self){
 }
 #ifndef BEARSSL_HTTPS_MOCK_CJSON
 cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self){
-   
+    if(BearHttpsResponse_error(self)){
+        return NULL;
+    }
     const char *body = BearHttpsResponse_read_body_str(self);
     if(body == NULL){
         return NULL;

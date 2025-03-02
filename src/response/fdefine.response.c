@@ -41,6 +41,9 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
 }
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self){
+    if(BearHttpsResponse_error(self)){
+        return -1;
+    }
     return self->status_code;
 }
 

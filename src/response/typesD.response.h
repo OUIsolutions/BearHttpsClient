@@ -30,7 +30,6 @@ typedef struct BearHttpsResponse{
     int body_chunk_size;
     double body_realloc_factor;
 
-    bool error;
     int error_code;
     char *error_msg;
     int status_code;
