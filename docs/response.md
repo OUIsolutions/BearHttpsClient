@@ -1,4 +1,4 @@
-after you configure your request, you can use the fetch , function to send the request and get the response.
+After you configure your request, you can use the fetch , function to send the request and get the response.
 ```c
     #include "BearHttpsClientOne.c"
 
@@ -30,17 +30,20 @@ after you configure your request, you can use the fetch , function to send the r
         return 0;
     }
 ```
-with the response, you can get the satus code, iterate over the headders, or read the body of the response.
+
+With the response, you can get the satus code, iterate over the headders, or read the body of the response.
 
 ### Getting Status Code 
-these, get the status code of the response
+
+This gets the status code of the response:
 ```c
     int status_code = bear.response.get_status_code(response);
     printf("Status code: %d\n",status_code);
 
 ```
 ### Getting a Headder by key 
-if you know the headder name you can get it using the following code:
+
+If you know the headder name you can get it using the following code:
 ```c
     char *content_type = bear.response.get_headder_value_by_key(response,"Content-Type");
     if(content_type){
@@ -52,7 +55,8 @@ if you know the headder name you can get it using the following code:
 ```
 
 ### Iterating over the headders
-you can easily iterate over the headders of the response, using the following code:
+
+You can easily iterate over the headders of the response, using the following code:
 ```c
     int headder_size = bear.response.get_headders_size(response);
     for(int i = 0; i < headder_size; i++){
@@ -63,10 +67,11 @@ you can easily iterate over the headders of the response, using the following co
 ```
 ### Reading the body of the response
 
-you can read the body of the response as a string/binary or json
+You can read the body of the response as a string/binary or JSON.
 
 ### Reading Body str
-note, that these function will drop a error, if the response its a binary
+
+Note that these function will drop a error if the response its a binary:
 ```c 
     const char *body = bear.response.read_body_str(response);
     if(bear.response.error(response)){
@@ -124,7 +129,8 @@ note, that these function will drop a error, if the response its a binary
 ```
 
 ### Reading Body Chunk
-you can read the body of the response in chunks, using the following code:
+
+You can read the body of the response in chunks using the following code:
 ```c
     #include "src/one.c"
 
