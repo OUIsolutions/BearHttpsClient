@@ -155,7 +155,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
               br_sslio_flush(&response->ssl_io);
          }
 
-         private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(response,self->header_chunk_read_size,self->header_chunk_reallocator_facctor);
+         private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(response,self->header_chunk_read_size,self->header_chunk_reallocator_factor);
 
          if(BearHttpsResponse_error(response)){
              private_BearHttpsRequisitionProps_free(requisition_props);

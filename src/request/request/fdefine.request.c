@@ -12,7 +12,7 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
     self->headers = private_newBearHttpsHeaders();
     self->body_type =PRIVATE_BEARSSL_NO_BODY;
     self->header_chunk_read_size = BEARSSL_HEADER_CHUNK;
-    self->header_chunk_reallocator_facctor = BEARSSL_HEADER_REALLOC_FACTOR;
+    self->header_chunk_reallocator_factor = BEARSSL_HEADER_REALLOC_FACTOR;
     private_BearsslHttps_strcpy(self->method,"GET");
     return self;
 }
@@ -106,7 +106,7 @@ void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientD
 
 void BearHttpsRequest_set_chunk_header_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size){
     self->header_chunk_read_size = chunk_size;
-    self->header_chunk_reallocator_facctor = max_chunk_size;
+    self->header_chunk_reallocator_factor = max_chunk_size;
 }
 
 void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size){

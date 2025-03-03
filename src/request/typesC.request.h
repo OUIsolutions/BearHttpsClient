@@ -22,7 +22,7 @@ typedef struct BearHttpsRequest{
     int port;
 
     int header_chunk_read_size;
-    int header_chunk_reallocator_facctor;
+    int header_chunk_reallocator_factor;
 
     int response_max_headers_size;
 
