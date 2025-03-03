@@ -6,7 +6,7 @@ BearHttpsClient is a simple and easy to use single-file HTTPS Client Library for
 
 - HTTP Requisitions
 - HTTPS Requisitions
-- Single-file headers or multiple-file headers setting
+- Single-file include or multiple-files header option
 - File Upload
 - File Download
 - JSON Body Parsing
