@@ -33,7 +33,7 @@ After you configure your request you can use the fetch function to send the requ
     }
 ```
 
-With the response you can get the satus code, iterate over the headers, or read the body of the response.
+With the response you can get the status code, iterate over the headers, or read the body of the response.
 
 ### Getting Status Code 
 
