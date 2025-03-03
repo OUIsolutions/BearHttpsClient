@@ -1,6 +1,6 @@
 
 //silver_chain_scope_start
-//mannaged by silver chain
+//managed by silver chain
 #include "../imports/imports.typesH.h"
 //silver_chain_scope_end
 #define BEARSSL_HTTPS_REFERENCE  0
