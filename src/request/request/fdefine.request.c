@@ -9,10 +9,10 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
     *self = (BearHttpsRequest){0};
     self->max_redirections = BEARSSL_MAX_REDIRECTIONS;
     BearHttpsRequest_set_url_with_ownership_config(self,url,url_ownership_mode);
-    self->headders = private_newBearHttpsHeaders();
+    self->headers = private_newBearHttpsHeaders();
     self->body_type =PRIVATE_BEARSSL_NO_BODY;
-    self->headder_chunk_read_size = BEARSSL_HEADDER_CHUNK;
-    self->headder_chunk_reallocator_facctor = BEARSSL_HEADDER_REALLOC_FACTOR;
+    self->header_chunk_read_size = BEARSSL_HEADDER_CHUNK;
+    self->header_chunk_reallocator_facctor = BEARSSL_HEADDER_REALLOC_FACTOR;
     private_BearsslHttps_strcpy(self->method,"GET");
     return self;
 }
@@ -43,10 +43,10 @@ void BearHttpsRequest_set_url(BearHttpsRequest *self ,const char *url){
 }
 
 
-void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner){
+void BearHttpsRequest_add_header_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner){
     //verify if the key already exists
-    for(int i = 0; i < self->headders->size;i++){
-        private_BearHttpsKeyVal *key_val = self->headders->keyvals[i];
+    for(int i = 0; i < self->headers->size;i++){
+        private_BearHttpsKeyVal *key_val = self->headers->keyvals[i];
         if(private_BearsslHttp_strcmp(key_val->key,key) == 0){
             private_BearHttpsKeyVal_set_value(key_val,value,value_owner);
             return;
@@ -56,15 +56,14 @@ void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,
     private_BearHttpsKeyVal * key_obj = private_newBearHttpsKeyVal();
     private_BearHttpsKeyVal_set_key(key_obj,key,key_ownership_mode);
     private_BearHttpsKeyVal_set_value(key_obj,value,value_owner);
-    private_BearHttpsHeaders_add_keyval(self->headders,key_obj);
+    private_BearHttpsHeaders_add_keyval(self->headers,key_obj);
 }
 
-void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value){
-    BearHttpsRequest_add_headder_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,value,BEARSSL_DEFAULT_STRATEGY);
+void BearHttpsRequest_add_header(BearHttpsRequest *self ,char *key,char *value){
+    BearHttpsRequest_add_header_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,value,BEARSSL_DEFAULT_STRATEGY);
 }
-void BearHttpsRequest_add_headder_fmt(BearHttpsRequest *self ,char *key,char *format,...){
-    
-    
+
+void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,char *key,char *format,...){
     va_list args;
     va_start(args,format);
     char *formmated = private_BearHttps_format_vaarg(format,args);
@@ -72,7 +71,7 @@ void BearHttpsRequest_add_headder_fmt(BearHttpsRequest *self ,char *key,char *fo
     if(formmated == NULL){
         return;
     }
-    BearHttpsRequest_add_headder_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
+    BearHttpsRequest_add_header_with_ownership_config(self,key,BEARSSL_DEFAULT_STRATEGY,formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
 }
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
@@ -82,9 +81,9 @@ void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
 void BearHttpsRequest_represent(BearHttpsRequest *self){
     printf("Route: %s\n",self->url);
     printf("Method: %s\n",self->method);
-    printf("Headders:\n");
-    for(int i = 0; i < self->headders->size;i++){
-        private_BearHttpsKeyVal *key_val = self->headders->keyvals[i];
+    printf("Headers:\n");
+    for(int i = 0; i < self->headers->size;i++){
+        private_BearHttpsKeyVal *key_val = self->headers->keyvals[i];
         printf("\t%s: %s\n",key_val->key,key_val->value);
     }
     if(self->body_type == PRIVATE_BEARSSL_BODY_RAW){
@@ -105,10 +104,11 @@ void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientD
     self->total_dns_providers = total_dns_proviers;
 }
 
-void BearHttpsRequest_set_chunk_headder_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size){
-    self->headder_chunk_read_size = chunk_size;
-    self->headder_chunk_reallocator_facctor = max_chunk_size;
+void BearHttpsRequest_set_chunk_header_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size){
+    self->header_chunk_read_size = chunk_size;
+    self->header_chunk_reallocator_facctor = max_chunk_size;
 }
+
 void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size){
     self->trust_anchors = trust_anchors;
     self->trusted_anchors_size = trusted_anchors_size;
@@ -116,7 +116,7 @@ void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_
 
 void BearHttpsRequest_free(BearHttpsRequest *self){
     private_BearHttpsRequest_free_body(self);
-    private_BearHttpsHeaders_free(self->headders);
+    private_BearHttpsHeaders_free(self->headers);
     private_BearsslHttps_free_considering_ownership((void **)&self->url,&self->route_owner);
     free(self);
 }

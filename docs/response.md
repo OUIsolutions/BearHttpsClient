@@ -45,9 +45,9 @@ This gets the status code of the response:
 ```
 ### Getting a Header by Key
 
-If you know the headder name you can get it using the following code:
+If you know the header name you can get it using the following code:
 ```c
-    char *content_type = bear.response.get_headder_value_by_key(response,"Content-Type");
+    char *content_type = bear.response.get_header_value_by_key(response,"Content-Type");
     if(content_type){
             printf("Content-Type: %s\n",content_type);
     }
@@ -60,11 +60,11 @@ If you know the headder name you can get it using the following code:
 
 You can easily iterate over the headers of the response using the following code:
 ```c
-    int headder_size = bear.response.get_headders_size(response);
-    for(int i = 0; i < headder_size; i++){
-        char *key = bear.response.get_headder_key_by_index(response,i);
-        char *headder = bear.response.get_headder_value_by_index(response,i);
-        printf("%s: %s\n",key,headder);
+    int header_size = bear.response.get_headers_size(response);
+    for(int i = 0; i < header_size; i++){
+        char *key = bear.response.get_header_key_by_index(response,i);
+        char *header = bear.response.get_header_value_by_index(response,i);
+        printf("%s: %s\n",key,header);
     }    
 ```
 ### Reading the Body of the Response

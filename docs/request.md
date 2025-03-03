@@ -1,10 +1,10 @@
 
 ## Configuring Headers
 
-With the function **bear.request.add_headder** you can add a headder to the request. The function takes two arguments: the first is the headder name and the second is the headder value.
+With the function **bear.request.add_header** you can add a header to the request. The function takes two arguments: the first is the header name and the second is the header value.
 
 ```c
-    bear.request.add_headder("Content-Type", "application/json");
+    bear.request.add_header("Content-Type", "application/json");
 ```
 
 ## Configuring Methods 

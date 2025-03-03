@@ -29,7 +29,7 @@ NOTE that you must NOT free after the request.
 
 The following functions allow you to get the ownership of the data:
 ```c
-    bear.request.add_headder_with_ownership_config(request2,"key",bear.REFERENCE,"value",bear.REFERENCE);
+    bear.request.add_header_with_ownership_config(request2,"key",bear.REFERENCE,"value",bear.REFERENCE);
 ```
 
 and

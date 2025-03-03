@@ -27,12 +27,12 @@ typedef struct BearHttpsRequestNamespace{
     BearHttpsRequest * (*newBearHttpsRequest_fmt)(const char *url,...);
     void (*set_url_with_ownership_config)(BearHttpsRequest *self , char *url,short url_ownership_mode);
     void (*set_url)(BearHttpsRequest *self ,const char *url);
-    void (*add_headder_with_ownership_config)(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
-    void (*add_headder)(BearHttpsRequest *self ,char *key,char *value);
+    void (*add_header_with_ownership_config)(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
+    void (*add_header)(BearHttpsRequest *self ,char *key,char *value);
     void (*set_method)(BearHttpsRequest *self ,const char *method);
     void (*set_max_redirections)(BearHttpsRequest *self ,int max_redirections);
 void (*set_dns_providers)(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers);
-    void (*set_chunk_headder_read_props)(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
+    void (*set_chunk_header_read_props)(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
     void (*set_trusted_anchors)(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
     void (*represent)(BearHttpsRequest *self);
     void (*free)(BearHttpsRequest *self);

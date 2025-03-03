@@ -1,12 +1,12 @@
 
 
-#### Configuring Headder Read Properties
+#### Configuring Header Read Properties
 
-You can configure the headder read properties using the following code:
+You can configure the header read properties using the following code:
 ```c
 int read_size = 200;
 double realocator_factor = 1.5;
-bear.request.set_chunk_headder_read_props(request,read_size,realocator_factor);
+bear.request.set_chunk_header_read_props(request,read_size,realocator_factor);
 ```
 
 #### Configuring Body Read Properties

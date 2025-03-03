@@ -9,7 +9,7 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     BearHttpsResponse *self = (BearHttpsResponse *)malloc(sizeof(BearHttpsResponse));
     *self = (BearHttpsResponse){0};
     self->status_code = 0;
-    self->headders = private_newBearHttpsHeaders();
+    self->headers = private_newBearHttpsHeaders();
     self->max_body_size = -1;
     self->body_chunk_size = BEARSSL_BODY_CHUNK_SIZE;
     self->body_realloc_factor = BEARSSL_BODY_REALLOC_FACTOR;
@@ -73,7 +73,7 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->is_https){
         br_ssl_client_zero(&self->ssl_client);
     }
-    private_BearHttpsHeaders_free(self->headders);
+    private_BearHttpsHeaders_free(self->headers);
     if(self->raw_content){
         free(self->raw_content);
     }
@@ -92,27 +92,27 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     free(self);
 
 }
-int BearHttpsResponse_get_headders_size(BearHttpsResponse*self){
-    return self->headders->size;
+int BearHttpsResponse_get_headers_size(BearHttpsResponse*self){
+    return self->headers->size;
 }
 
-char* BearHttpsResponse_get_headder_value_by_index(BearHttpsResponse*self,int index){
-    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headders,index);
+char* BearHttpsResponse_get_header_value_by_index(BearHttpsResponse*self,int index){
+    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headers,index);
     if(key_vall == NULL){
         return NULL;
     }
     return key_vall->value;
 }
-char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int index){
-    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headders,index);
+char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index){
+    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headers,index);
     if(key_vall == NULL){
         return NULL;
     }
     return key_vall->key;
 }
-char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const char *key){
-    for(int i = 0; i < self->headders->size;i++){
-        private_BearHttpsKeyVal * current_key_val = self->headders->keyvals[i];
+char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key){
+    for(int i = 0; i < self->headers->size;i++){
+        private_BearHttpsKeyVal * current_key_val = self->headers->keyvals[i];
         if(private_BearsslHttp_strcmp(current_key_val->key,key) == 0){
             return current_key_val->value;
         }
@@ -129,10 +129,10 @@ void BearHttpsResponse_set_body_read_props(BearHttpsResponse*self,int chunk_size
     self->body_realloc_factor = realloc_factor;
 }
 
-char* BearHttpsResponse_get_headder_value_by_sanitized_key(BearHttpsResponse*self,const char *key){
+char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key){
     long key_size = private_BearsslHttps_strlen(key);
-    for(int i = 0; i < self->headders->size;i++){
-        private_BearHttpsKeyVal * current_key_val = self->headders->keyvals[i];
+    for(int i = 0; i < self->headers->size;i++){
+        private_BearHttpsKeyVal * current_key_val = self->headers->keyvals[i];
         if(private_BearHttps_is_sanitize_key(current_key_val->key,key,key_size)){
             return current_key_val->value;
         }

@@ -14,15 +14,15 @@ typedef struct BearHttpsResponseNamespace{
     int (*get_status_code)(BearHttpsResponse*self);
     int (*get_body_size)(BearHttpsResponse*self);
 
-    int (*get_headders_size)(BearHttpsResponse*self);
+    int (*get_headers_size)(BearHttpsResponse*self);
 
-    char* (*get_headder_value_by_index)(BearHttpsResponse*self,int index);
+    char* (*get_header_value_by_index)(BearHttpsResponse*self,int index);
 
-    char* (*get_headder_value_by_key)(BearHttpsResponse*self,const char *key);
+    char* (*get_header_value_by_key)(BearHttpsResponse*self,const char *key);
 
-    char* (*get_headder_key_by_index)(BearHttpsResponse*self,int index);
+    char* (*get_header_key_by_index)(BearHttpsResponse*self,int index);
 
-    char* (*get_headder_value_by_sanitized_key)(BearHttpsResponse*self,const char *key);
+    char* (*get_header_value_by_sanitized_key)(BearHttpsResponse*self,const char *key);
 
     void (*set_max_body_size)(BearHttpsResponse*self,long size);
     void (*set_body_read_props)(BearHttpsResponse*self,int chunk_size,double realloc_factor);
