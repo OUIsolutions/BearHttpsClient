@@ -1,4 +1,4 @@
-After you configure your request, you can use the fetch , function to send the request and get the response.
+After you configure your request you can use the fetch function to send the request and get the response.
 ```c
     #include "BearHttpsClientOne.c"
 
@@ -31,7 +31,7 @@ After you configure your request, you can use the fetch , function to send the r
     }
 ```
 
-With the response, you can get the satus code, iterate over the headders, or read the body of the response.
+With the response you can get the satus code, iterate over the headders, or read the body of the response.
 
 ### Getting Status Code 
 
@@ -56,7 +56,7 @@ If you know the headder name you can get it using the following code:
 
 ### Iterating over the headders
 
-You can easily iterate over the headders of the response, using the following code:
+You can easily iterate over the headders of the response using the following code:
 ```c
     int headder_size = bear.response.get_headders_size(response);
     for(int i = 0; i < headder_size; i++){
