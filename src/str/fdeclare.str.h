@@ -1,6 +1,6 @@
 
 //silver_chain_scope_start
-//managed by silver chain
+//mannaged by silver chain
 #include "../imports/imports.consts.h"
 //silver_chain_scope_end
 long private_BearsslHttps_strlen(const char *str);
