@@ -5,7 +5,7 @@
 You can configure the headder read properties using the following code:
 ```c
 int read_size = 200;
-double realocator_factor =1.5;
+double realocator_factor = 1.5;
 bear.request.set_chunk_headder_read_props(request,read_size,realocator_factor);
 ```
 
@@ -14,8 +14,8 @@ bear.request.set_chunk_headder_read_props(request,read_size,realocator_factor);
 You can configure the body read properties using the following code:
 ```c
 int read_size = 200;
-double realocator_factor =1.5;
- bear.response.set_body_read_props(response,read_size,realocator_factor);
+double realocator_factor = 1.5;
+bear.response.set_body_read_props(response,read_size,realocator_factor);
 ```
 
 #### Setting Body Limit
