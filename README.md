@@ -47,8 +47,7 @@ int main(){
             printf("Error: %s\n",bear.response.get_error_msg(response));
             bear.request.free(request);
             bear.response.free(response); 
-                        return 1;
-
+            return 1;
     }
     printf("Body: %s\n",body);
     bear.request.free(request);
