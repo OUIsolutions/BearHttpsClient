@@ -279,7 +279,6 @@ typedef ssize_t Universal_ssize_t;
         #include <BaseTsd.h>
         typedef SSIZE_T ssize_t;
         #include "intrin.h"
-        #include <emmintrin.h>
         typedef __m128i __m128i_u;
         #define __src_inner_hbyteswap_ulong _byteswap_ulong
     #endif
