@@ -9,7 +9,7 @@ BearHttpsClient is a simple and easy to use single-file HTTPS Client Library for
 - Headders Setting
 - File Upload
 - File Download
-- Json Body Parsing
+- JSON Body Parsing
 - Streaming Body Reading
 
 
