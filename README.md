@@ -58,14 +58,14 @@ int main(){
 
 # Documentation
 
-| item          | What Is |
+| Item          | What It Is |
 |-------        |-----------|
 | [Build](/docs/build_and_install.md)|Build and Install |
 | [Request Usage](/docs/request.md)|Request Usage such as setting headers or uploading content|
 | [Response Usage](/docs/response.md)|Response Headers and Body Read |
 | [Network](/docs/network_configuration.md)|Lib network Configuration |
 | [Memory](/docs/memory_and_limits.md)|Memory Usage and Limits|
-| [Ownership](/docs/ownership_system.md)|OwnerShip Mode |
+| [Ownership](/docs/ownership_system.md)|Ownership Mode |
 | [Dependencies](/docs/dependencies.md)|Dependencies |
 
 # Build Toolchain
