@@ -4,8 +4,8 @@
 
 BearHttpsClient is a simple and easy to use single-file HTTPS Client Library for C/C++ for Windows and Linux that uses [BearSSL](https://bearssl.org/) as its SSL/TLS backend. BearHttpsClient is projected to be a full out-of-the-box solution providing:
 
-- Http Requisitions
-- Https Requisitions
+- HTTP Requisitions
+- HTTPS Requisitions
 - Headders Setting
 - File Upload
 - File Download
