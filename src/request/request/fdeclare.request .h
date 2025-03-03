@@ -15,9 +15,9 @@ void BearHttpsRequest_set_url_with_ownership_config(BearHttpsRequest *self , cha
 void BearHttpsRequest_set_url(BearHttpsRequest *self ,const char *url);
 
 
-void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
+void BearHttpsRequest_add_header_with_ownership_config(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);
 
-void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value);
+void BearHttpsRequest_add_header(BearHttpsRequest *self ,char *key,char *value);
 
 
 
@@ -26,7 +26,7 @@ void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redir
 
 void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers);
 
-void BearHttpsRequest_set_chunk_headder_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
+void BearHttpsRequest_set_chunk_header_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
 
 void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
 

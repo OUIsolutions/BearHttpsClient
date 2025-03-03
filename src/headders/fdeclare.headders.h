@@ -5,10 +5,10 @@
 //silver_chain_scope_end
 
 
-private_BearHttpsHeadders *private_newBearHttpsHeadders();
+private_BearHttpsHeaders *private_newBearHttpsHeaders();
 
-void private_BearHttpsHeadders_add_keyval(private_BearHttpsHeadders *self, private_BearHttpsKeyVal *keyval);
+void private_BearHttpsHeaders_add_keyval(private_BearHttpsHeaders *self, private_BearHttpsKeyVal *keyval);
 
-void private_BearHttpsHeadders_free(private_BearHttpsHeadders *self);
+void private_BearHttpsHeaders_free(private_BearHttpsHeaders *self);
 
-private_BearHttpsKeyVal * private_BearHttpsHeadders_get_key_val_by_index(private_BearHttpsHeadders *self,int index);
+private_BearHttpsKeyVal * private_BearHttpsHeaders_get_key_val_by_index(private_BearHttpsHeaders *self,int index);

@@ -11,11 +11,11 @@ BearHttpsResponseNamespace newBearHttpsResponseNamespace(){
     self.read_body_str = BearHttpsResponse_read_body_str;
     self.get_status_code = BearHttpsResponse_get_status_code;
     self.get_body_size = BearHttpsResponse_get_body_size;
-    self.get_headders_size = BearHttpsResponse_get_headders_size;
-    self.get_headder_value_by_index = BearHttpsResponse_get_headder_value_by_index;
-    self.get_headder_value_by_key = BearHttpsResponse_get_headder_value_by_key;
-    self.get_headder_key_by_index = BearHttpsResponse_get_headder_key_by_index;
-    self.get_headder_value_by_sanitized_key = BearHttpsResponse_get_headder_value_by_sanitized_key;
+    self.get_headers_size = BearHttpsResponse_get_headers_size;
+    self.get_header_value_by_index = BearHttpsResponse_get_header_value_by_index;
+    self.get_header_value_by_key = BearHttpsResponse_get_header_value_by_key;
+    self.get_header_key_by_index = BearHttpsResponse_get_header_key_by_index;
+    self.get_header_value_by_sanitized_key = BearHttpsResponse_get_header_value_by_sanitized_key;
     self.set_max_body_size = BearHttpsResponse_set_max_body_size;
     self.set_body_read_props = BearHttpsResponse_set_body_read_props;
     self.error = BearHttpsResponse_error;

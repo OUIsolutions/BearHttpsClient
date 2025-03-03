@@ -1,46 +1,53 @@
-after you configure your request, you can use the fetch , function to send the request and get the response.
+# Reading Reponses
+
+After you configure your request you can use the fetch function to send the request and get the response.
 ```c
     #include "BearHttpsClientOne.c"
 
-BearHttpsNamespace bear ;
-int main(){
-    bear = newBearHttpsNamespace();
+    BearHttpsNamespace bear ;
+    int main(){
+        bear = newBearHttpsNamespace();
 
-    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com");   
-    BearHttpsResponse *response = bear.request.fetch(request);
-    if(bear.response.error(response)){
-        printf("Error: %s\n",bear.response.get_error_msg(response));
-        bear.request.free(request);
-        bear.response.free(response);
-        return 1;
-    }
-    char *body = bear.response.read_body_str(response);
-    if(bear.response.error(response)){
+        BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com");
+        BearHttpsResponse *response = bear.request.fetch(request);
+        if(bear.response.error(response)){
             printf("Error: %s\n",bear.response.get_error_msg(response));
             bear.request.free(request);
-            bear.response.free(response); 
-                        return 1;
+            bear.response.free(response);
+            return 1;
+        }
 
+        const char *body = bear.response.read_body_str(response);
+        if(bear.response.error(response)){
+                printf("Error: %s\n",bear.response.get_error_msg(response));
+                bear.request.free(request);
+                bear.response.free(response);
+                            return 1;
+        }
+
+        printf("Body: %s\n",body);
+        bear.request.free(request);
+        bear.response.free(response);
+
+        return 0;
     }
-    printf("Body: %s\n",body);
-    bear.request.free(request);
-    bear.response.free(response);
-    return 0;
-}
 ```
-with the response, you can get the satus code, iterate over the headders, or read the body of the response.
+
+With the response you can get the status code, iterate over the headers, or read the body of the response.
 
 ### Getting Status Code 
-these, get the status code of the response
+
+This gets the status code of the response:
 ```c
     int status_code = bear.response.get_status_code(response);
     printf("Status code: %d\n",status_code);
 
 ```
-### Getting a Headder by key 
-if you know the headder name you can get it using the following code:
+### Getting a Header by Key
+
+If you know the header name you can get it using the following code:
 ```c
-  char *content_type = bear.response.get_headder_value_by_key(response,"Content-Type");
+    char *content_type = bear.response.get_header_value_by_key(response,"Content-Type");
     if(content_type){
             printf("Content-Type: %s\n",content_type);
     }
@@ -49,22 +56,24 @@ if you know the headder name you can get it using the following code:
     }
 ```
 
-### Iterating over the headders
-you can easily iterate over the headders of the response, using the following code:
+### Iterating over the Headers
+
+You can easily iterate over the headers of the response using the following code:
 ```c
-     int headder_size = bear.response.get_headders_size(response);
-    for(int i = 0; i < headder_size; i++){
-        char *key = bear.response.get_headder_key_by_index(response,i);
-        char *headder = bear.response.get_headder_value_by_index(response,i);
-        printf("%s: %s\n",key,headder);
+    int header_size = bear.response.get_headers_size(response);
+    for(int i = 0; i < header_size; i++){
+        char *key = bear.response.get_header_key_by_index(response,i);
+        char *header = bear.response.get_header_value_by_index(response,i);
+        printf("%s: %s\n",key,header);
     }    
 ```
-### Reading the body of the response
+### Reading the Body of the Response
 
-you can read the body of the response as a string/binary or json
+You can read the body of the response as a string/binary or JSON.
 
-### Reading Body str
-note, that these function will drop a error, if the response its a binary
+#### Reading Body as String
+
+Note that these function will drop a error if the response its a binary:
 ```c 
     const char *body = bear.response.read_body_str(response);
     if(bear.response.error(response)){
@@ -75,7 +84,7 @@ note, that these function will drop a error, if the response its a binary
     }
     printf("Body: %s\n",body);
 ```
-### Reading Body binary
+#### Reading Body as Binary
 
 ```c 
     unsigned  char *body = bear.response.read_body(response);
@@ -92,58 +101,60 @@ note, that these function will drop a error, if the response its a binary
     printf("\n");
 ```
 
-### Reading body json 
+#### Reading Body as JSON
 
 ```c
-#include "src/one.c"
-BearHttpsNamespace bear ;
-int main(){
-    bear = newBearHttpsNamespace();
+    #include "src/one.c"
 
-    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://jsonplaceholder.typicode.com/todos/1");   
-    BearHttpsResponse *response = bear.request.fetch(request);
-    if(bear.response.error(response)){
-        printf("Error: %s\n",bear.response.get_error_msg(response));
+    BearHttpsNamespace bear ;
+    int main(){
+        bear = newBearHttpsNamespace();
+
+        BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://jsonplaceholder.typicode.com/todos/1");
+        BearHttpsResponse *response = bear.request.fetch(request);
+        if(bear.response.error(response)){
+            printf("Error: %s\n",bear.response.get_error_msg(response));
+            bear.request.free(request);
+            bear.response.free(response);
+            return 1;
+        }
+
+        cJSON *json = bear.response.read_body_json(response);
+        char *dumped = cJSON_Print(json);
+        printf("%s\n",dumped);
+        free(dumped);
         bear.request.free(request);
         bear.response.free(response);
-        return 1;
-    }
 
-    cJSON *json = bear.response.read_body_json(response);
-    char *dumped = cJSON_Print(json);
-    printf("%s\n",dumped);
-    free(dumped);
-    bear.request.free(request);
-    bear.response.free(response);
-    return 0;
+        return 0;
 }
 ```
 
 ### Reading Body Chunk
-you can read the body of the response in chunks, using the following code:
+
+You can read the body of the response in chunks using the following code:
 ```c
+    #include "src/one.c"
 
+    BearHttpsNamespace bear ;
+    int main(){
+        bear = newBearHttpsNamespace();
 
-#include "src/one.c"
-
-BearHttpsNamespace bear ;
-int main(){
-    bear = newBearHttpsNamespace();
-
-    BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com/");   
-    BearHttpsResponse *response = bear.request.fetch(request);
-    if(bear.response.error(response)){
-        printf("Error: %s\n",bear.response.get_error_msg(response));
+        BearHttpsRequest *request = bear.request.newBearHttpsRequest("https://example.com/");
+        BearHttpsResponse *response = bear.request.fetch(request);
+        if(bear.response.error(response)){
+            printf("Error: %s\n",bear.response.get_error_msg(response));
+            bear.request.free(request);
+            bear.response.free(response);
+            return 1;
+        }
+        unsigned char chunk[1024];
+        while(bear.response.read_body_chunck(response,chunk,sizeof(chunk)-1) > 0){
+            printf("%s",chunk);
+        }
         bear.request.free(request);
         bear.response.free(response);
-        return 1;
+
+        return 0;
     }
-    unsigned char chunk[1024];
-    while(bear.response.read_body_chunck(response,chunk,sizeof(chunk)-1) > 0){
-        printf("%s",chunk);
-    }
-    bear.request.free(request);
-    bear.response.free(response);
-    return 0;
-}
 ```

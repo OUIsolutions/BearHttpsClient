@@ -76,8 +76,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                     return response;
         }
 
-         for (int i = 0; i < self->headders->size; i++) {
-             private_BearHttpsKeyVal *keyval = self->headders->keyvals[i];
+         for (int i = 0; i < self->headers->size; i++) {
+             private_BearHttpsKeyVal *keyval = self->headers->keyvals[i];
              private_BearHttpsResponse_write(response, (unsigned char*)keyval->key, private_BearsslHttps_strlen(keyval->key));
              private_BearHttpsResponse_write(response, (unsigned char*)": ", 2);
              private_BearHttpsResponse_write(response, (unsigned char*)keyval->value, private_BearsslHttps_strlen(keyval->value));
@@ -155,7 +155,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
               br_sslio_flush(&response->ssl_io);
          }
 
-         private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(response,self->headder_chunk_read_size,self->headder_chunk_reallocator_facctor);
+         private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(response,self->header_chunk_read_size,self->header_chunk_reallocator_factor);
 
          if(BearHttpsResponse_error(response)){
              private_BearHttpsRequisitionProps_free(requisition_props);
@@ -166,7 +166,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          const int REDIRECT_CODE2 = 301;
 
          if((response->status_code == REDIRECT_CODE || response->status_code == REDIRECT_CODE2)  && i < self->max_redirections -1){
-            char *location = BearHttpsResponse_get_headder_value_by_sanitized_key(response,"location");
+            char *location = BearHttpsResponse_get_header_value_by_sanitized_key(response,"location");
             if(location == NULL){
                 return response;
             }

@@ -16,10 +16,10 @@ const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
 
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
 
-void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
+void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
     BearHttpsResponse *self,
     int chunk,
-    double factor_headders_growth
+    double factor_headers_growth
 );
 
 
@@ -29,15 +29,15 @@ int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
 
 int BearHttpsResponse_get_body_size(BearHttpsResponse*self);
 
-int BearHttpsResponse_get_headders_size(BearHttpsResponse*self);
+int BearHttpsResponse_get_headers_size(BearHttpsResponse*self);
 
-char* BearHttpsResponse_get_headder_value_by_index(BearHttpsResponse*self,int index);
+char* BearHttpsResponse_get_header_value_by_index(BearHttpsResponse*self,int index);
 
-char* BearHttpsResponse_get_headder_value_by_key(BearHttpsResponse*self,const char *key);
+char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key);
 
-char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int index);
+char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index);
 
-char* BearHttpsResponse_get_headder_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
+char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
 
 
 bool BearHttpsResponse_error(BearHttpsResponse*self);

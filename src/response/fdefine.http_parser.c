@@ -5,7 +5,7 @@
 //silver_chain_scope_end
 
 
-void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headders_end){
+void private_BearHttpsResponse_parse_headers(BearHttpsResponse *self,int headers_end){
     const short WAITING_FIRST_SPACE = 0;
     const short WAITING_STATUS_CODE = 1;
     const short WAITING_FIRST_LINE_TERMINATION  = 3;
@@ -15,7 +15,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
     const short WAITING_END_VAL = 7;
     short state = WAITING_FIRST_SPACE;
     private_BearHttpsKeyVal *current_key_vall = NULL;
-    for(int i =3 ; i < headders_end;i++){
+    for(int i =3 ; i < headers_end;i++){
         if(self->raw_content[i] == ' ' && state == WAITING_FIRST_SPACE){
             state = WAITING_STATUS_CODE;
             continue;
@@ -49,7 +49,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
 
         if( self->raw_content[i-1] =='\r' && self->raw_content[i] == '\n'  && state == WAITING_END_VAL){
             self->raw_content[i-1] = '\0';
-            private_BearHttpsHeadders_add_keyval(self->headders,current_key_vall);
+            private_BearHttpsHeaders_add_keyval(self->headers,current_key_vall);
             current_key_vall = NULL;
             state = COLECTING_KEY;
             continue;
@@ -57,16 +57,16 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
 
     }
 
-    char *content_length = BearHttpsResponse_get_headder_value_by_sanitized_key(self,"contentlength");
+    char *content_length = BearHttpsResponse_get_header_value_by_sanitized_key(self,"contentlength");
     if(content_length != NULL){
         self->user_content_length = atol(content_length);
     }
 
 }
-void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
+void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
     BearHttpsResponse *self,
     int chunk_size,
-    double factor_headders_growth
+    double factor_headers_growth
 ){
 
 
@@ -77,7 +77,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
         //apply the factor realloc
         while(content_size + chunk_size >= content_allocated -2 ){
 
-            content_allocated = (long)(content_allocated * factor_headders_growth);
+            content_allocated = (long)(content_allocated * factor_headers_growth);
             self->raw_content = (unsigned char*)BearsslHttps_reallocate(self->raw_content,content_allocated);
         }
         //we create a buff str , to allow 'append' into the content
@@ -114,7 +114,7 @@ void private_BearHttpsResponse_read_til_end_of_headders_or_reach_limit(
                 memcpy(self->body,self->raw_content + self->body_start_index,self->body_size);
                 self->body[self->body_size] = '\0';
 
-                private_BearHttpsResponse_parse_headders(self,content_size + i-1);
+                private_BearHttpsResponse_parse_headers(self,content_size + i-1);
                 return;
             }
         }

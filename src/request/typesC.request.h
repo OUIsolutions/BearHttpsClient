@@ -17,14 +17,14 @@ typedef struct BearHttpsRequest{
     int total_dns_providers;
     bool must_be_ipv4;
     
-    private_BearHttpsHeadders *headders;
+    private_BearHttpsHeaders *headers;
     char method[30];
     int port;
 
-    int headder_chunk_read_size;
-    int headder_chunk_reallocator_facctor;
+    int header_chunk_read_size;
+    int header_chunk_reallocator_factor;
 
-    int response_max_headders_size;
+    int response_max_headers_size;
 
     br_x509_trust_anchor *trust_anchors;
     size_t trusted_anchors_size;
