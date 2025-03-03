@@ -1,5 +1,5 @@
 
-## Configuring Headders
+## Configuring Headers
 
 With the function **bear.request.add_headder** you can add a headder to the request. The function takes two arguments: the first is the headder name and the second is the headder value.
 
