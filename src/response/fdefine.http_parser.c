@@ -49,7 +49,7 @@ void private_BearHttpsResponse_parse_headders(BearHttpsResponse *self,int headde
 
         if( self->raw_content[i-1] =='\r' && self->raw_content[i] == '\n'  && state == WAITING_END_VAL){
             self->raw_content[i-1] = '\0';
-            private_BearHttpsHeadders_add_keyval(self->headders,current_key_vall);
+            private_BearHttpsHeaders_add_keyval(self->headders,current_key_vall);
             current_key_vall = NULL;
             state = COLECTING_KEY;
             continue;

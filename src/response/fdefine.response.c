@@ -73,7 +73,7 @@ void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->is_https){
         br_ssl_client_zero(&self->ssl_client);
     }
-    private_BearHttpsHeadders_free(self->headders);
+    private_BearHttpsHeaders_free(self->headders);
     if(self->raw_content){
         free(self->raw_content);
     }
@@ -97,14 +97,14 @@ int BearHttpsResponse_get_headders_size(BearHttpsResponse*self){
 }
 
 char* BearHttpsResponse_get_headder_value_by_index(BearHttpsResponse*self,int index){
-    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeadders_get_key_val_by_index(self->headders,index);
+    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headders,index);
     if(key_vall == NULL){
         return NULL;
     }
     return key_vall->value;
 }
 char* BearHttpsResponse_get_headder_key_by_index(BearHttpsResponse*self,int index){
-    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeadders_get_key_val_by_index(self->headders,index);
+    private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headders,index);
     if(key_vall == NULL){
         return NULL;
     }

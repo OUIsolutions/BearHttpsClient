@@ -56,7 +56,7 @@ void BearHttpsRequest_add_headder_with_ownership_config(BearHttpsRequest *self ,
     private_BearHttpsKeyVal * key_obj = private_newBearHttpsKeyVal();
     private_BearHttpsKeyVal_set_key(key_obj,key,key_ownership_mode);
     private_BearHttpsKeyVal_set_value(key_obj,value,value_owner);
-    private_BearHttpsHeadders_add_keyval(self->headders,key_obj);
+    private_BearHttpsHeaders_add_keyval(self->headders,key_obj);
 }
 
 void BearHttpsRequest_add_headder(BearHttpsRequest *self ,char *key,char *value){
@@ -116,7 +116,7 @@ void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_
 
 void BearHttpsRequest_free(BearHttpsRequest *self){
     private_BearHttpsRequest_free_body(self);
-    private_BearHttpsHeadders_free(self->headders);
+    private_BearHttpsHeaders_free(self->headders);
     private_BearsslHttps_free_considering_ownership((void **)&self->url,&self->route_owner);
     free(self);
 }

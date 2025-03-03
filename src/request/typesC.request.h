@@ -17,7 +17,7 @@ typedef struct BearHttpsRequest{
     int total_dns_providers;
     bool must_be_ipv4;
     
-    private_BearHttpsHeadders *headders;
+    private_BearHttpsHeaders *headders;
     char method[30];
     int port;
 
