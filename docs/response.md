@@ -1,3 +1,5 @@
+# Reading Reponses
+
 After you configure your request you can use the fetch function to send the request and get the response.
 ```c
     #include "BearHttpsClientOne.c"
