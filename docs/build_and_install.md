@@ -62,6 +62,6 @@ It is useful for  working with dynamic compilation or mocking dependencies.
 // unallow cjson definition
 #define BEARSSL_HTTPS_MOCK_CJSON_DEFINE
 
-//import the lib , only after the flags
+//import the lib only after the flags
 #include "BearHttpsClientOne.c"
 ``` 
