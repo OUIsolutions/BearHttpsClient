@@ -67,11 +67,11 @@ You can easily iterate over the headers of the response using the following code
         printf("%s: %s\n",key,headder);
     }    
 ```
-### Reading the body of the response
+### Reading the Body of the Response
 
 You can read the body of the response as a string/binary or JSON.
 
-### Reading Body str
+#### Reading Body as String
 
 Note that these function will drop a error if the response its a binary:
 ```c 
@@ -84,7 +84,7 @@ Note that these function will drop a error if the response its a binary:
     }
     printf("Body: %s\n",body);
 ```
-### Reading Body binary
+#### Reading Body as Binary
 
 ```c 
     unsigned  char *body = bear.response.read_body(response);
@@ -101,7 +101,7 @@ Note that these function will drop a error if the response its a binary:
     printf("\n");
 ```
 
-### Reading body json 
+#### Reading Body as JSON
 
 ```c
     #include "src/one.c"
