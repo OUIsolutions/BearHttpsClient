@@ -22,9 +22,16 @@ gcc main.c -o your_output.out
 
 ## Compile on Windows
 
-To compile the lib in **Windows** you can use the following command (recomended mingw64 installed):
+To compile the lib in **Windows** you can use the following commands
+
+With Microsoft Visual C:
+```cmd
+cl.exe examples\example_simple.c /Fe:bin\example_simple.exe
+```
+
+With mingw64:
 ```bash
-i686-w64-mingw32-gcc teste.c  main.c -o your_output.exe -lws2_32
+i686-w64-mingw32-gcc examples\example_simple.c -o bin\example_simple.exe -lws2_32
 ```
 
 ## Build from scratch
