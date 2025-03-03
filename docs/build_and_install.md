@@ -50,11 +50,13 @@ It is useful for  working with dynamic compilation or mocking dependencies.
 ```c
 // unallow universal socket definition
 #define BEARSSL_HTTPS_MOCK_UNIVERSAL_SOCKET_DEFINE
+
 // unallow universal socket implementation
 #define BEARSSL_HTTPS_MOCK_BEARSSL_DEFINE
+
 // unallow cjson at all
-// note ,that hiding cjson, will obrigate the lib to use **get_addrinfo**, witch,
-//can geerate leak memorys in some cases
+// NOTE: Hiding CJSON will force the lib to use **get_addrinfo** which
+// can leak memory in some cases.
 #define BEARSSL_HTTPS_MOCK_CJSON
 
 // unallow cjson definition
