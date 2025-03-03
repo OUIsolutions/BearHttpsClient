@@ -44,6 +44,16 @@ SOFTWARE.
 #define BearsslHttps_free free
 #endif
 
+#if defined(_MSC_VER)
+    #include <BaseTsd.h>
+    #include "intrin.h"
+
+    typedef SSIZE_T ssize_t;
+    typedef __m128i __m128i_u;
+
+    #define __src_inner_hbyteswap_ulong _byteswap_ulong
+#endif
+
 /* MIT License
 
 Copyright (c) 2024 Samuel Henrique
@@ -268,20 +278,11 @@ typedef ssize_t Universal_ssize_t;
 
 
 #if defined(_WIN32)
-#pragma message( "Platform: Windows" )
     typedef SOCKET Universal_socket_int;
     typedef int Universal_socket_len;
     typedef DWORD Universal_DWORD;
     typedef unsigned long in_addr_t;
     typedef long Universal_ssize_t;
-    #if defined(_MSC_VER)
-    #pragma message( "Compiler: MSVC" )
-        #include <BaseTsd.h>
-        typedef SSIZE_T ssize_t;
-        #include "intrin.h"
-        typedef __m128i __m128i_u;
-        #define __src_inner_hbyteswap_ulong _byteswap_ulong
-    #endif
 #endif
 
 #endif
