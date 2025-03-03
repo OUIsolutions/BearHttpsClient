@@ -9,7 +9,7 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     BearHttpsResponse *self = (BearHttpsResponse *)malloc(sizeof(BearHttpsResponse));
     *self = (BearHttpsResponse){0};
     self->status_code = 0;
-    self->headders = private_newBearHttpsHeadders();
+    self->headders = private_newBearHttpsHeaders();
     self->max_body_size = -1;
     self->body_chunk_size = BEARSSL_BODY_CHUNK_SIZE;
     self->body_realloc_factor = BEARSSL_BODY_REALLOC_FACTOR;

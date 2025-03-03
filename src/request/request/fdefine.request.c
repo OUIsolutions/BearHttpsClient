@@ -9,7 +9,7 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
     *self = (BearHttpsRequest){0};
     self->max_redirections = BEARSSL_MAX_REDIRECTIONS;
     BearHttpsRequest_set_url_with_ownership_config(self,url,url_ownership_mode);
-    self->headders = private_newBearHttpsHeadders();
+    self->headders = private_newBearHttpsHeaders();
     self->body_type =PRIVATE_BEARSSL_NO_BODY;
     self->headder_chunk_read_size = BEARSSL_HEADDER_CHUNK;
     self->headder_chunk_reallocator_facctor = BEARSSL_HEADDER_REALLOC_FACTOR;
