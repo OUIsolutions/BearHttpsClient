@@ -70,4 +70,7 @@ int main(){
 
 # Build Toolchain
 
+* [Darwin](https://github.com/OUIsolutions/Darwin)
 * [Silver Chain](https://github.com/OUIsolutions/SilverChain)
+* [CAmalgamator](https://github.com/OUIsolutions/CAmalgamator)
+* [BearSSL](https://bearssl.org/)
