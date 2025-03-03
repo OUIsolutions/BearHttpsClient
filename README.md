@@ -1,4 +1,4 @@
-## WARNING: THIS IS ALPHA SOFTWARE. USE AT YOUR OWN RISK. NO WARRANTY IS PROVIDED AND BUGS ARE EXPECTED.
+# WARNING: THIS IS ALPHA SOFTWARE. USE AT YOUR OWN RISK. NO WARRANTY IS PROVIDED AND BUGS ARE EXPECTED.
 
 # BearHttpsClient
 
@@ -13,7 +13,7 @@ BearHttpsClient is a simple and easy to use single-file HTTPS Client Library for
 - Streaming Body Reading
 
 
-## Releases
+# Releases
 
 | item          | What Is |
 |-------        |-----------|
@@ -23,7 +23,7 @@ BearHttpsClient is a simple and easy to use single-file HTTPS Client Library for
 | [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClient.c)|Definition |
 
 
-### Simple Example
+# Simple Example
 
 The simplest example of using BearHttpsClient -- with the single file include [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClientOne.c) -- is this example that fetches a page from example.com and prints it to the console.
 
@@ -57,7 +57,7 @@ int main(){
 }
 ```
 
-### Documentation
+# Documentation
 
 | item          | What Is |
 |-------        |-----------|
