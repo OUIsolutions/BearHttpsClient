@@ -4,6 +4,10 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+#ifdef _WIN32
+typedef __m128i __m128i_u;
+#endif
+
 #if !defined(BEARSSL_HTTPS_MOCK_UNIVERSAL_SOCKET_DEFINE)
 #include "../../dependencies/UniversalSocket.c"
 #endif 
