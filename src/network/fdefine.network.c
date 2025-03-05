@@ -12,18 +12,18 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         return -1; 
     }
 
-    struct sockaddr_in server_addr;
+    Universal_sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(port); 
+    server_addr.sin_family = UNI_AF_INET;
+    server_addr.sin_port = Universal_htons(port); 
 
-    if (inet_pton(AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
+    if (Universal_inet_pton(UNI_AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
         BearHttpsResponse_set_error(self,"ERROR: invalid address",BEARSSL_HTTPS_INVALID_IPV4);
         Universal_close(sockfd);
         return -1;
     }
 
-    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+    if (Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd); 
         return -1;
@@ -32,22 +32,22 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     return sockfd;
 }
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port) {
-    int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
+    int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
-        return -1; 
+        return -1;
     }
 
-    struct sockaddr_in server_addr;
+    Universal_sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(port); 
+    server_addr.sin_family = UNI_AF_INET;
+    server_addr.sin_port = Universal_htons(port); 
 
-    if (inet_pton(AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
+    if (Universal_inet_pton(UNI_AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
         Universal_close(sockfd);
         return -1;
     }
 
-    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+    if (Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
         Universal_close(sockfd); 
         return -1;
     }
