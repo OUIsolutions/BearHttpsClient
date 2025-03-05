@@ -26,9 +26,9 @@ function install_dependencies()
 
     darwin.dtw.remove_any("BearSSL")
     os.execute(
-        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.4/UniversalSocket.c -o dependencies/UniversalSocket.c")
+        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.6/UniversalSocket.c -o dependencies/UniversalSocket.c")
     os.execute(
-        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.4/UniversalSocket.h -o dependencies/UniversalSocket.h")
+        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.6/UniversalSocket.h -o dependencies/UniversalSocket.h")
 
 
 
