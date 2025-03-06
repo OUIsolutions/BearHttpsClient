@@ -1,8 +1,8 @@
 
 
-## Install 
+## Install
 
-To install the lib just copy the [Amalgamation](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClientOne.c) into your project and include it in your code:
+To install the lib just copy the [Amalgamation](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.003/BearHttpsClientOne.c) into your project and include it in your code:
 ```c
 #include "BearHttpsClientOne.c"
 ```
@@ -10,7 +10,7 @@ To install the lib just copy the [Amalgamation](https://github.com/OUIsolutions/
 
 If  you are on Linux, you can download the lib with:
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.002/BearHttpsClientOne.c -o BearHttpsClientOne.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.1.003/BearHttpsClientOne.c -o BearHttpsClientOne.c
 ```
 
 ## Compile on Linux
@@ -50,7 +50,7 @@ It will generate all the **releases** in the **/release** dir.
 
 
 
-### Mocking dependencies or dependencies implementations 
+### Mocking dependencies or dependencies implementations
 
 The following defines toggle dependencies or just the definitions.
 It is useful for  working with dynamic compilation or mocking dependencies.
@@ -71,4 +71,4 @@ It is useful for  working with dynamic compilation or mocking dependencies.
 
 //import the lib only after the flags
 #include "BearHttpsClientOne.c"
-``` 
+```
