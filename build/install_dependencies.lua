@@ -1,7 +1,7 @@
 function install_dependencies()
     local hasher = darwin.dtw.newHasher()
     hasher.digest_folder_by_content("dependencies")
-    local EXPECTED_SHA = 'df0905905a7a93f6c92b7037f0c15c9c2a6b86b42ca5dfe0671053a7e6272aa1'
+    local EXPECTED_SHA = '0a705ecc581f612a97dbbb2f5768f6caacfab24e5d223e9ea5a5276d00513ac0'
     if hasher.get_value() == EXPECTED_SHA then
         return
     end
@@ -30,7 +30,7 @@ function install_dependencies()
     os.execute(
         "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.6/UniversalSocket.c -o dependencies/UniversalSocket.c")
     os.execute(
-        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.6/UniversalSocket.h -o dependencies/UniversalSocket.h")
+        "curl -L https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.7/UniversalSocket.h -o dependencies/UniversalSocket.h")
 
 
 
