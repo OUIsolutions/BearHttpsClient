@@ -1,6 +1,4 @@
 
-#ifndef BeasslHttps_Declarations
-#define BeasslHttps_Declarations
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -36,5 +34,4 @@
 
 #ifndef BEARSSL_HTTPS_MOCK_CJSON
 #include "../../dependencies/cJSON.h"
-#endif
 #endif
