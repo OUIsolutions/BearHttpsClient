@@ -6,4 +6,5 @@
 #include "../../imports/imports.consts.h"
 //silver_chain_scope_end
 
+
 BearHttpsResponseNamespace newBearHttpsResponseNamespace();

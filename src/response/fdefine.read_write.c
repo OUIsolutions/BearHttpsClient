@@ -7,6 +7,7 @@
 //silver_chain_scope_end
 
 
+
 int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size){
     if(BearHttpsResponse_error(self)){
         return -1;

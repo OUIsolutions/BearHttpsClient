@@ -8,6 +8,7 @@
 
 
 
+
 typedef struct BearHttpsClientDnsProvider {
     const char *hostname;
     const  char *route;

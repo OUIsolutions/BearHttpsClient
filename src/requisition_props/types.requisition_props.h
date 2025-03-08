@@ -8,6 +8,7 @@
 
 
 
+
 typedef struct private_BearHttpsRequisitionProps{
     char *hostname;
     char *route;

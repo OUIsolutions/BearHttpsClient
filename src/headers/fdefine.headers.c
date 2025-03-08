@@ -6,6 +6,7 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 private_BearHttpsHeaders *private_newBearHttpsHeaders(){
     private_BearHttpsHeaders *self = (private_BearHttpsHeaders *)BearsslHttps_allocate(sizeof(private_BearHttpsHeaders));
     *self  = (private_BearHttpsHeaders){0};

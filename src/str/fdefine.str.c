@@ -6,6 +6,7 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 long private_BearsslHttps_strlen(const char *str){
     long size = 0;
     while(str[size] != '\0'){

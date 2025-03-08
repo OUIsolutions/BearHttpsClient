@@ -7,6 +7,7 @@
 //silver_chain_scope_end
 
 
+
 typedef struct private_BearHttpsBodyRawRequest{
     unsigned char *value;
     long size;

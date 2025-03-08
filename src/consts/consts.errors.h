@@ -6,6 +6,7 @@
 #include "../imports/imports.typesH.h"
 //silver_chain_scope_end
 
+
 #define  BEARSSL_HTTPS_FAILT_TO_START_UNISOCKET 1
 #define  BEARSSL_HTTPS_INVALID_URL 2
 #define BEARSSL_HTTPS_IMPOSSIBLE_TO_OPEN_FILE 3

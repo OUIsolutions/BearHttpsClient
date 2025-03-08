@@ -7,6 +7,7 @@
 //silver_chain_scope_end
 
 
+
 private_BearHttpsHeaders *private_newBearHttpsHeaders();
 
 void private_BearHttpsHeaders_add_keyval(private_BearHttpsHeaders *self, private_BearHttpsKeyVal *keyval);

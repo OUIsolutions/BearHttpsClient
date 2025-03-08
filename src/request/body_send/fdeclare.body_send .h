@@ -6,6 +6,7 @@
 #include "../../imports/imports.consts.h"
 //silver_chain_scope_end
 
+
 void private_BearHttpsRequest_free_body(BearHttpsRequest *self);
 
 void BearHttpsRequest_send_any_with_ownership_control(BearHttpsRequest *self,unsigned char *content, long size,short ownership_mode);

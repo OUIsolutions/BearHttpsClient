@@ -7,6 +7,7 @@
 //silver_chain_scope_end
 
 
+
 typedef struct BearHttpsResponse{
     int connection_file_descriptor;
     bool is_https;

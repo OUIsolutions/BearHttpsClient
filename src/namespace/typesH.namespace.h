@@ -6,6 +6,7 @@
 #include "../imports/imports.typesE.h"
 //silver_chain_scope_end
 
+
 typedef struct BearHttpsNamespace{
     short REFERENCE;
     short GET_OWNERSHIP;

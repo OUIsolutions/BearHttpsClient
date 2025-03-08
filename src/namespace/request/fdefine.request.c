@@ -8,6 +8,7 @@
 
 
 
+
 BearHttpsRequestNamespace newBearHttpsRequestNamespace(){
     BearHttpsRequestNamespace self = {0};
     self.send_any_with_ownership_control = BearHttpsRequest_send_any_with_ownership_control;

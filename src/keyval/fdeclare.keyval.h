@@ -7,6 +7,7 @@
 //silver_chain_scope_end
 
 
+
 private_BearHttpsKeyVal  *private_newBearHttpsKeyVal();
 
 

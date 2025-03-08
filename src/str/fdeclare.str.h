@@ -5,6 +5,7 @@
 //mannaged by SilverChain: https://github.com/OUIsolutions/SilverChain
 #include "../imports/imports.consts.h"
 //silver_chain_scope_end
+
 long private_BearsslHttps_strlen(const char *str);
 
 int private_BearsslHttp_strcmp(const char *str1,const char *str2);

@@ -5,6 +5,7 @@
 //mannaged by SilverChain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.typesD.h"
 //silver_chain_scope_end
+
 typedef struct BearHttpsRequestNamespace{
 
     void (*send_any_with_ownership_control)(BearHttpsRequest *self,unsigned char *content, long size,short ownership_mode);

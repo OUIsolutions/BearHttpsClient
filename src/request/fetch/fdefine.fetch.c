@@ -8,6 +8,7 @@
 
 
 
+
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     BearHttpsResponse *response = NULL;

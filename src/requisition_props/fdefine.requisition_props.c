@@ -6,6 +6,7 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProps(const char *url,int default_port){
     int url_size = private_BearsslHttps_strlen(url);
     const short HTTP_START_SIZE = sizeof("http://")-1;

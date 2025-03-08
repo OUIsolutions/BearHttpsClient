@@ -6,6 +6,7 @@
 #include "../imports/imports.consts.h"
 //silver_chain_scope_end
 
+
 BearHttpsResponse *private_newBearHttpsResponse();
 
 int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned char *bufer,long size);

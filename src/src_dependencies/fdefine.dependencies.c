@@ -6,6 +6,7 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 #ifdef _WIN32
 typedef __m128i __m128i_u;
 #endif

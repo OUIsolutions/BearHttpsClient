@@ -6,6 +6,7 @@
 #include "../../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 BearHttpsResponseNamespace newBearHttpsResponseNamespace(){
     BearHttpsResponseNamespace self = {0};
     self.read_body_chunck = BearHttpsResponse_read_body_chunck;

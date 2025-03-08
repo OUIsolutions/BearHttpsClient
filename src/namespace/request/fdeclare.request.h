@@ -7,4 +7,5 @@
 //silver_chain_scope_end
 
 
+
 BearHttpsRequestNamespace newBearHttpsRequestNamespace();

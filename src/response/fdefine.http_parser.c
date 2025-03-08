@@ -7,6 +7,7 @@
 //silver_chain_scope_end
 
 
+
 void private_BearHttpsResponse_parse_headers(BearHttpsResponse *self,int headers_end){
     const short WAITING_FIRST_SPACE = 0;
     const short WAITING_STATUS_CODE = 1;

@@ -6,6 +6,7 @@
 #include "../../imports/imports.consts.h"
 //silver_chain_scope_end
 
+
 BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
 
 BearHttpsRequest * newBearHttpsRequest(const char *url);

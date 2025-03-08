@@ -6,6 +6,7 @@
 #include "../../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode){
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
     *self = (BearHttpsRequest){0};

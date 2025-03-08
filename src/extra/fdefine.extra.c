@@ -6,6 +6,7 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 bool private_BearHttps_is_sanitize_key(const char *key,const char *sanitized,int sanitized_size){
     long key_size = private_BearsslHttps_strlen(key);
     int comparation_size = 0;

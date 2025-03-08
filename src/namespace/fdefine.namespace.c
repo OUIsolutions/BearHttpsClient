@@ -6,6 +6,7 @@
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
 
+
 BearHttpsNamespace newBearHttpsNamespace(){
     BearHttpsNamespace self = {0};
     self.REFERENCE = BEARSSL_HTTPS_REFERENCE;
