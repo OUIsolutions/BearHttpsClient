@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdarg.h>
-
+#include <errno.h>
 #ifndef BearsslHttps_allocate
 #define BearsslHttps_allocate malloc
 #endif
