@@ -8,6 +8,7 @@
 
 
 
+
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
     int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
