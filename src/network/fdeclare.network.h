@@ -1,10 +1,4 @@
 
-//silver_chain_scope_start
-//DONT MODIFY THIS COMMENT
-//this import is computationally generated
-//mannaged by SilverChain: https://github.com/OUIsolutions/SilverChain
-#include "../imports/imports.consts.h"
-//silver_chain_scope_end
 
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port);
