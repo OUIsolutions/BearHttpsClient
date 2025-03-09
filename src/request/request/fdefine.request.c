@@ -72,7 +72,7 @@ void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,char *key,char *for
 }
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
-    private_BearsslHttps_strcpy(self->method,self->method);
+    private_BearsslHttps_strcpy(self->method,method);
 }
 
 void BearHttpsRequest_represent(BearHttpsRequest *self){
