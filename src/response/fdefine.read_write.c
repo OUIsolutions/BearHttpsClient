@@ -82,10 +82,9 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
     long body_allocated = self->body_size;
     long size_to_read ;
 
-    if(self->body_readded == self->user_content_length){
+    if(self->body_readed){
         return self->body;
     }
-    
     if(self->user_content_length){
         body_allocated = self->user_content_length+2;
         if(self->max_body_size != -1 && body_allocated > self->max_body_size){
@@ -132,6 +131,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
             break;
         }
         long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
+        
         if(readded <= 0 ){
             break;
         }
@@ -145,6 +145,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
         buffer += readded;
 
     }
+    self->body_readed = true;
     self->body[self->body_size] = '\0';
     return self->body;
 
