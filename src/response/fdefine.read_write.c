@@ -131,7 +131,6 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
         if(self->body_readded == self->user_content_length && self->user_content_length != 0){
             break;
         }
-        
         long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
         if(readded <= 0 ){
             break;
@@ -141,10 +140,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
             size_to_read -= readded;
         }
 
-
         self->body_readded += readded;
-        self->body_size += readded;
-       
+        self->body_size += readded;       
         buffer += readded;
 
     }
