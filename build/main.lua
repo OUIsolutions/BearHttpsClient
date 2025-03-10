@@ -3,7 +3,7 @@ function main()
 
     darwin.silverchain.generate({
         src = "src",
-        tags = { "dep_declare", "macros", "types","consts", "fdeclare", "fdefine" },
+        tags = { "dep_declare", "macros", "types","globals", "fdeclare", "fdefine" },
         implement_main = false
     })
 

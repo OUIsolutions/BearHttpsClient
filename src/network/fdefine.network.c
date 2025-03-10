@@ -93,9 +93,24 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     return found_socket;
 }
 
-#else 
+#else
+
+
 static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers) {
     
+
+    for(int i = 0; i < BEARSSL_DNS_CACHE_SIZE;i++){
+        privateBearHttpsDnsCache *cache = &privateBearHttpsDnsCache_itens[i];
+
+        if(private_BearsslHttp_strcmp(cache->host,host) == 0){
+            int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(cache->ip,port);
+            if(sockfd < 0){
+                break;
+            }
+            return sockfd;
+        }
+    }
+
     BearHttpsClientDnsProvider *chosen_dns_providers  = dns_providers ?  dns_providers : privateBearHttpsProviders;
     int chosen_dns_providers_size = total_dns_proviers ? total_dns_proviers : privateBearHttpsProvidersSize;
 
@@ -155,6 +170,22 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
                 if(sockfd < 0){
                     continue;
                 }
+                long host_size = private_BearsslHttps_strlen(host);
+                long ip_size = private_BearsslHttps_strlen(ipv4);
+
+                if(privateBearHttpsDnsCache_last_free_point >= BEARSSL_DNS_CACHE_SIZE){
+                    privateBearHttpsDnsCache_last_free_point = 0;
+                }
+
+                if(host_size < BEARSSL_DNS_CACHE_HOST_SIZE && ip_size < BEARSSL_DNS_CACHE_IP_SIZE){
+                    
+                    
+                    privateBearHttpsDnsCache* cache = &privateBearHttpsDnsCache_itens[privateBearHttpsDnsCache_last_free_point];
+                    private_BearsslHttps_strcpy( cache->host,host);
+                    private_BearsslHttps_strcpy( cache->ip,ipv4);
+                    privateBearHttpsDnsCache_last_free_point++; 
+                }
+
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 return sockfd;

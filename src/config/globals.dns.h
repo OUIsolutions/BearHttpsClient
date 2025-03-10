@@ -11,3 +11,4 @@ BearHttpsClientDnsProvider privateBearHttpsProviders[] = {
 
 
 int privateBearHttpsProvidersSize = sizeof(privateBearHttpsProviders)/sizeof(BearHttpsClientDnsProvider);
+
