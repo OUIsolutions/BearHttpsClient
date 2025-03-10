@@ -110,6 +110,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         if(sockfd < 0){
             continue;
         }
+
         return sockfd;
     }
     for(int i = 0; i < BEARSSL_DNS_CACHE_SIZE;i++){
