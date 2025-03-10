@@ -80,7 +80,10 @@ void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,char *key,char *for
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
     private_BearsslHttps_strcpy(self->method,method);
 }
-
+void BearHttpsRequest_set_known_ips(BearHttpsRequest *self , const char *known_ips[],int known_ips_size){
+    self->known_ips = known_ips;
+    self->known_ips_size = known_ips_size;
+}
 void BearHttpsRequest_represent(BearHttpsRequest *self){
     printf("Route: %s\n",self->url);
     printf("Method: %s\n",self->method);

@@ -15,7 +15,9 @@ typedef struct BearHttpsRequest{
     bool route_owner;
     int max_redirections;
     const char *custom_bear_dns;
-
+    const  char **known_ips;
+    int known_ips_size;
+    
    BearHttpsClientDnsProvider  *dns_providers;
     int total_dns_providers;
     bool must_be_ipv4;

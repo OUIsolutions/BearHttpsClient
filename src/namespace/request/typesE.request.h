@@ -28,6 +28,7 @@ typedef struct BearHttpsRequestNamespace{
     BearHttpsRequest * (*newBearHttpsRequest_with_url_ownership_config)(char *url,short url_ownership_mode);
     BearHttpsRequest * (*newBearHttpsRequest)(const char *url);
     BearHttpsRequest * (*newBearHttpsRequest_fmt)(const char *url,...);
+    void (*set_known_ips)(BearHttpsRequest *self ,const char *known_ips[],int known_ips_size);
     void (*set_url_with_ownership_config)(BearHttpsRequest *self , char *url,short url_ownership_mode);
     void (*set_url)(BearHttpsRequest *self ,const char *url);
     void (*add_header_with_ownership_config)(BearHttpsRequest *self ,char *key,short key_ownership_mode,char *value,short value_owner);

@@ -49,12 +49,11 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         }
 
         if(requisition_props->is_ipv4 == false){
-            response->connection_file_descriptor =private_BearHttpsRequest_connect_host(
+            response->connection_file_descriptor =private_BearHttps_connect_host(
+                self,
                 response,
                 requisition_props->hostname,
-                requisition_props->port,
-                self->dns_providers,
-                self->total_dns_providers
+                requisition_props->port
             );
         }
 

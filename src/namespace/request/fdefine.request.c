@@ -30,6 +30,7 @@ BearHttpsRequestNamespace newBearHttpsRequestNamespace(){
     self.newBearHttpsRequest_fmt = newBearHttpsRequest_fmt;
     self.set_url_with_ownership_config = BearHttpsRequest_set_url_with_ownership_config;
     self.set_url = BearHttpsRequest_set_url;
+    self.set_known_ips = BearHttpsRequest_set_known_ips;
     self.add_header_with_ownership_config = BearHttpsRequest_add_header_with_ownership_config;
     self.add_header = BearHttpsRequest_add_header;
     self.set_method = BearHttpsRequest_set_method;

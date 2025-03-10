@@ -60,7 +60,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
 }
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers) {
+static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
 
@@ -102,9 +102,16 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
 #else
 
 
-static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, const char *host, int port,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers) {
+static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
     
-
+    for(int i = 0; i < self->known_ips_size;i++){
+        const char *ip = self->known_ips[i];
+        int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ip,port);
+        if(sockfd < 0){
+            continue;
+        }
+        return sockfd;
+    }
     for(int i = 0; i < BEARSSL_DNS_CACHE_SIZE;i++){
         privateBearHttpsDnsCache *cache = &privateBearHttpsDnsCache_itens[i];
 
@@ -117,8 +124,8 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
         }
     }
 
-    BearHttpsClientDnsProvider *chosen_dns_providers  = dns_providers ?  dns_providers : privateBearHttpsProviders;
-    int chosen_dns_providers_size = total_dns_proviers ? total_dns_proviers : privateBearHttpsProvidersSize;
+    BearHttpsClientDnsProvider *chosen_dns_providers  = self->dns_providers ?  self->dns_providers : privateBearHttpsProviders;
+    int chosen_dns_providers_size = self->total_dns_providers ? self->total_dns_providers : privateBearHttpsProvidersSize;
 
     if(chosen_dns_providers_size == 0){
         BearHttpsResponse_set_error(response,"ERROR: no dns providers\n",BEARSSL_HTTPS_NO_DNS_PROVIDED);
@@ -126,7 +133,6 @@ static int private_BearHttpsRequest_connect_host(BearHttpsResponse *response, co
     }
 
     for(int i = 0; i < chosen_dns_providers_size;i++){
-          
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s:%d%s?name=%s&type=A",provider.ip,provider.port, provider.route, host); 
            //printf("used url %s\n",dns_request->url);
