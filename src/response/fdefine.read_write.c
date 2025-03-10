@@ -101,14 +101,14 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
         }
         size_to_read = self->user_content_length - self->body_readded;
     }
-    else{
+
+    if(!self->user_content_length){
         body_allocated = self->body_size + self->body_chunk_size+ 2;
         self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
         size_to_read = self->body_chunk_size;
     }
-
+    
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
-    printf("total size%d\n",size_to_read);
     while(true){
 
     
@@ -122,15 +122,13 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
             }
             self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
             if(self->body == NULL){
-                    BearHttpsResponse_set_error(self,"error allocating memory",BEARSSL_HTTPS_ALOCATION_FAILED);
-                    return NULL;
-                }
-
+                BearHttpsResponse_set_error(self,"error allocating memory",BEARSSL_HTTPS_ALOCATION_FAILED);
+                return NULL;
+            }
             buffer = (unsigned char*)(self->body + self->body_readded);
-            //printf("reallocating body to %ld\n",body_allocated);
         }
 
-        if(self->body_readded == self->user_content_length){
+        if(self->body_readded == self->user_content_length && self->user_content_length != 0){
             break;
         }
         
