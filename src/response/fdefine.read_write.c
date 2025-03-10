@@ -1,3 +1,9 @@
+//silver_chain_scope_start
+//DONT MODIFY THIS COMMENT
+//this import is computationally generated
+//mannaged by SilverChain: https://github.com/OUIsolutions/SilverChain
+#include "../imports/imports.fdeclare.h"
+//silver_chain_scope_end
 
 
 
@@ -40,7 +46,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         return -1;
     }
 
-    if(self->body_readded == self->user_content_length){
+    if(self->body_readded == self->user_content_length && self->user_content_length != 0){
         return 0;
     }
 
@@ -102,9 +108,10 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
     }
 
     unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
+    printf("total size%d\n",size_to_read);
     while(true){
 
-
+    
         while(self->body_size + self->body_chunk_size + 2  > body_allocated){
             body_allocated = body_allocated * self->body_realloc_factor;
             if(self->max_body_size != -1 && body_allocated > self->max_body_size){
