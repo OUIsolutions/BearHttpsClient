@@ -73,10 +73,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.0\r\nHost: "));
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
-        if(BearHttpsResponse_error(response)){
-                    private_BearHttpsRequisitionProps_free(requisition_props);
-                    return response;
-        }
+       
 
          for (int i = 0; i < self->headers->size; i++) {
              private_BearHttpsKeyVal *keyval = self->headers->keyvals[i];
@@ -85,12 +82,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              private_BearHttpsResponse_write(response, (unsigned char*)keyval->value, private_BearsslHttps_strlen(keyval->value));
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
          }
-         if(BearHttpsResponse_error(response)){
-            private_BearHttpsRequisitionProps_free(requisition_props);
-            return response;
-        }
-
-
+ 
         if(self->body_type ==PRIVATE_BEARSSL_BODY_RAW){
             char content_length[100];
             snprintf(content_length,sizeof(content_length)-1,"Content-Length: %ld\r\n\r\n",self->body_raw.size);
@@ -154,7 +146,12 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
 
         if(requisition_props->is_https){
-              br_sslio_flush(&response->ssl_io);
+             if(br_sslio_flush(&response->ssl_io)){
+                BearHttpsResponse_set_error(response, "error flushing",BEARSSL_HTTPS_ERROR_FLUSHING);
+                private_BearHttpsRequisitionProps_free(requisition_props);
+                return response;
+             }
+
          }
 
          private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(response,self->header_chunk_read_size,self->header_chunk_reallocator_factor);
