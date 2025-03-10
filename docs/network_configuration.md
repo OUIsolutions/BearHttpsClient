@@ -41,6 +41,7 @@ const char *nknow_ips[] ={
         "23.215.0.138",
         "23.215.0.136"
 };
-bear.request.set_known_ips(request,nknow_ips,2);
+int size = 2;
+bear.request.set_known_ips(request,nknow_ips,size);
 ```
 **tip**: You can use sites like [ns.lookup](https://www.nslookup.io/) or [digital ocean dns tool](https://www.digitalocean.com/community/tools/dns) to  get the IPs of the URL
