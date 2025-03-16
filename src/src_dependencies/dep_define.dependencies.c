@@ -10,6 +10,7 @@ typedef __m128i __m128i_u;
 #endif 
 
 #if !defined(BEARSSL_HTTPS_MOCK_BEARSSL_DEFINE) && defined(BEARSSL_HTTPS_BEARSSL_DECLARATED)
+#include "../../dependencies/BearSSLTrustAnchors.c"
 #include "../../dependencies/BearSSLSingleUnit.c"
 #endif 
 

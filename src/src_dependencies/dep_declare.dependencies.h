@@ -35,7 +35,6 @@
 #if !defined(BR_BEARSSL_H__)
 #define BR_ENABLE_INTRINSICS   1
 #include "../../dependencies/BearSSLSingleUnit.h"
-#include "../../dependencies/BearSSLTrustAnchors.h"
 #define BEARSSL_HTTPS_BEARSSL_DECLARATED
 #endif
 

@@ -1,7 +1,7 @@
 function install_dependencies()
     local hasher = darwin.dtw.newHasher()
     hasher.digest_folder_by_content("dependencies")
-    local EXPECTED_SHA = '76163fc7939200269ecdb2d9cbf817fbf715503cad34355557a944cd0485d1ed'
+    local EXPECTED_SHA = 'c9115c4a4c476e1e42ae8b6b0da79c03d2478ecb2f02af53871f71c171512455'
     if hasher.get_value() == EXPECTED_SHA then
         return
     end
@@ -24,7 +24,7 @@ function install_dependencies()
     os.execute("curl -L https://curl.se/ca/cacert.pem -o BearSSL/cacert.pem")
     os.execute("cd BearSSL && make")
     os.execute("chmod +x BearSSL/build/brssl")
-    os.execute("./BearSSL/build/brssl ta BearSSL/cacert.pem > dependencies/BearSSLTrustAnchors.h")
+    os.execute("./BearSSL/build/brssl ta BearSSL/cacert.pem > dependencies/BearSSLTrustAnchors.c")
 
     darwin.dtw.remove_any("BearSSL")
     os.execute(
