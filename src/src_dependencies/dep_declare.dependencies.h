@@ -26,12 +26,20 @@
     #define __src_inner_hbyteswap_ulong _byteswap_ulong
 #endif
 
+
+#if !defined(UniversalSocket_dep)
 #include "../../dependencies/UniversalSocket.h"
+#define BEARSSL_HTTPS_UNIVERSAL_SOCKET_DECLARATED
+#endif 
+
+#if !defined(BR_BEARSSL_H__)
 #define BR_ENABLE_INTRINSICS   1
 #include "../../dependencies/BearSSLSingleUnit.h"
-
 #include "../../dependencies/BearSSLTrustAnchors.h"
+#define BEARSSL_HTTPS_BEARSSL_DECLARATED
+#endif
 
-#ifndef BEARSSL_HTTPS_MOCK_CJSON
+#if !defined(cJSON__h) && !defined(BEARSSL_HTTPS_MOCK_CJSON) 
 #include "../../dependencies/cJSON.h"
+#define BEARSSL_HTTPS_CJSON_DECLARATED
 #endif
