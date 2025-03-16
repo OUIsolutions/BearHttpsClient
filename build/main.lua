@@ -3,7 +3,7 @@ function main()
 
     darwin.silverchain.generate({
         src = "src",
-        tags = { "dep_declare", "macros", "types","globals", "fdeclare", "dep_define","fdefine" },
+        tags = { "dep_declare", "macros", "types", "fdeclare","globals", "dep_define","fdefine" },
         implement_main = false
     })
 
@@ -27,23 +27,25 @@ function main()
     darwin.dtw.write_file("release/BearHttpsClient.h", only_declare)
 
 
-
     local only_definition = darwin.camalgamator.generate_amalgamation_with_callback("src/imports/imports.fdefine.h",
         function(import, path)
-            if darwin.dtw.ends_with(import, ".c") then
-                return "include-once"
+            if import == "src/imports/imports.fdeclare.h" then
+                      return "dont-include"
             end
-            return "dont-include"
+
+            return "include-once"
         end,
+        
         MAX_CONNTENT,
         MAX_RECURSION
     )
+
     only_definition = '#include "BearHttpsClient.h"\n' .. only_definition
 
     only_definition = lincense .. only_definition
 
     darwin.dtw.write_file("release/BearHttpsClient.c", only_definition)
 
-    os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
+    ---os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
 
 end
