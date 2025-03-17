@@ -17,15 +17,15 @@ BearHttpsClient is a simple and easy to use single-file HTTPS Client Library for
 
 | item          | What Is |
 |-------        |-----------|
-| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.003/BearHttpsClient.zip)| Full Folder Mode  |
-| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.003/BearHttpsClientOne.c)| Single File Version|
-| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.003/BearHttpsClient.h)|Declaration |
-| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.003/BearHttpsClient.c)|Definition |
+| [BearSSLSingleUnit.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.004/BearHttpsClient.zip)| Full Folder Mode  |
+| [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.004/BearHttpsClientOne.c)| Single File Version|
+| [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.004/BearHttpsClient.h)|Declaration |
+| [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.004/BearHttpsClient.c)|Definition |
 
 
 # Simple Example
 
-The simplest example of using BearHttpsClient -- with the single file include [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.003/BearHttpsClientOne.c) -- is this example that fetches a page from example.com and prints it to the console.
+The simplest example of using BearHttpsClient -- with the single file include [BearSSLSingleUnitOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.004/BearHttpsClientOne.c) -- is this example that fetches a page from example.com and prints it to the console.
 
 ```c
 #include "BearHttpsClientOne.c"
