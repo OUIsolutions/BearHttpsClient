@@ -16,6 +16,7 @@ void BearHttpsRequest_add_header_with_ownership_config(BearHttpsRequest *self ,c
 
 void BearHttpsRequest_add_header(BearHttpsRequest *self ,char *key,char *value);
 
+void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,char *key,char *format,...);
 
 
 
