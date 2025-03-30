@@ -155,10 +155,16 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              return response;
          }
          private_BearHttpsRequisitionProps_free(requisition_props);
-         const int REDIRECT_CODE = 300;
-         const int REDIRECT_CODE2 = 301;
-
-         if((response->status_code == REDIRECT_CODE || response->status_code == REDIRECT_CODE2)  && i < self->max_redirections -1){
+         const int REDIRECT_CODEES[] = {301,302,303,307,308};
+         bool is_redirect = false;
+         for(int i = 0; i < sizeof(REDIRECT_CODEES)/sizeof(int);i++){
+                if(response->status_code == REDIRECT_CODEES[i]){
+                    is_redirect = true;
+                    break;
+                }
+        }
+        
+        if(is_redirect && i < self->max_redirections -1){
             char *location = BearHttpsResponse_get_header_value_by_sanitized_key(response,"location");
             if(location == NULL){
                 return response;
