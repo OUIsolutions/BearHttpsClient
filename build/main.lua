@@ -46,6 +46,6 @@ function main()
 
     darwin.dtw.write_file("release/BearHttpsClient.c", only_definition)
 
-    ---os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
+    os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
 
 end
