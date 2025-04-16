@@ -4,6 +4,7 @@
 
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
+   
     int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
@@ -98,6 +99,10 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
 static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
     
+
+    if(strcmp(host,"localhost")==0){
+        return private_BearHttpsRequest_connect_ipv4(response,"127.0.0.1",port);
+    }
     for(int i = 0; i < self->known_ips_size;i++){
         const char *ip = self->known_ips[i];
         int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ip,port);

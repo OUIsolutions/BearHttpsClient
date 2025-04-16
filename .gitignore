@@ -21,7 +21,8 @@ test.c
 *.ko
 *.obj
 *.elf
-
+cliente.c
+CWebStudioOne.c
 # Linker output
 *.ilk
 *.map
