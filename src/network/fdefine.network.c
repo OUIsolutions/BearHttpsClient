@@ -152,19 +152,17 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 BearHttpsResponse_free(dns_response);
                 continue;
             }       
-            for(int i = 0; i < BearHttpsResponse_get_headers_size(dns_response);i++){
-                char *key = BearHttpsResponse_get_header_key_by_index(dns_response,i);
-                char *value = BearHttpsResponse_get_header_value_by_index(dns_response,i);
-                printf("header %s: %s\n",key,value);
-            }
-            printf("pegou aqui\n");
+        
 
             cJSON * body = BearHttpsResponse_read_body_json(dns_response);
+            //printf("leu o body json: %s\n",cJSON_Print(body));
             if(BearHttpsResponse_error(dns_response)){
+                char *message = BearHttpsResponse_get_error_msg(dns_response);
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
+
             cJSON * answer = cJSON_GetObjectItem(body, "Answer");
             if(answer == NULL){
                 BearHttpsRequest_free(dns_request);
@@ -177,7 +175,6 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
-
             for(int j = 0; j < size;j++){
                 cJSON * item = cJSON_GetArrayItem(answer,j);
                 cJSON * data = cJSON_GetObjectItem(item, "data");
@@ -188,6 +185,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 if(ipv4 == NULL){
                     continue;
                 }
+
                 int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port);
                 if(sockfd < 0){
                     continue;

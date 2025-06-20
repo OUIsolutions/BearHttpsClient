@@ -61,7 +61,6 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
     long readded =  private_BearHttpsResponse_read_chunck_raw(self,buffer+total_prev_sended,size-total_prev_sended);
     if(readded < 0){
-        BearHttpsResponse_set_error(self,"error reading body",BEARSSL_HTTPS_IMPOSSIBLE_TO_READ_BODY);
         return readded;
     }
     if(readded> 0){
@@ -109,7 +108,6 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
                 self->body = NULL;
                 return NULL;
             }
-            printf("reallocating body to %ld bytes\n", body_allocated);
             self->body = (unsigned char *)BearsslHttps_reallocate(self->body, body_allocated);
             if (self->body == NULL) {
                 BearHttpsResponse_set_error(self, "error allocating memory", BEARSSL_HTTPS_ALOCATION_FAILED);
@@ -120,12 +118,10 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     
         // Lê usando a função chunck
         int readded  = BearHttpsResponse_read_body_chunck(self, buffer, self->body_chunk_size);
-        printf("readded: %d\n", readded);
         if(readded > 0){
             total_readded += readded;
             continue;
         }        
-        printf("error %s\n",strerror(errno));
         break;
         
     }
