@@ -34,9 +34,9 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
     br_ssl_engine_set_buffer(&self->ssl_client.eng, self->bear_buffer, sizeof(self->bear_buffer), 1);
 
     br_ssl_client_reset(&self->ssl_client, hostname, 0);
-    br_sslio_init(&self->ssl_io, &self->ssl_client.eng, private_BearHttps_sock_read,
+    br_sslio_init(&self->ssl_io, &self->ssl_client.eng, private_BearHttps_sock_read_all,
                   &self->connection_file_descriptor,
-                  private_BearHttps_sock_write,
+                  private_BearHttps_sock_write_all,
                   &self->connection_file_descriptor
     );
 }

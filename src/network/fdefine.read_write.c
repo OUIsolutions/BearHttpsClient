@@ -39,8 +39,27 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
 }
 
 
+static int private_BearHttps_sock_read_all(void *ctx, unsigned char *buf, size_t len)
+{
+    printf("private_BearHttps_sock_read_all called with len: %ld\n", len);
+    size_t total_read = 0;  
+    while (total_read < len) {
+        ssize_t read = private_BearHttps_sock_read(ctx, buf + total_read, len - total_read);
+        if (read <= 0) {
+            return -1; // Error or no more data
+        }
+        total_read += read;
+    }
+    
+    printf("total_read: %ld\n", total_read);
+    return (int)total_read; // Return total bytes read
+}
+
 static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, size_t len)
 {  
+
+
+
     const int MAX_SEQUENTIAL_ERRORS = 200; // Maximum number of sequential errors before giving up
 	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){
 		ssize_t write_len = Universal_send(*(int *)ctx, buf, len, 0);
@@ -69,4 +88,18 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
         }    
 	}
     return -1; // Too many errors, return -1
+}
+static int private_BearHttps_sock_write_all(void *ctx, const unsigned char *buf, size_t len){
+    printf("private_BearHttps_sock_write_all called with len: %ld\n", len);
+    size_t total_written = 0;
+    while (total_written < len) {
+        ssize_t written = private_BearHttps_sock_write(ctx, buf + total_written, len - total_written);
+        if (written <= 0) {
+            return -1;
+        }
+        total_written += written;
+    }
+    
+    printf("total_written: %ld\n", total_written);
+    return (int)total_written; // Return total bytes written
 }
