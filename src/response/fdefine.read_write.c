@@ -125,7 +125,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
             total_readded += readded;
             continue;
         }        
-
+        printf("error %s\n",strerror(errno));
         break;
         
     }
