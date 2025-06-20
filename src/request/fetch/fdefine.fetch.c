@@ -66,7 +66,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)self->method, private_BearsslHttps_strlen(self->method));
          private_BearHttpsResponse_write(response, (unsigned char*)" ", 1);
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->route, private_BearsslHttps_strlen(requisition_props->route));
-         private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.1\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.1\r\nHost: "));
+         private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.0\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.1\r\nHost: "));
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
 

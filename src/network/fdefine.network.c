@@ -321,8 +321,11 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
-        
-            printf("dns response: %s\n",cJSON_Print(body));
+            for(int i = 0; i < BearHttpsResponse_get_headers_size(dns_response);i++){
+                char *key = BearHttpsResponse_get_header_key_by_index(dns_response,i);
+                char *value = BearHttpsResponse_get_header_value_by_index(dns_response,i);
+                printf("header %s: %s\n",key,value);
+            }
 
             cJSON * answer = cJSON_GetObjectItem(body, "Answer");
             if(answer == NULL){

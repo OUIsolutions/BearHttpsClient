@@ -10,8 +10,12 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
 	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){ 
 		ssize_t read_len = Universal_recv(*(int*)ctx, buf, len, 0);
         printf("read_lenxxxx:%d %d %ld\n",*(int*)ctx, i, read_len);
-        if(read_len >=0){
+        if(read_len >0){
             return (int)read_len;
+        }
+        if(read_len == 0) {
+            // Connection closed by peer
+            return -1; // No more data to read
         }
 
        
