@@ -47,6 +47,7 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
 	for (;;) {
 		ssize_t write_len;
 		write_len = Universal_send(*(int *)ctx, buf, len, 0);
+        printf("write_len: %ld\n", write_len);
 		if (write_len <= 0) {
 			if (write_len < 0) {
                 if (errno == EINTR) {
