@@ -6,10 +6,10 @@
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
 {
-    const int MAX_SEQUENTIAL_ERRORS = 20; // Maximum number of sequential errors before giving up
+    const int MAX_SEQUENTIAL_ERRORS = 10; // Maximum number of sequential errors before giving up
 	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){ 
 		ssize_t read_len = Universal_recv(*(int*)ctx, buf, len, 0);
-        printf("read_lenxxxx:%d %d %ld\n",*(int*)ctx, i, read_len);
+        //printf("read_lenxxxx:%d %d %ld\n",*(int*)ctx, i, read_len);
         if(read_len >=0){
             return (int)read_len;
         }
@@ -28,7 +28,7 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
             // Wait for up to 10ms (adjust timeout as needed)
             struct timeval timeout;
             timeout.tv_sec = 0;
-            timeout.tv_usec = 10000; // Increase timeout with each iteration
+            timeout.tv_usec = 100000; // Increase timeout with each iteration
             
             select(*(int*)ctx + 1, &read_fds, NULL, NULL, &timeout);
         
@@ -60,10 +60,10 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
 
 
 
-    const int MAX_SEQUENTIAL_ERRORS = 20; // Maximum number of sequential errors before giving up
+    const int MAX_SEQUENTIAL_ERRORS = 10; // Maximum number of sequential errors before giving up
 	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){
 		ssize_t write_len = Universal_send(*(int *)ctx, buf, len, 0);
-        printf("write_lenxxx: %d %ld\n", i, write_len);
+       // printf("write_lenxxx: %d %ld\n", i, write_len);
         if(write_len >= 0) {
             return (int)write_len;
         }
@@ -82,7 +82,7 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
             // Wait for up to 10ms (adjust timeout as needed)
             struct timeval timeout;
             timeout.tv_sec = 0;
-            timeout.tv_usec = 10000; // Increase timeout with each iteration
+            timeout.tv_usec = 100000; // Increase timeout with each iteration
             
             select(*(int*)ctx + 1, NULL, &write_fds, NULL, &timeout);
         }    
