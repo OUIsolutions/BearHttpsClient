@@ -6,18 +6,12 @@
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
 {
-    const int MAX_SEQUENTIAL_ERRORS = 1000; // Maximum number of sequential errors before giving up
-    int total_sequential_error = 0;
-	while (true) {
+    const int MAX_SEQUENTIAL_ERRORS = 200; // Maximum number of sequential errors before giving up
+	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){ 
 		ssize_t read_len = Universal_recv(*(int*)ctx, buf, len, 0);
-    //printf("read_len: %ld\n", read_len);
+        printf("read_len: %d %ld\n",i, read_len);
         if(read_len >=0){
             return (int)read_len;
-        }
-        total_sequential_error++;
-        if (total_sequential_error >= MAX_SEQUENTIAL_ERRORS) {
-            // Too many errors, return -1
-            return -1;
         }
         if (errno == EINTR) {
             continue;
@@ -32,13 +26,14 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
             // Wait for up to 10ms (adjust timeout as needed)
             struct timeval timeout;
             timeout.tv_sec = 0;
-            timeout.tv_usec = 10000;
+            timeout.tv_usec = 10000; // Increase timeout with each iteration
             
             select(*(int*)ctx + 1, &read_fds, NULL, NULL, &timeout);
         
         }
               
 	}
+    return -1; // Too many errors, return -1
 }
 
 
