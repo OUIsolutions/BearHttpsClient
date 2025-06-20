@@ -5,6 +5,13 @@
 //silver_chain_scope_end
 
 
+ int private_bear_https_close (int fd){
+  if(fd < 0){
+        return -1;
+    }
+    return Universal_close(fd);
+}
+
 /**
  * Sets a socket to non-blocking mode
  * @param sockfd The socket file descriptor
@@ -34,7 +41,9 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     // Set socket to non-blocking mode
     if (private_BearHttps_set_nonblocking(sockfd) < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to set non-blocking socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
-        Universal_close(sockfd);
+        
+        
+        private_bear_https_close(sockfd);
         return -1;
     }
 
@@ -45,7 +54,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
     if (Universal_inet_pton(UNI_AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
         BearHttpsResponse_set_error(self,"ERROR: invalid address",BEARSSL_HTTPS_INVALID_IPV4);
-        Universal_close(sockfd);
+        private_bear_https_close(sockfd);
         return -1;
     }
 
@@ -54,7 +63,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     if (connect_result < 0) {
         if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
             BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
-            Universal_close(sockfd);
+            private_bear_https_close(sockfd);
             return -1;
         }
         
@@ -73,7 +82,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         if (select_result <= 0) {
             // Timeout or error
             BearHttpsResponse_set_error(self,"ERROR: connection timeout",BEARSSL_HTTPS_FAILT_TO_CONNECT);
-            Universal_close(sockfd);
+            private_bear_https_close(sockfd);
             return -1;
         }
         
@@ -82,7 +91,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         socklen_t len = sizeof(error);
         if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
             BearHttpsResponse_set_error(self,"ERROR: failed to connect after select",BEARSSL_HTTPS_FAILT_TO_CONNECT);
-            Universal_close(sockfd);
+            private_bear_https_close(sockfd);
             return -1;
         }
     }
@@ -97,7 +106,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     
     // Set socket to non-blocking mode
     if (private_BearHttps_set_nonblocking(sockfd) < 0) {
-        Universal_close(sockfd);
+        private_bear_https_close(sockfd);
         return -1;
     }
 
@@ -107,7 +116,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     server_addr.sin_port = Universal_htons(port); 
 
     if (Universal_inet_pton(UNI_AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
-        Universal_close(sockfd);
+        private_bear_https_close(sockfd);
         return -1;
     }
 
@@ -115,7 +124,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     int connect_result = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
     if (connect_result < 0) {
         if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
-            Universal_close(sockfd);
+            private_bear_https_close(sockfd);
             return -1;
         }
         
@@ -133,7 +142,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         
         if (select_result <= 0) {
             // Timeout or error
-            Universal_close(sockfd);
+            private_bear_https_close(sockfd);
             return -1;
         }
         
@@ -141,7 +150,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         int error = 0;
         socklen_t len = sizeof(error);
         if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
-            Universal_close(sockfd);
+            private_bear_https_close(sockfd);
             return -1;
         }
     }
@@ -176,7 +185,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         
         // Set socket to non-blocking mode
         if (private_BearHttps_set_nonblocking(found_socket) < 0) {
-            Universal_close(found_socket);
+            private_bear_https_close(found_socket);
             continue;
         }
         
@@ -184,7 +193,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         int connect_result = Universal_connect(found_socket, current_addr->ai_addr, current_addr->ai_addrlen);
         if (connect_result < 0) {
             if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
-                Universal_close(found_socket);
+                private_bear_https_close(found_socket);
                 continue;
             }
             
@@ -202,7 +211,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             
             if (select_result <= 0) {
                 // Timeout or error
-                Universal_close(found_socket);
+                private_bear_https_close(found_socket);
                 continue;
             }
             
@@ -210,7 +219,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             int error = 0;
             socklen_t len = sizeof(error);
             if (getsockopt(found_socket, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
-                Universal_close(found_socket);
+                private_bear_https_close(found_socket);
                 continue;
             }
         }

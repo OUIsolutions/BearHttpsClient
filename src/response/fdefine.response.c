@@ -70,7 +70,7 @@ int BearHttpsResponse_get_error_code(BearHttpsResponse*self){
 }
 
 void BearHttpsResponse_free(BearHttpsResponse *self){
-    Universal_close(self->connection_file_descriptor);
+    private_bear_https_close(self->connection_file_descriptor);
     if(self->is_https){
         br_ssl_client_zero(&self->ssl_client);
     }
