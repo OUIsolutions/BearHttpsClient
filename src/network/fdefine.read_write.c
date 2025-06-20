@@ -44,7 +44,7 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
     const int MAX_SEQUENTIAL_ERRORS = 200; // Maximum number of sequential errors before giving up
 	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){
 		ssize_t write_len = Universal_send(*(int *)ctx, buf, len, 0);
-       // printf("write_len: %d %ld\n", i, write_len);
+        printf("write_len: %d %ld\n", i, write_len);
         if(write_len >= 0) {
             return (int)write_len;
         }
