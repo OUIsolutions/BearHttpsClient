@@ -1,9 +1,25 @@
 //silver_chain_scope_start
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../imports/imports.dep_define.h"
+
 //silver_chain_scope_end
 
 
+/**
+ * Sets a socket to non-blocking mode
+ * @param sockfd The socket file descriptor
+ * @return 0 on success, -1 on failure
+ */
+static int private_BearHttps_set_nonblocking(int sockfd) {
+    #ifdef _WIN32
+        unsigned long mode = 1;
+        return ioctlsocket(sockfd, FIONBIO, &mode);
+    #else
+        int flags = fcntl(sockfd, F_GETFL, 0);
+        if (flags == -1) return -1;
+        return fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
+    #endif
+}
 
 
 
@@ -13,6 +29,13 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     if (sockfd < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
         return -1; 
+    }
+
+    // Set socket to non-blocking mode
+    if (private_BearHttps_set_nonblocking(sockfd) < 0) {
+        BearHttpsResponse_set_error(self,"ERROR: failed to set non-blocking socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        Universal_close(sockfd);
+        return -1;
     }
 
     Universal_sockaddr_in server_addr;
@@ -26,10 +49,42 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         return -1;
     }
 
-    if (Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
-        Universal_close(sockfd); 
-        return -1;
+    // Connect will return immediately with EINPROGRESS since the socket is non-blocking
+    int connect_result = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
+    if (connect_result < 0) {
+        if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
+            BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+            Universal_close(sockfd);
+            return -1;
+        }
+        
+        // Wait for socket to be ready using select
+        fd_set write_fds;
+        FD_ZERO(&write_fds);
+        FD_SET(sockfd, &write_fds);
+        
+        // Set timeout for connection attempt (3 seconds)
+        struct timeval timeout;
+        timeout.tv_sec = 3;
+        timeout.tv_usec = 0;
+        
+        int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
+        
+        if (select_result <= 0) {
+            // Timeout or error
+            BearHttpsResponse_set_error(self,"ERROR: connection timeout",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+            Universal_close(sockfd);
+            return -1;
+        }
+        
+        // Check if the connection was successful
+        int error = 0;
+        socklen_t len = sizeof(error);
+        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
+            BearHttpsResponse_set_error(self,"ERROR: failed to connect after select",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+            Universal_close(sockfd);
+            return -1;
+        }
     }
 
     return sockfd;
@@ -37,6 +92,12 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port) {
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
+        return -1;
+    }
+    
+    // Set socket to non-blocking mode
+    if (private_BearHttps_set_nonblocking(sockfd) < 0) {
+        Universal_close(sockfd);
         return -1;
     }
 
@@ -50,9 +111,39 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         return -1;
     }
 
-    if (Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-        Universal_close(sockfd); 
-        return -1;
+    // Connect will return immediately with EINPROGRESS since the socket is non-blocking
+    int connect_result = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
+    if (connect_result < 0) {
+        if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
+            Universal_close(sockfd);
+            return -1;
+        }
+        
+        // Wait for socket to be ready using select
+        fd_set write_fds;
+        FD_ZERO(&write_fds);
+        FD_SET(sockfd, &write_fds);
+        
+        // Set timeout for connection attempt (3 seconds)
+        struct timeval timeout;
+        timeout.tv_sec = 3;
+        timeout.tv_usec = 0;
+        
+        int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
+        
+        if (select_result <= 0) {
+            // Timeout or error
+            Universal_close(sockfd);
+            return -1;
+        }
+        
+        // Check if the connection was successful
+        int error = 0;
+        socklen_t len = sizeof(error);
+        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
+            Universal_close(sockfd);
+            return -1;
+        }
     }
 
     return sockfd;
@@ -79,20 +170,56 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     for (Universal_addrinfo *current_addr = addr_info; current_addr != NULL; current_addr = current_addr->ai_next) {
         found_socket = Universal_socket(current_addr->ai_family, current_addr->ai_socktype, current_addr->ai_protocol);
         
-  
         if (found_socket < 0) {
             continue;
         }
-        if (Universal_connect(found_socket, current_addr->ai_addr, current_addr->ai_addrlen) < 0) {
+        
+        // Set socket to non-blocking mode
+        if (private_BearHttps_set_nonblocking(found_socket) < 0) {
             Universal_close(found_socket);
             continue;
+        }
+        
+        // Connect will return immediately with EINPROGRESS since the socket is non-blocking
+        int connect_result = Universal_connect(found_socket, current_addr->ai_addr, current_addr->ai_addrlen);
+        if (connect_result < 0) {
+            if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
+                Universal_close(found_socket);
+                continue;
+            }
+            
+            // Wait for socket to be ready using select
+            fd_set write_fds;
+            FD_ZERO(&write_fds);
+            FD_SET(found_socket, &write_fds);
+            
+            // Set timeout for connection attempt (3 seconds)
+            struct timeval timeout;
+            timeout.tv_sec = 3;
+            timeout.tv_usec = 0;
+            
+            int select_result = select(found_socket + 1, NULL, &write_fds, NULL, &timeout);
+            
+            if (select_result <= 0) {
+                // Timeout or error
+                Universal_close(found_socket);
+                continue;
+            }
+            
+            // Check if the connection was successful
+            int error = 0;
+            socklen_t len = sizeof(error);
+            if (getsockopt(found_socket, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
+                Universal_close(found_socket);
+                continue;
+            }
         }
         break;
     }
 
     if (found_socket < 0) {
         BearHttpsResponse_set_error(response, "ERROR: failed to connect\n",BEARSSL_HTTPS_FAILT_TO_CONNECT);
-        return -1;;
+        return -1;
     }
     Universal_freeaddrinfo(addr_info);
     return found_socket;
@@ -221,29 +348,73 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
 	for (;;) {
 		ssize_t read_len;
 
-		read_len = Universal_recv(*(int*)ctx, buf, len,0);
+		read_len = Universal_recv(*(int*)ctx, buf, len, 0);
 		if (read_len <= 0) {
-			if (read_len < 0 && errno == EINTR) {
-				continue;
-			}
+			if (read_len < 0) {
+                if (errno == EINTR) {
+                    continue;
+                }
+                // Handle non-blocking socket
+                if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                    // Socket would block, use select to wait until data is available
+                    fd_set read_fds;
+                    FD_ZERO(&read_fds);
+                    FD_SET(*(int*)ctx, &read_fds);
+                    
+                    // Wait for up to 100ms (adjust timeout as needed)
+                    struct timeval timeout;
+                    timeout.tv_sec = 1;
+                    timeout.tv_usec = 100000;
+                    
+                    int select_result = select(*(int*)ctx + 1, &read_fds, NULL, NULL, &timeout);
+                    if (select_result > 0) {
+                        // Data is now available, retry the read
+                        continue;
+                    }
+                    // If select timed out or had an error, return -1
+                }
+            }
 			return -1;
 		}
+        printf("Read %ld bytes\n", read_len);
 		return (int)read_len;
 	}
 }
 
 
 static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, size_t len)
-{
+{  
 	for (;;) {
 		ssize_t write_len;
-		write_len = Universal_send(*(int *)ctx, buf, len,0);
+		write_len = Universal_send(*(int *)ctx, buf, len, 0);
 		if (write_len <= 0) {
-			if (write_len < 0 && errno == EINTR) {
-				continue;
-			}
+			if (write_len < 0) {
+                if (errno == EINTR) {
+                    continue;
+                }
+                // Handle non-blocking socket
+                if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                    // Socket would block, use select to wait until it's writable
+                    fd_set write_fds;
+                    FD_ZERO(&write_fds);
+                    FD_SET(*(int*)ctx, &write_fds);
+                    
+                    // Wait for up to 100ms (adjust timeout as needed)
+                    struct timeval timeout;
+                    timeout.tv_sec = 1;
+                    timeout.tv_usec = 100000;
+                    
+                    int select_result = select(*(int*)ctx + 1, NULL, &write_fds, NULL, &timeout);
+                    if (select_result > 0) {
+                        // Socket is now writable, retry the write
+                        continue;
+                    }
+                    // If select timed out or had an error, return -1
+                }
+            }
 			return -1;
 		}
+        printf("Wrote %ld bytes\n", write_len);
 		return (int)write_len;
 	}
 }

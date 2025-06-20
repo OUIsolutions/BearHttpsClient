@@ -8,7 +8,6 @@
 
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
-
     BearHttpsResponse *response = NULL;
 
     int uni_start = Universal_start_all();
@@ -71,7 +70,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.1\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.1\r\nHost: "));
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
-         private_BearHttpsResponse_write(response, (unsigned char*)"Connection: close\r\n", private_BearsslHttps_strlen("Connection: close\r\n"));
        
 
          for (int i = 0; i < self->headers->size; i++) {
@@ -143,7 +141,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
         }
 
-
+            
         if(requisition_props->is_https){
              if(br_sslio_flush(&response->ssl_io)){
                 BearHttpsResponse_set_error(response, "error flushing",BEARSSL_HTTPS_ERROR_FLUSHING);
@@ -152,7 +150,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
              }
 
          }
-
+        
          private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(response,self->header_chunk_read_size,self->header_chunk_reallocator_factor);
 
          if(BearHttpsResponse_error(response)){
