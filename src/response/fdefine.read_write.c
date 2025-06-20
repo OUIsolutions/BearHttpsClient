@@ -72,81 +72,63 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
     return total_readded;
 
 }
-unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self){
-    if(BearHttpsResponse_error(self)){
+unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
+    if (BearHttpsResponse_error(self)) {
         return NULL;
     }
 
-    long body_allocated = self->body_size;
-    long size_to_read ;
-
-    if(self->body_readed){
+    if (self->body_readed) {
         return self->body;
     }
-    if(self->user_content_length){
-        body_allocated = self->user_content_length+2;
-        if(self->max_body_size != -1 && body_allocated > self->max_body_size){
-            BearHttpsResponse_set_error(self,"body size is bigger than max body size",BEARSSL_HTTPS_BODY_SIZE_ITS_BIGGER_THAN_LIMIT);
-            BearsslHttps_free(self->body);
-            self->body = NULL;
-            return NULL;
-        }
-        self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
-        if(self->body == NULL){
-            BearHttpsResponse_set_error(self,"error allocating memory",BEARSSL_HTTPS_ALOCATION_FAILED);
-            return NULL;
-        }
-        size_to_read = self->user_content_length - self->body_readded;
+
+    long body_allocated = self->body_size > 0 ? self->body_size : self->body_chunk_size;
+    if (self->user_content_length) {
+        body_allocated = self->user_content_length + 2;
     }
 
-    if(!self->user_content_length){
-        body_allocated = self->body_size + self->body_chunk_size+ 2;
-        self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
-        size_to_read = self->body_chunk_size;
+    self->body = (unsigned char *)BearsslHttps_reallocate(self->body, body_allocated);
+    if (self->body == NULL) {
+        BearHttpsResponse_set_error(self, "error allocating memory", BEARSSL_HTTPS_ALOCATION_FAILED);
+        return NULL;
     }
-    
-    unsigned char *buffer = (unsigned char*)(self->body + self->body_readded);
-    while(true){
 
-    
-        while(self->body_size + self->body_chunk_size + 2  > body_allocated){
-            body_allocated = body_allocated * self->body_realloc_factor;
-            if(self->max_body_size != -1 && body_allocated > self->max_body_size){
-                BearHttpsResponse_set_error(self,"body size is bigger than max body size",BEARSSL_HTTPS_BODY_SIZE_ITS_BIGGER_THAN_LIMIT);
+    long size_to_read = self->body_chunk_size;
+    unsigned char *buffer = self->body;
+    int total_readded = 0;
+    while (true) {
+      
+
+        // Verifica se o buffer é grande o suficiente
+        if ((total_readded+ size_to_read + 2) > body_allocated) {
+            while(body_allocated < (total_readded+ size_to_read + 2)) {
+                body_allocated *= self->body_realloc_factor;
+            }
+            if (self->max_body_size != -1 && body_allocated > self->max_body_size) {
+                BearHttpsResponse_set_error(self, "body size is bigger than max body size", BEARSSL_HTTPS_BODY_SIZE_ITS_BIGGER_THAN_LIMIT);
                 BearsslHttps_free(self->body);
                 self->body = NULL;
                 return NULL;
             }
-            self->body = (unsigned char *)BearsslHttps_reallocate(self->body,body_allocated);
-            if(self->body == NULL){
-                BearHttpsResponse_set_error(self,"error allocating memory",BEARSSL_HTTPS_ALOCATION_FAILED);
+            printf("reallocating body to %ld bytes\n", body_allocated);
+            self->body = (unsigned char *)BearsslHttps_reallocate(self->body, body_allocated);
+            if (self->body == NULL) {
+                BearHttpsResponse_set_error(self, "error allocating memory", BEARSSL_HTTPS_ALOCATION_FAILED);
                 return NULL;
             }
-            buffer = (unsigned char*)(self->body + self->body_readded);
+            buffer = self->body + total_readded;
         }
-
-        if(self->body_readded == self->user_content_length && self->user_content_length != 0){
+    
+        // Lê usando a função chunck
+        total_readded = BearHttpsResponse_read_body_chunck(self, buffer, size_to_read);
+        if (total_readded <= 0) {
             break;
         }
-        long readded = private_BearHttpsResponse_read_chunck_raw(self,buffer,size_to_read);
-        
-        if(readded <= 0 ){
-            break;
-        }
-
-        if(self->user_content_length){
-            size_to_read -= readded;
-        }
-
-        self->body_readded += readded;
-        self->body_size += readded;       
-        buffer += readded;
-
+       
     }
+    self->body[ total_readded] = 0; // Null-termina o buffer
+    self->body_size =total_readded;
     self->body_readed = true;
-    self->body[self->body_size] = '\0';
     return self->body;
-
 }
 
 const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self){
@@ -176,6 +158,7 @@ cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self){
         return NULL;
     }
     const char *body = BearHttpsResponse_read_body_str(self);
+    printf("body: %s\n", body);
     if(body == NULL){
         return NULL;
     }

@@ -152,11 +152,12 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 BearHttpsResponse_free(dns_response);
                 continue;
             }       
-     for(int i = 0; i < BearHttpsResponse_get_headers_size(dns_response);i++){
+            for(int i = 0; i < BearHttpsResponse_get_headers_size(dns_response);i++){
                 char *key = BearHttpsResponse_get_header_key_by_index(dns_response,i);
                 char *value = BearHttpsResponse_get_header_value_by_index(dns_response,i);
                 printf("header %s: %s\n",key,value);
             }
+            printf("pegou aqui\n");
 
             cJSON * body = BearHttpsResponse_read_body_json(dns_response);
             if(BearHttpsResponse_error(dns_response)){
