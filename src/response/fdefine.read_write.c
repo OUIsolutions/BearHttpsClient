@@ -12,7 +12,7 @@ int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer
     if(self->is_https){
       return br_sslio_write_all(&self->ssl_io, bufer, size);
     }
-    return private_BearHttps_sock_write_all((void*)(long)self->connection_file_descriptor, bufer, size);
+    return private_BearHttps_sock_write_all(&self->connection_file_descriptor, bufer, size);
 }
 
 int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size){
@@ -24,7 +24,7 @@ int private_BearHttpsResponse_read_chunck_raw(BearHttpsResponse *self,unsigned c
       return br_sslio_read(&self->ssl_io, buffer, size);
     }
 
-    return private_BearHttps_sock_read_all((void*)(long)self->connection_file_descriptor, buffer, size);
+    return private_BearHttps_sock_read_all(&self->connection_file_descriptor, buffer, size);
 
 }
 

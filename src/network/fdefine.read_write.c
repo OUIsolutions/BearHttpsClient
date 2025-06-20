@@ -31,7 +31,7 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
             timeout.tv_usec = 100000; // Increase timeout with each iteration
             
             select(*(int*)ctx + 1, &read_fds, NULL, NULL, &timeout);
-        
+            
         }
               
 	}
@@ -46,7 +46,7 @@ static int private_BearHttps_sock_read_all(void *ctx, unsigned char *buf, size_t
     while (total_read < len) {
         ssize_t read = private_BearHttps_sock_read(ctx, buf + total_read, len - total_read);
         if (read <= 0) {
-            return -1; // Error or no more data
+            return total_read;
         }
         total_read += read;
     }
@@ -95,7 +95,7 @@ static int private_BearHttps_sock_write_all(void *ctx, const unsigned char *buf,
     while (total_written < len) {
         ssize_t written = private_BearHttps_sock_write(ctx, buf + total_written, len - total_written);
         if (written <= 0) {
-            return -1;
+            return total_written; // Error or no more data
         }
         total_written += written;
     }
