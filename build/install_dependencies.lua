@@ -1,7 +1,7 @@
 function install_dependencies()
     local hasher = darwin.dtw.newHasher()
     hasher.digest_folder_by_content("dependencies")
-    local EXPECTED_SHA = '91b2a76afc5201bdc472306f105ec9dd2b7dba8de06d899afdf97eaa3730ec1e'
+    local EXPECTED_SHA = '8c7ab4b769257950e1fd0c3fafeb17ef23bb225444d9f6f5d81c4557a5d00bdf'
     if hasher.get_value() == EXPECTED_SHA then
         return
     end
