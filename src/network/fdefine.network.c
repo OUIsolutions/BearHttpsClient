@@ -67,7 +67,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         return -1;
     }
 
-    const int MAX_CONNECT_ATTEMPTS = 10;
+    const int MAX_CONNECT_ATTEMPTS = 1000;
     for (int attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
         fd_set write_fds;
         FD_ZERO(&write_fds);
@@ -75,7 +75,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
         struct timeval timeout;
         timeout.tv_sec = 0;
-        timeout.tv_usec = 100000; // Increase timeout with each iteration
+        timeout.tv_usec = 10000; // Increase timeout with each iteration
 
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
         if (select_result < 0) {
@@ -102,9 +102,10 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
             return -1;
         }
         // Connected successfully
+        printf("Connected to %s:%d\n", ipv4_ip, port);
         return sockfd;
     }
-    printf("estourou o timeout\n");
+    printf("estourou o timeout em  %s\n",ipv4_ip);
     BearHttpsResponse_set_error(self, "ERROR: connection timed out", BEARSSL_HTTPS_FAILT_TO_CONNECT);
     private_bear_https_close(sockfd);
     return -1;
