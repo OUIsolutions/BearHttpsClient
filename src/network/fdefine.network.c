@@ -314,11 +314,15 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             }       
 
             cJSON * body = BearHttpsResponse_read_body_json(dns_response);
+
             if(BearHttpsResponse_error(dns_response)){
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
+        
+            printf("dns response: %s\n",cJSON_Print(body));
+
             cJSON * answer = cJSON_GetObjectItem(body, "Answer");
             if(answer == NULL){
                 BearHttpsRequest_free(dns_request);
