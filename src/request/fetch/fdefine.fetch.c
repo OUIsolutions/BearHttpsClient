@@ -9,7 +9,6 @@
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     BearHttpsResponse *response = NULL;
-
     int uni_start = Universal_start_all();
     if (uni_start != 0) {
         BearHttpsResponse_set_error(response, "failt to start unisocket",BEARSSL_HTTPS_FAILT_TO_START_UNISOCKET);

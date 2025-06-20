@@ -31,18 +31,15 @@ static int private_BearHttps_set_nonblocking(int sockfd) {
 
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
-   
-    int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
+    int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
-        return -1; 
+        BearHttpsResponse_set_error(self, "ERROR: failed to create socket", BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        return -1;
     }
 
     // Set socket to non-blocking mode
     if (private_BearHttps_set_nonblocking(sockfd) < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to set non-blocking socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
-        
-        
+        BearHttpsResponse_set_error(self, "ERROR: failed to set non-blocking socket", BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
         private_bear_https_close(sockfd);
         return -1;
     }
@@ -50,54 +47,67 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     Universal_sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = UNI_AF_INET;
-    server_addr.sin_port = Universal_htons(port); 
+    server_addr.sin_port = Universal_htons(port);
 
     if (Universal_inet_pton(UNI_AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
-        BearHttpsResponse_set_error(self,"ERROR: invalid address",BEARSSL_HTTPS_INVALID_IPV4);
+        BearHttpsResponse_set_error(self, "ERROR: invalid address", BEARSSL_HTTPS_INVALID_IPV4);
         private_bear_https_close(sockfd);
         return -1;
     }
 
-    // Connect will return immediately with EINPROGRESS since the socket is non-blocking
     int connect_result = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
-    if (connect_result < 0) {
-        if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
-            BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
-            private_bear_https_close(sockfd);
-            return -1;
-        }
-        
-        // Wait for socket to be ready using select
+    if (connect_result == 0) {
+        // Connected immediately
+        return sockfd;
+    }
+
+    if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
+        BearHttpsResponse_set_error(self, "ERROR: failed to connect", BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        private_bear_https_close(sockfd);
+        return -1;
+    }
+
+    const int MAX_CONNECT_ATTEMPTS = 1000;
+    for (int attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
         fd_set write_fds;
         FD_ZERO(&write_fds);
         FD_SET(sockfd, &write_fds);
-        
-        // Set timeout for connection attempt (3 seconds)
+
         struct timeval timeout;
-        timeout.tv_sec = 1;
-        timeout.tv_usec = 0;
-        
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 1000;
+
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
-        
-        if (select_result <= 0) {
-            // Timeout or error
-            BearHttpsResponse_set_error(self,"ERROR: connection timeout",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        if (select_result < 0) {
+            BearHttpsResponse_set_error(self, "ERROR: select() failed", BEARSSL_HTTPS_FAILT_TO_CONNECT);
             private_bear_https_close(sockfd);
             return -1;
         }
-        
-        // Check if the connection was successful
+        if (select_result == 0) {
+            // Timeout, try again
+            continue;
+        }
+
         int error = 0;
         socklen_t len = sizeof(error);
-        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
-            BearHttpsResponse_set_error(self,"ERROR: failed to connect after select",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void *)&error, &len) < 0) {
+            BearHttpsResponse_set_error(self, "ERROR: getsockopt() failed", BEARSSL_HTTPS_FAILT_TO_CONNECT);
             private_bear_https_close(sockfd);
             return -1;
         }
+        if (error != 0) {
+            printf("Connection error: %s\n", strerror(error));
+            return -1;
+        }
+        // Connected successfully
+        return sockfd;
     }
-
-    return sockfd;
+    printf("estourou o timeout\n");
+    BearHttpsResponse_set_error(self, "ERROR: connection timed out", BEARSSL_HTTPS_FAILT_TO_CONNECT);
+    private_bear_https_close(sockfd);
+    return -1;
 }
+
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port) {
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -120,42 +130,53 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         return -1;
     }
 
-    // Connect will return immediately with EINPROGRESS since the socket is non-blocking
-    int connect_result = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
-    if (connect_result < 0) {
-        if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
-            private_bear_https_close(sockfd);
-            return -1;
-        }
-        
-        // Wait for socket to be ready using select
+       int connect_result = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
+    if (connect_result == 0) {
+        // Connected immediately
+        return sockfd;
+    }
+
+    if (errno != EINPROGRESS && errno != EWOULDBLOCK) {
+        private_bear_https_close(sockfd);
+        return -1;
+    }
+
+    const int MAX_CONNECT_ATTEMPTS = 100;
+    for (int attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
         fd_set write_fds;
         FD_ZERO(&write_fds);
         FD_SET(sockfd, &write_fds);
-        
-        // Set timeout for connection attempt (3 seconds)
+
         struct timeval timeout;
-        timeout.tv_sec = 1;
-        timeout.tv_usec = 0;
-        
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 10000;
+
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
-        
-        if (select_result <= 0) {
-            // Timeout or error
+        if (select_result < 0) {
             private_bear_https_close(sockfd);
             return -1;
         }
-        
-        // Check if the connection was successful
+        if (select_result == 0) {
+            // Timeout, try again
+            continue;
+        }
+
         int error = 0;
         socklen_t len = sizeof(error);
-        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void*)&error, &len) < 0 || error != 0) {
+        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (void *)&error, &len) < 0) {
             private_bear_https_close(sockfd);
             return -1;
         }
+        if (error != 0) {
+            printf("Connection error: %s\n", strerror(error));
+            return -1;
+        }
+        // Connected successfully
+        return sockfd;
     }
 
-    return sockfd;
+    private_bear_https_close(sockfd);
+    return -1;
 }
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
