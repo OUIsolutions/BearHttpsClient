@@ -70,7 +70,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)" HTTP/1.1\r\nHost: ", private_BearsslHttps_strlen(" HTTP/1.1\r\nHost: "));
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->hostname, private_BearsslHttps_strlen(requisition_props->hostname));
          private_BearHttpsResponse_write(response, (unsigned char*)"\r\n", 2);
-       
+
 
          for (int i = 0; i < self->headers->size; i++) {
              private_BearHttpsKeyVal *keyval = self->headers->keyvals[i];
