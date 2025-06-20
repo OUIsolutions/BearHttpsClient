@@ -67,7 +67,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         return -1;
     }
 
-    const int MAX_CONNECT_ATTEMPTS = 1000;
+    const int MAX_CONNECT_ATTEMPTS = 10;
     for (int attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
         fd_set write_fds;
         FD_ZERO(&write_fds);
@@ -75,7 +75,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
         struct timeval timeout;
         timeout.tv_sec = 0;
-        timeout.tv_usec = 1000;
+        timeout.tv_usec = 100000; // Increase timeout with each iteration
 
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
         if (select_result < 0) {
@@ -96,7 +96,9 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
             return -1;
         }
         if (error != 0) {
-            printf("Connection error: %s\n", strerror(error));
+            BearHttpsResponse_set_error(self, "ERROR: connection error", BEARSSL_HTTPS_FAILT_TO_CONNECT);
+            private_bear_https_close(sockfd);
+         
             return -1;
         }
         // Connected successfully
@@ -141,7 +143,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         return -1;
     }
 
-    const int MAX_CONNECT_ATTEMPTS = 100;
+    const int MAX_CONNECT_ATTEMPTS = 10;
     for (int attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
         fd_set write_fds;
         FD_ZERO(&write_fds);
@@ -149,7 +151,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
 
         struct timeval timeout;
         timeout.tv_sec = 0;
-        timeout.tv_usec = 10000;
+        timeout.tv_usec = 100000; // Increase timeout with each iteration
 
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
         if (select_result < 0) {
@@ -168,7 +170,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
             return -1;
         }
         if (error != 0) {
-            printf("Connection error: %s\n", strerror(error));
+            //printf("Connection error: %s\n", strerror(error));
             return -1;
         }
         // Connected successfully
