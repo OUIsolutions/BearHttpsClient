@@ -299,7 +299,8 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     for(int i = 0; i < chosen_dns_providers_size;i++){
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s:%d%s?name=%s&type=A",provider.ip,provider.port, provider.route, host); 
-           //printf("used url %s\n",dns_request->url);
+            printf("route %s\n",dns_request->url);
+            //printf("used url %s\n",dns_request->url);
             dns_request->custom_bear_dns = provider.hostname;
 
             //these its require, otherwise can generate indirect recursion error if provider.ip its wrong

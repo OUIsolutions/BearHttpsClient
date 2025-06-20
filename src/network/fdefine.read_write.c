@@ -6,7 +6,7 @@
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
 {
-    const int MAX_SEQUENTIAL_ERRORS = 10; // Maximum number of sequential errors before giving up
+    const int MAX_SEQUENTIAL_ERRORS = 100; // Maximum number of sequential errors before giving up
 	for(int i = 0; i < MAX_SEQUENTIAL_ERRORS; i++){ 
 		ssize_t read_len = Universal_recv(*(int*)ctx, buf, len, 0);
         //printf("read_lenxxxx:%d %d %ld\n",*(int*)ctx, i, read_len);
@@ -45,8 +45,12 @@ static int private_BearHttps_sock_read_all(void *ctx, unsigned char *buf, size_t
     size_t total_read = 0;  
     while (total_read < len) {
         ssize_t read = private_BearHttps_sock_read(ctx, buf + total_read, len - total_read);
-        if (read <= 0) {
+        if (read == 0) {
             return total_read;
+        }
+        if(read < 0) {
+            printf("Error reading from socket: %s\n", strerror(errno));
+            return -1; // Error occurred
         }
         total_read += read;
     }
