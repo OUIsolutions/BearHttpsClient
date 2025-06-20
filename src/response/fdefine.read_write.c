@@ -120,15 +120,17 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     
         // Lê usando a função chunck
         int readded  = BearHttpsResponse_read_body_chunck(self, buffer, self->body_chunk_size);
+        printf("readded: %d\n", readded);
         if(readded > 0){
             total_readded += readded;
             continue;
         }        
+
         break;
         
     }
     self->body[total_readded] = 0; // Null-termina o buffer
-    self->body_size =total_readded;
+    self->body_size = total_readded;
     self->body_readed = true;
     return self->body;
 }
@@ -160,7 +162,6 @@ cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self){
         return NULL;
     }
     const char *body = BearHttpsResponse_read_body_str(self);
-    printf("body: %s\n", body);
     if(body == NULL){
         return NULL;
     }
