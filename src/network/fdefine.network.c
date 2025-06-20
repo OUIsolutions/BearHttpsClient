@@ -1,7 +1,6 @@
 //silver_chain_scope_start
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../imports/imports.dep_define.h"
-
 //silver_chain_scope_end
 
 
@@ -343,78 +342,3 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
 #endif
 
-static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
-{
-	for (;;) {
-		ssize_t read_len;
-
-		read_len = Universal_recv(*(int*)ctx, buf, len, 0);
-		if (read_len <= 0) {
-			if (read_len < 0) {
-                if (errno == EINTR) {
-                    continue;
-                }
-                // Handle non-blocking socket
-                if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                    // Socket would block, use select to wait until data is available
-                    fd_set read_fds;
-                    FD_ZERO(&read_fds);
-                    FD_SET(*(int*)ctx, &read_fds);
-                    
-                    // Wait for up to 100ms (adjust timeout as needed)
-                    struct timeval timeout;
-                    timeout.tv_sec = 1;
-                    timeout.tv_usec = 100000;
-                    
-                    int select_result = select(*(int*)ctx + 1, &read_fds, NULL, NULL, &timeout);
-                    if (select_result > 0) {
-                        // Data is now available, retry the read
-                        continue;
-                    }
-                    // If select timed out or had an error, return -1
-                }
-            }
-			return -1;
-		}
-        printf("Read %ld bytes\n", read_len);
-		return (int)read_len;
-	}
-}
-
-
-static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, size_t len)
-{  
-	for (;;) {
-		ssize_t write_len;
-		write_len = Universal_send(*(int *)ctx, buf, len, 0);
-		if (write_len <= 0) {
-			if (write_len < 0) {
-                if (errno == EINTR) {
-                    continue;
-                }
-                // Handle non-blocking socket
-                if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                    // Socket would block, use select to wait until it's writable
-                    fd_set write_fds;
-                    FD_ZERO(&write_fds);
-                    FD_SET(*(int*)ctx, &write_fds);
-                    
-                    // Wait for up to 100ms (adjust timeout as needed)
-                    struct timeval timeout;
-                    timeout.tv_sec = 1;
-                    timeout.tv_usec = 100000;
-                    
-                    int select_result = select(*(int*)ctx + 1, NULL, &write_fds, NULL, &timeout);
-                    if (select_result > 0) {
-                        // Socket is now writable, retry the write
-                        continue;
-                    }
-                    // If select timed out or had an error, return -1
-                }
-            }
-			return -1;
-		}
-        printf("Wrote %ld bytes\n", write_len);
-		return (int)write_len;
-	}
-}
