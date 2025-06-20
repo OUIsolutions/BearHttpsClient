@@ -92,15 +92,15 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
         return NULL;
     }
 
-    long size_to_read = self->body_chunk_size;
+    
     unsigned char *buffer = self->body;
-    int total_readded = 0;
+    long total_readded = 0;
     while (true) {
       
 
         // Verifica se o buffer é grande o suficiente
-        if ((total_readded+ size_to_read + 2) > body_allocated) {
-            while(body_allocated < (total_readded+ size_to_read + 2)) {
+        if ((total_readded + self->body_chunk_size + 2) > body_allocated) {
+            while(body_allocated < (total_readded+ self->body_chunk_size + 2)) {
                 body_allocated *= self->body_realloc_factor;
             }
             if (self->max_body_size != -1 && body_allocated > self->max_body_size) {
@@ -119,13 +119,15 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
         }
     
         // Lê usando a função chunck
-        total_readded = BearHttpsResponse_read_body_chunck(self, buffer, size_to_read);
-        if (total_readded <= 0) {
-            break;
-        }
-       
+        int readded  = BearHttpsResponse_read_body_chunck(self, buffer, self->body_chunk_size);
+        if(readded > 0){
+            total_readded += readded;
+            continue;
+        }        
+        break;
+        
     }
-    self->body[ total_readded] = 0; // Null-termina o buffer
+    self->body[total_readded] = 0; // Null-termina o buffer
     self->body_size =total_readded;
     self->body_readed = true;
     return self->body;
