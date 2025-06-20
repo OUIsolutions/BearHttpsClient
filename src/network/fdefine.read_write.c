@@ -30,7 +30,7 @@ static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len
             timeout.tv_sec = 0;
             timeout.tv_usec = 100000; // Increase timeout with each iteration
             
-            select(*(int*)ctx + 1, &read_fds, NULL, NULL, &timeout);
+            select(*(int*)ctx, &read_fds, NULL, NULL, &timeout);
             
         }
               
@@ -84,7 +84,7 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
             timeout.tv_sec = 0;
             timeout.tv_usec = 100000; // Increase timeout with each iteration
             
-            select(*(int*)ctx + 1, NULL, &write_fds, NULL, &timeout);
+            select(*(int*)ctx, NULL, &write_fds, NULL, &timeout);
         }    
 	}
     return -1; // Too many errors, return -1

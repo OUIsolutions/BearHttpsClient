@@ -74,7 +74,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         
         // Set timeout for connection attempt (3 seconds)
         struct timeval timeout;
-        timeout.tv_sec = 3;
+        timeout.tv_sec = 1;
         timeout.tv_usec = 0;
         
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
@@ -135,7 +135,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         
         // Set timeout for connection attempt (3 seconds)
         struct timeval timeout;
-        timeout.tv_sec = 3;
+        timeout.tv_sec = 1;
         timeout.tv_usec = 0;
         
         int select_result = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
