@@ -9,7 +9,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         return -1;
     }
 
-    if(self->body_readded == self->respnse_content_lenght && self->respnse_content_lenght != 0){
+    if(self->body_readded_size == self->respnse_content_lenght && self->respnse_content_lenght != 0){
         return 0;
     }
 
@@ -29,7 +29,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         return readded;
     }
     if(readded> 0){
-        self->body_readded+=readded;
+        self->body_readded_size+=readded;
     }
     int total_readded = readded + total_prev_sended;
     buffer[total_readded] = 0;
@@ -41,7 +41,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
         return NULL;
     }
 
-    if (self->body_readed) {
+    if (self->body_completed_read) {
         return self->body;
     }
 
@@ -91,7 +91,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
         
     }
     self->body_size = total_readded;
-    self->body_readed = true;
+    self->body_completed_read = true;
     return self->body;
 }
 

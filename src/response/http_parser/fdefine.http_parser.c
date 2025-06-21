@@ -110,7 +110,7 @@ void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
                 self->body_start_index =content_size + i+1;
                 self->body_size = ((content_size+readded) - self->body_start_index);
                 self->extra_body_remaning_to_send = self->body_size;
-                self->body_readded = self->body_size;
+                self->body_readded_size = self->body_size;
                 self->body = (unsigned char*)BearsslHttps_allocate(self->body_size+2);
                 memcpy(self->body,self->raw_content + self->body_start_index,self->body_size);
                 self->body[self->body_size] = '\0';
