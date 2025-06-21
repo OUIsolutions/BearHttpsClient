@@ -60,7 +60,7 @@ void private_BearHttpsResponse_parse_headers(BearHttpsResponse *self,int headers
 
     char *content_length = BearHttpsResponse_get_header_value_by_sanitized_key(self,"contentlength");
     if(content_length != NULL){
-        self->user_content_length = atol(content_length);
+        self->respnse_content_lenght = atol(content_length);
     }
 
 }

@@ -17,7 +17,7 @@ typedef struct BearHttpsResponse{
     unsigned char *raw_content;
     int error_code;
     private_BearHttpsHeaders *headers;
-    long user_content_length;
+    long respnse_content_lenght;
     long body_start_index;
     unsigned char *body;
     #ifndef BEARSSL_HTTPS_MOCK_CJSON

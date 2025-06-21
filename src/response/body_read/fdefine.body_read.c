@@ -9,7 +9,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         return -1;
     }
 
-    if(self->body_readded == self->user_content_length && self->user_content_length != 0){
+    if(self->body_readded == self->respnse_content_lenght && self->respnse_content_lenght != 0){
         return 0;
     }
 
@@ -46,8 +46,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     }
 
     long body_allocated = self->body_size > 0 ? self->body_size : self->body_chunk_size;
-    if (self->user_content_length) {
-        body_allocated = self->user_content_length + 2;
+    if (self->respnse_content_lenght) {
+        body_allocated = self->respnse_content_lenght + 2;
     }
 
     self->body = (unsigned char *)BearsslHttps_reallocate(self->body, body_allocated);
