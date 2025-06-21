@@ -12,6 +12,7 @@ BearHttpsResponse *private_newBearHttpsResponse(){
     self->status_code = 0;
     self->headers = private_newBearHttpsHeaders();
     self->max_body_size = -1;
+    self->body_read_mode = PRIVATE_BEARSSL_BY_READ_ERROR;
     self->body_chunk_size = BEARSSL_BODY_CHUNK_SIZE;
     self->body_realloc_factor = BEARSSL_BODY_REALLOC_FACTOR;
     self->body = NULL;
