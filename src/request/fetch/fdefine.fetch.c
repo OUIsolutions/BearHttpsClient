@@ -70,9 +70,9 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
          private_BearHttpsResponse_write(response, (unsigned char*)requisition_props->route, private_BearsslHttps_strlen(requisition_props->route));
          char start_msg[100] ={0};
         if(self->http_protocol == BEARSSL_HTTPS_HTTP1_0){
-            snprintf(start_msg, sizeof(start_msg) - 1, " HTTP/1.0\r\n");
+            snprintf(start_msg, sizeof(start_msg) - 1, " HTTP/1.0\r\nHost: ");
         } else if(self->http_protocol == BEARSSL_HTTPS_HTTP1_1){
-            snprintf(start_msg, sizeof(start_msg) - 1, " HTTP/1.1\r\n");
+            snprintf(start_msg, sizeof(start_msg) - 1, " HTTP/1.1\r\nHost: ");
         } else {
             BearHttpsResponse_set_error(response, "invalid http protocol",BEARSSL_HTTPS_INVALID_HTTP_PROTOCOL);
             private_BearHttpsRequisitionProps_free(requisition_props);
