@@ -15,7 +15,7 @@ typedef struct BearHttpsRequest{
     const char *custom_bear_dns;
     const  char **known_ips;
     int known_ips_size;
-    
+    short http_protocol; 
    BearHttpsClientDnsProvider  *dns_providers;
     int total_dns_providers;
     bool must_be_ipv4;

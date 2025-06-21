@@ -23,6 +23,8 @@ void BearHttpsRequest_add_header(BearHttpsRequest *self ,const char *key,const c
 void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self,const char *key,const char *format,...);
 
 
+void BearHttpsRequest_set_http_protocol(BearHttpsRequest *self ,short protocol);
+
 
 void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redirections);
 

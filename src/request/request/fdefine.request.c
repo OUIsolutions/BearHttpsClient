@@ -12,6 +12,7 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
     BearHttpsRequest_set_url_with_ownership_config(self,url,url_ownership_mode);
     self->headers = private_newBearHttpsHeaders();
     self->body_type =PRIVATE_BEARSSL_NO_BODY;
+    self->http_protocol = BEARSSL_HTTPS_HTTP1_0;
     self->header_chunk_read_size = BEARSSL_HEADER_CHUNK;
     self->header_chunk_reallocator_factor = BEARSSL_HEADER_REALLOC_FACTOR;
     private_BearsslHttps_strcpy(self->method,"GET");
@@ -74,6 +75,10 @@ void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,const char *key,con
     }
     BearHttpsRequest_add_header_with_ownership_config(self,(char*)key,BEARSSL_DEFAULT_STRATEGY,formmated,BEARSSL_HTTPS_GET_OWNERSHIP);
 }
+void BearHttpsRequest_set_http_protocol(BearHttpsRequest *self ,short protocol){
+    self->http_protocol = protocol;   
+}
+
 
 void BearHttpsRequest_set_method(BearHttpsRequest *self ,const char *method){
     private_BearsslHttps_strcpy(self->method,method);
