@@ -46,7 +46,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     }
 
     long body_allocated = self->body_size > 0 ? self->body_size : self->body_chunk_size;
-    if (self->respnse_content_lenght) {
+    if (self->body_read_mode == PRIVATE_BEARSSL_BY_CONTENT_LENGTH) {
         body_allocated = self->respnse_content_lenght + 2;
     }
 
