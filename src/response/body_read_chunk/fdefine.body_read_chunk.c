@@ -9,7 +9,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         return -1;
     }
 
-    if(self->body_readded_size == self->respnse_content_lenght && self->respnse_content_lenght != 0){
+    if(self->body_readded_size == self->respnse_content_lenght && self->body_read_mode == PRIVATE_BEARSSL_BY_CONTENT_LENGTH ){
         return 0;
     }
 
