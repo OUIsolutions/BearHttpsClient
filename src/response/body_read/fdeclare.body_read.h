@@ -6,7 +6,6 @@
 
 
 
-int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size);
 
 unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self);
 
