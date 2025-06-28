@@ -89,7 +89,7 @@ void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
         //we create a buff str , to allow 'append' into the content
         unsigned char *content_point = (self->raw_content +content_size);
 
-        int readded = private_BearHttpsResponse_read_chunck_raw(self,content_point, chunk_size);
+        int readded = private_BearHttpsResponse_recv(self,content_point, chunk_size);
         if(readded == 0){
             BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
             return;
