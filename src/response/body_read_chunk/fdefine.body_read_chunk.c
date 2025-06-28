@@ -4,14 +4,7 @@
 //silver_chain_scope_end
 
 
-int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
-    if(BearHttpsResponse_error(self)){
-        return -1;
-    }
-
-    if(self->body_readded_size == self->respnse_content_lenght && self->body_read_mode == PRIVATE_BEARSSL_BY_CONTENT_LENGTH ){
-        return 0;
-    }
+int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size){
 
     long total_prev_sended = 0;
     while (self->extra_body_remaning_to_send > 0) {
@@ -22,7 +15,6 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         self->extra_body_remaning_to_send-=1;
         total_prev_sended+=1;
     }
-
 
     long readded =  private_BearHttpsResponse_recv(self,buffer+total_prev_sended,size-total_prev_sended);
     if(readded < 0){
@@ -35,4 +27,16 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
     buffer[total_readded] = 0;
     return total_readded;
 
+}
+
+int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size){
+    if(BearHttpsResponse_error(self)){
+        return -1;
+    }
+
+    if(self->body_readded_size == self->respnse_content_lenght && self->body_read_mode == PRIVATE_BEARSSL_BY_CONTENT_LENGTH ){
+        return 0;
+    }
+
+    return BearHttpsResponse_read_body_chunck_raw(self,buffer,size);
 }
