@@ -3,6 +3,11 @@
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
 
+int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
+
+   
+}
+
 
 int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size){
 
@@ -38,5 +43,9 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
         return 0;
     }
 
+    if(self->body_read_mode == PRIVATE_BEARSSL_BY_CHUNKED){
+        return BearHttpsResponse_read_body_chunck_http1(self,buffer,size);
+    }
+ 
     return BearHttpsResponse_read_body_chunck_raw(self,buffer,size);
 }
