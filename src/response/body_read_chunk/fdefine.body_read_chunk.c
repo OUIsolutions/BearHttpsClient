@@ -21,7 +21,7 @@ int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char
         total_prev_sended+=1;
     }
 
-    long readded =  private_BearHttpsResponse_recv(self,buffer+total_prev_sended,size-total_prev_sended);
+    long readded = private_BearHttpsResponse_recv(self,buffer+total_prev_sended,size-total_prev_sended);
     if(readded < 0){
         return readded;
     }
