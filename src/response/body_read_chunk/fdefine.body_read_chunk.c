@@ -7,7 +7,10 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
     if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
         char number_buffer[10] = {0};
         for(int i = 0; i < 10; i++){
-            BearHttpsResponse_read_body_chunck_raw(self,(unsigned char *)&number_buffer[i],1);
+            int readded = BearHttpsResponse_read_body_chunck_raw(self,(unsigned char *)&number_buffer[i],1);
+            if(readded <= 0){
+                return readded; // Error or end of stream
+            }
             if(number_buffer[i] == '\r'){
                 number_buffer[i] = 0;
                 self->http1_current_chunk_size = strtol((char *)number_buffer, NULL, 16);
@@ -15,9 +18,12 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
                 self->http1_current_chunk_readed = 0;
                 break;
             }
+
         }
         printf("valor: %s\n", number_buffer);
+
     }
+
     return 0;
 }
 
