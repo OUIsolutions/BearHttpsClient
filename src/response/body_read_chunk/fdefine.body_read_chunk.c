@@ -32,10 +32,7 @@ int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char
         if(total_prev_sended >= size){
             return total_prev_sended;
         }
-        printf("--------------------------\n");
-        printf("extra body remaining to send: %ld\n",self->extra_body_remaning_to_send);
-        printf("total_prev_sended: %ld\n",total_prev_sended);
-        buffer[total_prev_sended] = self->body[total_prev_sended];
+        buffer[total_prev_sended] = self->body[self->body_readded_size - self->extra_body_remaning_to_send];
         self->extra_body_remaning_to_send-=1;
         total_prev_sended+=1;
     }
