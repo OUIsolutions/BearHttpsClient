@@ -6,23 +6,20 @@
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
     if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
         char number_buffer[10] = {0};
-        for(int i = 0; i < 10; i++){
-            int readded = BearHttpsResponse_read_body_chunck_raw(self,(unsigned char *)&number_buffer[i],1);
-            if(readded <= 0){
-                return readded; // Error or end of stream
-            }
-            if(number_buffer[i] == '\r'){
-                number_buffer[i] = 0;
-                self->http1_current_chunk_size = strtol((char *)number_buffer, NULL, 16);
-                self->http1_state = PRIVATE_BEARHTTPS_READING_CHUNK;
-                self->http1_current_chunk_readed = 0;
-                break;
-            }
-
-        }
+        BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer,1);
         printf("valor: %s\n", number_buffer);
 
-    }
+
+        char number_buffer2[10] = {0};
+        BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer2,1);
+        printf("valor: %s\n", number_buffer2);
+
+        char number_buffer3[10] = {0};
+        BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer3,1);
+        printf("valor: %s\n", number_buffer3);
+
+
+    } 
 
     return 0;
 }
@@ -35,6 +32,9 @@ int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char
         if(total_prev_sended >= size){
             return total_prev_sended;
         }
+        printf("--------------------------\n");
+        printf("extra body remaining to send: %ld\n",self->extra_body_remaning_to_send);
+        printf("total_prev_sended: %ld\n",total_prev_sended);
         buffer[total_prev_sended] = self->body[total_prev_sended];
         self->extra_body_remaning_to_send-=1;
         total_prev_sended+=1;
