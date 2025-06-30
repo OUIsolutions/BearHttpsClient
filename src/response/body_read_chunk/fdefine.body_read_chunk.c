@@ -15,7 +15,7 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
             BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer + i, 1);
             if(number_buffer[i] == '\r' && i > 0){
                 number_buffer[i] = 0;
-                self->http1_current_chunk_size = strtol((const char*)number_buffer, NULL, 16);
+                self->http1_current_chunk_size = strtol((const char*)number_buffer, NULL, 10);
                 self->http1_state = PRIVATE_BEARHTTPS_READING_CHUNK;
                 self->http1_current_chunk_readed = 0;
                 number_buffer_filled= true;
@@ -26,13 +26,12 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
         if(!number_buffer_filled){
             BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
             return -1;
-        }
-
-
-        
+        }        
+        printf("filled number buffer %d\n",number_buffer_filled);
+        printf("buffer %s\n",number_buffer);
         
     } 
-
+    printf("http1_current_chunk_size: %ld\n",self->http1_current_chunk_size);
     return 0;
 }
 
