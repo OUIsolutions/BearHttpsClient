@@ -4,21 +4,33 @@
 //silver_chain_scope_end
 
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
+
+
+
+
     if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
         char number_buffer[10] = {0};
-        BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer,1);
-        printf("valor: %s\n", number_buffer);
+        bool number_buffer_filled = false;
+        for(int i =0; i < 10;i++){
+            BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer + i, 1);
+            if(number_buffer[i] == '\r' && i > 0){
+                number_buffer[i] = 0;
+                self->http1_current_chunk_size = strtol((const char*)number_buffer, NULL, 16);
+                self->http1_state = PRIVATE_BEARHTTPS_READING_CHUNK;
+                self->http1_current_chunk_readed = 0;
+                number_buffer_filled= true;
+                break;
+            }
+        }
+
+        if(!number_buffer_filled){
+            BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
+            return -1;
+        }
 
 
-        char number_buffer2[10] = {0};
-        BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer2,1);
-        printf("valor: %s\n", number_buffer2);
-
-        char number_buffer3[10] = {0};
-        BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer3,1);
-        printf("valor: %s\n", number_buffer3);
-
-
+        
+        
     } 
 
     return 0;
