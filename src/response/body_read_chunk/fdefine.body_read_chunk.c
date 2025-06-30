@@ -4,7 +4,6 @@
 //silver_chain_scope_end
 
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
-
     if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
         char number_buffer[10] = {0};
         for(int i = 0; i < 10; i++){
