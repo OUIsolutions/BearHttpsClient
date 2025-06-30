@@ -5,7 +5,8 @@
 
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
 
-   
+    if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
+    }
 }
 
 
