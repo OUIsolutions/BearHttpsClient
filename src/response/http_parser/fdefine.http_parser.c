@@ -63,9 +63,11 @@ void private_BearHttpsResponse_parse_headers(BearHttpsResponse *self,int headers
         self->body_read_mode = PRIVATE_BEARSSL_BY_CONTENT_LENGTH;
         self->respnse_content_lenght = atol(content_length);
     }
-    char *transfer_encoding = BearHttpsResponse_get_header_value_by_sanitized_key(self,"transfer-encoding");
-    if(transfer_encoding != NULL && private_BearsslHttp_strcmp(transfer_encoding,"chunked") == 0){
-        self->body_read_mode = PRIVATE_BEARSSL_BY_CHUNKED;
+    char *transfer_encoding = BearHttpsResponse_get_header_value_by_sanitized_key(self,"transferencoding");
+     if(transfer_encoding != NULL ){
+        if(private_BearsslHttp_strcmp(transfer_encoding,"chunked") == 0){
+            self->body_read_mode = PRIVATE_BEARSSL_BY_CHUNKED;
+        }
     }
 
 }

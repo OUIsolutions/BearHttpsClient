@@ -16,7 +16,7 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
                 break;
             }
         }
-        printf("%s", number_buffer);
+        printf("valor: %s\n", number_buffer);
     }
     return 0;
 }
