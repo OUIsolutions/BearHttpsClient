@@ -19,6 +19,8 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
                 self->http1_state = PRIVATE_BEARHTTPS_READING_CHUNK;
                 self->http1_current_chunk_readed = 0;
                 number_buffer_filled= true;
+                char trash[2] = {0};
+                BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)trash, 1);
                 break;
             }
         }
@@ -32,7 +34,8 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
         
     } 
     char *bufff = malloc( self->http1_current_chunk_size + 1);
-    int total_readed = BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)bufff, self->http1_current_chunk_size+200);
+    int total_readed = BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)bufff,  1000);
+    printf("expected chunk size %ld\n",self->http1_current_chunk_size);
     printf("total readed %d\n",total_readed);
     printf("readed chunk %s\n",bufff);
     return 0;
