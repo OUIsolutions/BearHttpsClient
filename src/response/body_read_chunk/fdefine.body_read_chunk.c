@@ -5,9 +5,6 @@
 
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
 
-
-
-
     if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
         char number_buffer[10] = {0};
         bool number_buffer_filled = false;
@@ -29,10 +26,9 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
             BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
             return -1;
         }        
-        printf("filled number buffer %d\n",number_buffer_filled);
-        printf("buffer %s\n",number_buffer);
-        
+      
     } 
+    
     char *bufff = malloc( self->http1_current_chunk_size + 1);
     int total_readed = BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)bufff,  1000);
     printf("expected chunk size %ld\n",self->http1_current_chunk_size);
