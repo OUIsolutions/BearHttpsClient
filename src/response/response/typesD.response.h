@@ -36,7 +36,6 @@ typedef struct BearHttpsResponse{
     int status_code;
     //http1.1 vars 
     short http1_state;
-    long http1_current_chunk_size;
-    long http1_current_chunk_readed;    
+    long http1_reaming_to_read;
 
 }BearHttpsResponse ;

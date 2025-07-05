@@ -4,36 +4,68 @@
 //silver_chain_scope_end
 
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){
+    long remaning_to_read = size;
+    while (true){
+        if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
+            char number_buffer[10] = {0};
+            bool number_buffer_filled = false;
+            for(int i =0; i < 10;i++){
+                BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer + i, 1);
+                if(number_buffer[i] == '\r' && i > 0){
+                    number_buffer[i] = 0;
+                    self->http1_reaming_to_read = strtol((const char*)number_buffer, NULL, 16);
 
-    if(self->http1_state == PRIVATE_BEARHTTPS_COLLECTING_NUMBER){
-        char number_buffer[10] = {0};
-        bool number_buffer_filled = false;
-        for(int i =0; i < 10;i++){
-            BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)number_buffer + i, 1);
-            if(number_buffer[i] == '\r' && i > 0){
-                number_buffer[i] = 0;
-                self->http1_current_chunk_size = strtol((const char*)number_buffer, NULL, 16);
-                self->http1_state = PRIVATE_BEARHTTPS_READING_CHUNK;
-                self->http1_current_chunk_readed = 0;
-                number_buffer_filled= true;
-                char trash[2] = {0};
-                BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)trash, 1);
-                break;
+                    if(self->http1_reaming_to_read < 0){
+                        BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
+                        return -1;
+                    }
+                    if(self->http1_reaming_to_read == 0){
+                        self->http1_state = PRIVATE_BEARHTTPS_COLLECTING_NUMBER;
+                        self->body_completed_read = true;
+                        return size - remaning_to_read; //return the size of the body readed
+                    }
+
+                    self->http1_state = PRIVATE_BEARHTTPS_READING_CHUNK;
+                    number_buffer_filled= true;
+                    char trash[2] = {0};
+                    BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)trash, 1);
+                    break;
+                }
             }
-        }
 
-        if(!number_buffer_filled){
-            BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
-            return -1;
-        }        
-      
-    } 
-    
-    char *bufff = malloc( self->http1_current_chunk_size + 1);
-    int total_readed = BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)bufff,  1000);
-    printf("expected chunk size %ld\n",self->http1_current_chunk_size);
-    printf("total readed %d\n",total_readed);
-    printf("readed chunk %s\n",bufff);
+            if(!number_buffer_filled){
+                BearHttpsResponse_set_error(self,"invalid http response",BEARSSL_HTTPS_INVALID_HTTP_RESPONSE);
+                return -1;
+            }        
+        
+        } 
+        if(self->http1_state == PRIVATE_BEARHTTPS_READING_CHUNK){
+            long read_size;
+            if(remaning_to_read <= self->http1_reaming_to_read){
+                read_size = remaning_to_read;
+            }
+            
+            if(remaning_to_read > self->http1_reaming_to_read){
+                read_size = self->http1_reaming_to_read;
+            }
+
+            long readded = BearHttpsResponse_read_body_chunck_raw(self, buffer, read_size);
+            if(readded < 0){
+                BearHttpsResponse_set_error(self,"error reading body chunk",BEARSSL_HTTPS_ERROR_READING_CHUNK);
+                return -1;  
+            }
+            remaning_to_read -= readded;
+            self->http1_reaming_to_read -= readded;
+            if(self->http1_reaming_to_read == 0){
+                self->http1_state = PRIVATE_BEARHTTPS_COLLECTING_NUMBER;
+                char trash[3] = {0};
+                BearHttpsResponse_read_body_chunck_raw(self, (unsigned char*)trash, 2); //read \r\n
+            }
+
+        }
+       
+    }
+
     return 0;
 }
 
