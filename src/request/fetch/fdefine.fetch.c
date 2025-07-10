@@ -35,7 +35,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                 response->connection_file_descriptor = private_BearHttpsRequest_connect_ipv4(
                     response,
                     requisition_props->hostname,
-                    requisition_props->port
+                    requisition_props->port,
+                    self->connection_timeout
                 );
         }
         //these function its used on the private_BearHttpsRequest_connect_host and if returns these

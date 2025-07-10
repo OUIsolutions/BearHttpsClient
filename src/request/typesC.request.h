@@ -31,6 +31,7 @@ typedef struct BearHttpsRequest{
 
     br_x509_trust_anchor *trust_anchors;
     size_t trusted_anchors_size;
+    long connection_timeout;
 
 
     short body_type;

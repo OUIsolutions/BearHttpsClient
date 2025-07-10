@@ -51,11 +51,11 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     
 
     if(strcmp(host,"localhost")==0){
-        return private_BearHttpsRequest_connect_ipv4(response,"127.0.0.1",port);
+        return private_BearHttpsRequest_connect_ipv4(response,"127.0.0.1",port,self->connection_timeout);
     }
     for(int i = 0; i < self->known_ips_size;i++){
         const char *ip = self->known_ips[i];
-        int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ip,port);
+        int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ip,port,self->connection_timeout);
         if(sockfd < 0){
             continue;
         }
@@ -67,7 +67,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         privateBearHttpsDnsCache *cache = &privateBearHttpsDnsCache_itens[i];
 
         if(private_BearsslHttp_strcmp(cache->host,host) == 0){
-            int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(cache->ip,port);
+            int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(cache->ip,port,self->connection_timeout);
             if(sockfd < 0){
                 break;
             }
@@ -134,7 +134,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                     continue;
                 }
 
-                int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port);
+                int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port,self->connection_timeout);
                 if(sockfd < 0){
                     continue;
                 }

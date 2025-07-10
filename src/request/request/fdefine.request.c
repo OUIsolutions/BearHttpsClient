@@ -15,6 +15,7 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
     self->http_protocol = BEARSSL_HTTPS_HTTP1_0;
     self->header_chunk_read_size = BEARSSL_HEADER_CHUNK;
     self->header_chunk_reallocator_factor = BEARSSL_HEADER_REALLOC_FACTOR;
+    self->connection_timeout = BEARSSL_TIMEOUT;
     private_BearsslHttps_strcpy(self->method,"GET");
     return self;
 }

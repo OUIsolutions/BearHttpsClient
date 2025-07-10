@@ -37,5 +37,5 @@ typedef struct BearHttpsResponse{
     //http1.1 vars 
     short http1_state;
     long http1_reaming_to_read;
-
+    
 }BearHttpsResponse ;
