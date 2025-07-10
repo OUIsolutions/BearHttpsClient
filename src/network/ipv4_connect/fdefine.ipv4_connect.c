@@ -1,11 +1,7 @@
 //silver_chain_scope_start
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
-#include "../imports/imports.dep_define.h"
+#include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-
-
-
-
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
     printf("connecting to ipv4 %s:%d\n", ipv4_ip, port);
@@ -69,7 +65,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     FD_SET(sockfd, &write_fds);
     
     struct timeval timeout;
-    timeout.tv_sec = 1;  // 5 second timeout
+    timeout.tv_sec = 1;  
     timeout.tv_usec = 0;
     
     ret = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
