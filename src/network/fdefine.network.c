@@ -34,7 +34,11 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
     return sockfd;
 }
+
+
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port) {
+    
+    printf("testing ipv4 %s:%d\n",ipv4_ip,port);
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
         return -1;
@@ -53,13 +57,11 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         Universal_close(sockfd);
         return -1;
     }
-    printf("a1\n");
     int ret = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
     if (ret < 0 && errno != EINPROGRESS) {
         Universal_close(sockfd); 
         return -1;
     }
-    printf("a2\n");
 
     // Use select to wait for connection with timeout
     fd_set write_fds;
