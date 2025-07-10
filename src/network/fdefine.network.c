@@ -40,6 +40,10 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         return -1;
     }
 
+    // Set socket to non-blocking mode
+    int flags = fcntl(sockfd, F_GETFL, 0);
+    fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
+
     Universal_sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = UNI_AF_INET;
@@ -49,11 +53,39 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         Universal_close(sockfd);
         return -1;
     }
-
-    if (Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+    printf("a1\n");
+    int ret = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
+    if (ret < 0 && errno != EINPROGRESS) {
         Universal_close(sockfd); 
         return -1;
     }
+    printf("a2\n");
+
+    // Use select to wait for connection with timeout
+    fd_set write_fds;
+    FD_ZERO(&write_fds);
+    FD_SET(sockfd, &write_fds);
+    
+    struct timeval timeout;
+    timeout.tv_sec = 1;  // 5 second timeout
+    timeout.tv_usec = 0;
+    
+    ret = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
+    if (ret <= 0) {
+        Universal_close(sockfd);
+        return -1;
+    }
+
+    // Check if connection succeeded
+    int error = 0;
+    socklen_t len = sizeof(error);
+    if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, &len) < 0 || error != 0) {
+        Universal_close(sockfd);
+        return -1;
+    }
+
+    // Set socket back to blocking mode
+    fcntl(sockfd, F_SETFL, flags);
 
     return sockfd;
 }
@@ -116,6 +148,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
         return sockfd;
     }
+    
     for(int i = 0; i < BEARSSL_DNS_CACHE_SIZE;i++){
         privateBearHttpsDnsCache *cache = &privateBearHttpsDnsCache_itens[i];
 
@@ -127,7 +160,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             return sockfd;
         }
     }
-
+    
     BearHttpsClientDnsProvider *chosen_dns_providers  = self->dns_providers ?  self->dns_providers : privateBearHttpsProviders;
     int chosen_dns_providers_size = self->total_dns_providers ? self->total_dns_providers : privateBearHttpsProvidersSize;
 
@@ -137,6 +170,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     }
 
     for(int i = 0; i < chosen_dns_providers_size;i++){
+        printf("value of i %d\n",i);
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s:%d%s?name=%s&type=A",provider.ip,provider.port, provider.route, host); 
            //printf("used url %s\n",dns_request->url);
