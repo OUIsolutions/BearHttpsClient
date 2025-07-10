@@ -8,7 +8,7 @@
 
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port) {
-   
+    printf("connecting to ipv4 %s:%d\n", ipv4_ip, port);
     int sockfd = Universal_socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
