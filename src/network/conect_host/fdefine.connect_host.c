@@ -86,7 +86,6 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     privateBearHttpsStringArray * already_testted = newprivateBearHttpsStringArray();
 
     for(int i = 0; i < chosen_dns_providers_size;i++){
-        printf("value of i %d\n",i);
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
             BearHttpsRequest *dns_request = newBearHttpsRequest_fmt("https://%s:%d%s?name=%s&type=A",provider.ip,provider.port, provider.route, host); 
            //printf("used url %s\n",dns_request->url);
