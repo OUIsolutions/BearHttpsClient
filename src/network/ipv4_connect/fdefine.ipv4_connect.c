@@ -4,7 +4,6 @@
 //silver_chain_scope_end
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port,long connection_timeout) {
-    printf("connecting to ipv4 %s:%d\n", ipv4_ip, port);
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
@@ -66,7 +65,6 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 
 
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port,long connection_timeout) {
-    printf("testing ipv4 %s:%d\n",ipv4_ip,port);
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
         return -1;
