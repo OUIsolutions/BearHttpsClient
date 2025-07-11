@@ -82,7 +82,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     
 
     if(strcmp(host,"localhost")==0){
-        return private_BearHttpsRequest_connect_ipv4(response,"127.0.0.1",port,self->connection_timeout);
+        return private_BearHttpsRequest_connect_ipv4(response,"0.0.0.0",port,self->connection_timeout);
     }
     for(int i = 0; i < self->known_ips_size;i++){
         const char *ip = self->known_ips[i];
