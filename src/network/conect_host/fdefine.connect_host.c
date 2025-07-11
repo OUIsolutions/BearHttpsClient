@@ -83,6 +83,8 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         return -1;
     }
 
+    privateBearHttpsStringArray * already_testted = newprivateBearHttpsStringArray();
+
     for(int i = 0; i < chosen_dns_providers_size;i++){
         printf("value of i %d\n",i);
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
@@ -133,6 +135,10 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 if(ipv4 == NULL){
                     continue;
                 }
+                if(privateBearHttpsStringArray_find_position(already_testted, ipv4) != -1){
+                    continue;
+                }
+                privateBearHttpsStringArray_append(already_testted, ipv4);
 
                 int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port,self->connection_timeout);
                 if(sockfd < 0){
@@ -156,13 +162,15 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
+                privateBearHttpsStringArray_free(already_testted);
                 return sockfd;
             }
             
     }
 
      BearHttpsResponse_set_error(response,"ERROR: failed to create dns request",BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
-    return -1;
+     privateBearHttpsStringArray_free(already_testted);
+     return -1;
 }
 
 
