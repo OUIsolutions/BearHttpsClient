@@ -3,8 +3,11 @@
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
 
+#if  defined(BEARSSL_USSE_GET_ADDRINFO) && defined(_WIN32)
+#error "BEARSSL_USSE_GET_ADDRINFO is not supported on windows remove the define BEARSSL_USSE_GET_ADDRINFO"
+#endif
 
-#if  defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)
+#if  (defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON)) && !defined(_WIN32)
 static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
