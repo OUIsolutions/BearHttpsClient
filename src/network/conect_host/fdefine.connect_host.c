@@ -195,7 +195,8 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 privateBearHttpsStringArray_free(already_testted);
                 return sockfd;
             }
-            
+            BearHttpsRequest_free(dns_request);
+            BearHttpsResponse_free(dns_response);
     }
 
      BearHttpsResponse_set_error(response,"ERROR: failed to create dns request",BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
