@@ -61,7 +61,8 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
         break;
         
     }
-    self->body_size = total_readded;
+
+    self->body_size = self->body_readded_size;
     self->body_completed_read = true;
     return self->body;
 }
