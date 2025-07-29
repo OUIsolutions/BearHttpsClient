@@ -2,7 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_declare.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
 
 
 #define BEARSSL_HTTPS_REFERENCE  0
@@ -11,4 +10,3 @@
 
 #define BEARSSL_DEFAULT_STRATEGY BEARSSL_HTTPS_COPY
 
-#endif

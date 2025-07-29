@@ -5,6 +5,6 @@
 
 
 
-#include "../../dependencies/c2wasm.c"
+#include "../../../dependencies/c2wasm.c"
 
 #endif
