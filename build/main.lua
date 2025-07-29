@@ -1,5 +1,8 @@
 function main()
-    install_dependencies()
+    
+    if not darwin.argv.one_of_args_exist("no_de_install") then
+        install_dependencies()
+    end
 
     darwin.silverchain.generate({
         src = "src",
