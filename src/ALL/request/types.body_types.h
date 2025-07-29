@@ -2,9 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.macros.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
-
-
 
 
 typedef struct private_BearHttpsBodyRawRequest{
@@ -28,5 +25,4 @@ typedef struct private_BearHttpsBodyJsonRequest{
     cJSON *json;
     bool onwer;
 }private_BearHttpsBodyJsonRequest;
-#endif
 #endif
