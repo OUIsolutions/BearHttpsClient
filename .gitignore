@@ -3,6 +3,7 @@ server
 teste.lua
 *.d
 saida.jpg
+tests.os_test.h
 doTheWorld.h
 basic.png
 .idea
