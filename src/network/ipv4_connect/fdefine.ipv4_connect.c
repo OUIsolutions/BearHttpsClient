@@ -1,7 +1,3 @@
-//silver_chain_scope_start
-//mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
-#include "../../imports/imports.dep_define.h"
-//silver_chain_scope_end
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port,long connection_timeout) {
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
