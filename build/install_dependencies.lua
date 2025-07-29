@@ -19,6 +19,8 @@ function install_dependencies()
     os.execute(
     "curl -L https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.h -o dependencies/cJSON.h")
     ---- trusted anchors
+    os.execute("curl -L https://github.com/OUIsolutions/C2Wasm/releases/download/0.5.1/c2wasm.c -o dependencies/c2wasm.c")
+  
     darwin.dtw.remove_any("BearSSL")
     os.execute("git clone https://www.bearssl.org/git/BearSSL")
     os.execute("curl -L https://curl.se/ca/cacert.pem -o BearSSL/cacert.pem")
