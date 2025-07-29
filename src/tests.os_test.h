@@ -3,7 +3,7 @@
 
 // Discoment these to allo emcc on your intelisense
 // never Discoment these for building the lib
-#define __EMSCRIPTEN__ 
+//#define __EMSCRIPTEN__ 
 #endif 
 #if !defined(_WIN32) 
 // Discoment these to allo emcc on your intelisense
