@@ -3,8 +3,9 @@ function main()
 
     darwin.silverchain.generate({
         src = "src",
-        tags = { "dep_declare", "macros", "types", "fdeclare","globals", "dep_define","fdefine" },
-        implement_main = false
+        tags = {"os", "dep_declare", "macros", "types", "fdeclare","globals", "dep_define","fdefine" },
+        implement_main = false,
+        project_short_cut="bearhttps"
     })
 
     if darwin.argv.one_of_args_exist("only_silverchain") then
