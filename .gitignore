@@ -1,9 +1,11 @@
 # Prerequisites
 server
+teste.lua
 *.d
 saida.jpg
 doTheWorld.h
 basic.png
+.idea
 teste*
 c2wasm.c
 dtw.c
