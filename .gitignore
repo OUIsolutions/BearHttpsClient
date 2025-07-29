@@ -13,6 +13,7 @@ vgcore*
 BearSSL
 dependencies
 BearHttpsClientOne.c
+prompt.md
 darwintypes.lua
 # Object files
 .vscode

@@ -12,13 +12,11 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     }
 
     // Set socket to non-blocking mode
-    #ifdef _WIN32
-        u_long mode = 1;
-        ioctlsocket(sockfd, FIONBIO, &mode);
-    #else
-        int flags = fcntl(sockfd, F_GETFL, 0);
-        fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
-    #endif
+    if (private_BearHttps_socket_set_nonblocking(sockfd) < 0) {
+        BearHttpsResponse_set_error(self,"ERROR: failed to set socket non-blocking",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        Universal_close(sockfd);
+        return -1;
+    }
 
     Universal_sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
@@ -32,11 +30,7 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     }
 
     int ret = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
-    #ifdef _WIN32
-        if (ret < 0 && WSAGetLastError() != WSAEWOULDBLOCK) {
-    #else
-        if (ret < 0 && errno != EINPROGRESS) {
-    #endif
+    if (private_BearHttps_socket_check_connect_in_progress(ret) < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd); 
         return -1;
@@ -59,25 +53,18 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     }
 
     // Check if connection succeeded
-    int error = 0;
-    socklen_t len = sizeof(error);
-    #ifdef _WIN32
-        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (char*)&error, &len) < 0 || error != 0) {
-    #else
-        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, &len) < 0 || error != 0) {
-    #endif
+    if (private_BearHttps_socket_check_connect_error(sockfd) < 0) {
         BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd);
         return -1;
     }
 
     // Set socket back to blocking mode
-    #ifdef _WIN32
-        mode = 0;
-        ioctlsocket(sockfd, FIONBIO, &mode);
-    #else
-        fcntl(sockfd, F_SETFL, flags);
-    #endif
+    if (private_BearHttps_socket_set_blocking(sockfd) < 0) {
+        BearHttpsResponse_set_error(self,"ERROR: failed to set socket blocking",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        Universal_close(sockfd);
+        return -1;
+    }
 
     return sockfd;
 }
@@ -90,13 +77,10 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     }
 
     // Set socket to non-blocking mode
-    #ifdef _WIN32
-        u_long mode = 1;
-        ioctlsocket(sockfd, FIONBIO, &mode);
-    #else
-        int flags = fcntl(sockfd, F_GETFL, 0);
-        fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
-    #endif
+    if (private_BearHttps_socket_set_nonblocking(sockfd) < 0) {
+        Universal_close(sockfd);
+        return -1;
+    }
 
     Universal_sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
@@ -108,11 +92,7 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
         return -1;
     }
     int ret = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
-    #ifdef _WIN32
-        if (ret < 0 && WSAGetLastError() != WSAEWOULDBLOCK) {
-    #else
-        if (ret < 0 && errno != EINPROGRESS) {
-    #endif
+    if (private_BearHttps_socket_check_connect_in_progress(ret) < 0) {
         Universal_close(sockfd); 
         return -1;
     }
@@ -133,24 +113,16 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     }
 
     // Check if connection succeeded
-    int error = 0;
-    socklen_t len = sizeof(error);
-    #ifdef _WIN32
-        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, (char*)&error, &len) < 0 || error != 0) {
-    #else
-        if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, &len) < 0 || error != 0) {
-    #endif
+    if (private_BearHttps_socket_check_connect_error(sockfd) < 0) {
         Universal_close(sockfd);
         return -1;
     }
 
     // Set socket back to blocking mode
-    #ifdef _WIN32
-        mode = 0;
-        ioctlsocket(sockfd, FIONBIO, &mode);
-    #else
-        fcntl(sockfd, F_SETFL, flags);
-    #endif
+    if (private_BearHttps_socket_set_blocking(sockfd) < 0) {
+        Universal_close(sockfd);
+        return -1;
+    }
 
     return sockfd;
 }
