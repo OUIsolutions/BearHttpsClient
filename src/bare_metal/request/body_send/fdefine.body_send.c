@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -178,4 +179,5 @@ cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self){
 }
 
 
+#endif
 #endif

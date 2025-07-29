@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -33,3 +34,5 @@ int private_BearHttpsResponse_recv(BearHttpsResponse *self,unsigned char *buffer
     return Universal_recv(self->connection_file_descriptor, buffer, size,0);
 
 }
+
+#endif

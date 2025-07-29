@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -40,3 +41,5 @@ void BearHttpsRequest_represent(BearHttpsRequest *self);
 
 
 void BearHttpsRequest_free(BearHttpsRequest *self);
+
+#endif

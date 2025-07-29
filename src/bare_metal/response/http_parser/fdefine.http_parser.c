@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -131,3 +132,5 @@ void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
 
 
 }
+
+#endif

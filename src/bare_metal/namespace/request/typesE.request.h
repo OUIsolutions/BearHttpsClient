@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 typedef struct BearHttpsRequestNamespace{
@@ -38,3 +39,5 @@ void (*set_dns_providers)(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *d
 
 
 } BearHttpsRequestNamespace;
+
+#endif

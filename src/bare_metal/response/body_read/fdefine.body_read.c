@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -104,4 +105,5 @@ cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self){
     }
     return self->json_body;
 }
+#endif
 #endif

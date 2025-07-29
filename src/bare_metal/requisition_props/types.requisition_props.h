@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -11,3 +12,5 @@ typedef struct private_BearHttpsRequisitionProps{
     bool is_https;
     int port;
 }private_BearHttpsRequisitionProps ;
+
+#endif

@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -137,3 +138,5 @@ char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self
     }
     return NULL;
 }
+
+#endif

@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
@@ -31,3 +32,5 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
 		return (int)write_len;
 	}
 }
+
+#endif

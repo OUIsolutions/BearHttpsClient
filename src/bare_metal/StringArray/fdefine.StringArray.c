@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 struct privateBearHttpsStringArray * newprivateBearHttpsStringArray(){
     struct privateBearHttpsStringArray *self = ( privateBearHttpsStringArray*)malloc(sizeof(struct privateBearHttpsStringArray));
@@ -89,3 +90,4 @@ void privateBearHttpsStringArray_free(struct privateBearHttpsStringArray *self){
     free(self->strings);
     free(self);
 }
+#endif

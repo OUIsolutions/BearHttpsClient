@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -126,3 +127,5 @@ void BearHttpsRequest_free(BearHttpsRequest *self){
     private_BearsslHttps_free_considering_ownership((void **)&self->url,&self->route_owner);
     free(self);
 }
+
+#endif

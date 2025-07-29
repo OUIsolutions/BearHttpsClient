@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -8,3 +9,5 @@ typedef struct BearHttpsNamespace{
     BearHttpsRequestNamespace request;
     BearHttpsResponseNamespace response;
 } BearHttpsNamespace;
+
+#endif

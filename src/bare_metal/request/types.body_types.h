@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -23,4 +24,5 @@ typedef struct private_BearHttpsBodyJsonRequest{
     cJSON *json;
     bool onwer;
 }private_BearHttpsBodyJsonRequest;
+#endif
 #endif

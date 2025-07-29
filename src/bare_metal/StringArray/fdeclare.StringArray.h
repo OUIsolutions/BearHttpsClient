@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 // End the structure with a semicolon
 int  privateBearHttpsStringArray_find_position( privateBearHttpsStringArray *self, const char *string);
 
@@ -22,3 +23,4 @@ void privateBearHttpsStringArray_set_value( privateBearHttpsStringArray *self, i
 char * privateprivateBearHttpsStringArray_append_if_not_included(privateBearHttpsStringArray *self,char *value);
 
 privateBearHttpsStringArray * privateBearHttpsStringArray_clone(privateBearHttpsStringArray *self);
+#endif

@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 long private_BearsslHttps_strlen(const char *str);
@@ -15,3 +16,4 @@ char * private_BearsslHttps_strndup(const char *str,int size);
 int private_BearsslHttps_indexof_from_point(const char *str,char c,int start);
 
 char  private_BearsslHttps_parse_char_to_lower(char c);
+#endif

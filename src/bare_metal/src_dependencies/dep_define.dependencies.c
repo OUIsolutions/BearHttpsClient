@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -16,4 +17,6 @@ typedef __m128i __m128i_u;
 
 #if !defined(BEARSSL_HTTPS_MOCK_CJSON_DEFINE) && defined(BEARSSL_HTTPS_CJSON_DECLARATED)
 #include "../../dependencies/cJSON.c"
+#endif
+
 #endif

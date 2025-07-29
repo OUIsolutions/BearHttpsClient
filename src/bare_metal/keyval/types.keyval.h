@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -10,3 +11,5 @@ typedef struct  private_BearHttpsKeyVal{
     bool value_owner;
 
 }private_BearHttpsKeyVal;
+
+#endif

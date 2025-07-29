@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -41,4 +42,6 @@
 #if !defined(cJSON__h) && !defined(BEARSSL_HTTPS_MOCK_CJSON) 
 #include "../../dependencies/cJSON.h"
 #define BEARSSL_HTTPS_CJSON_DECLARATED
+#endif
+
 #endif

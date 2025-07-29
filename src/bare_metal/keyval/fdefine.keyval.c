@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -26,3 +27,5 @@ void  private_BearHttpsKeyVal_free(private_BearHttpsKeyVal *self){
     private_BearsslHttps_free_considering_ownership((void **)&self->value,&self->value_owner);
     free(self);
 }
+
+#endif

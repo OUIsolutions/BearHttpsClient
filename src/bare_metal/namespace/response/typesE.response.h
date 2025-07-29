@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 typedef struct BearHttpsResponseNamespace{
@@ -38,3 +39,5 @@ typedef struct BearHttpsResponseNamespace{
     cJSON * (*read_body_json)(BearHttpsResponse *self);
     #endif
 } BearHttpsResponseNamespace;
+
+#endif

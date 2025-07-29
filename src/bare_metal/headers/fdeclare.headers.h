@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -9,3 +10,5 @@ void private_BearHttpsHeaders_add_keyval(private_BearHttpsHeaders *self, private
 void private_BearHttpsHeaders_free(private_BearHttpsHeaders *self);
 
 private_BearHttpsKeyVal * private_BearHttpsHeaders_get_key_val_by_index(private_BearHttpsHeaders *self,int index);
+
+#endif

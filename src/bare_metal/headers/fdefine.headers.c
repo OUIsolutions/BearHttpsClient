@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -32,3 +33,5 @@ private_BearHttpsKeyVal * private_BearHttpsHeaders_get_key_val_by_index(private_
     }
     return self->keyvals[index];
 }
+
+#endif

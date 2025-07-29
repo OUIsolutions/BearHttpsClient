@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -36,3 +37,4 @@ char * private_BearHttps_format_vaarg(const char *expresion, va_list args){
     vsnprintf(buffer,sizeof (char) * required_size+1,expresion,args);
     return buffer;
 }
+#endif

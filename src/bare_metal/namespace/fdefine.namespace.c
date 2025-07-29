@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -10,3 +11,5 @@ BearHttpsNamespace newBearHttpsNamespace(){
     self.request= newBearHttpsRequestNamespace();
     return self;
 }
+
+#endif

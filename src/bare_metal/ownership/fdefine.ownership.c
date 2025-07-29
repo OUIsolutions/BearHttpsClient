@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -34,3 +35,5 @@ void private_BearsslHttps_set_str_considering_ownership(
         *owner = false;
     }
 }
+
+#endif

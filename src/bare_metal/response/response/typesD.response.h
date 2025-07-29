@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -35,3 +36,5 @@ typedef struct BearHttpsResponse{
     long http1_reaming_to_read;
     
 }BearHttpsResponse ;
+
+#endif

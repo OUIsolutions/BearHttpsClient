@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -85,3 +86,5 @@ void private_BearHttpsRequisitionProps_free(private_BearHttpsRequisitionProps *s
     BearsslHttps_free(self->route);
     BearsslHttps_free(self);
 }
+
+#endif

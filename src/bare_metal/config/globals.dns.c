@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -11,3 +12,5 @@ BearHttpsClientDnsProvider privateBearHttpsProviders[] = {
 
 int privateBearHttpsProvidersSize = sizeof(privateBearHttpsProviders)/sizeof(BearHttpsClientDnsProvider);
 
+
+#endif

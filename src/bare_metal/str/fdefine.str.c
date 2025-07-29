@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 
 
@@ -74,3 +75,4 @@ char  private_BearsslHttps_parse_char_to_lower(char c){
     }
     return c;
 }
+#endif

@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port,long connection_timeout) {
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
@@ -150,3 +151,5 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
     return sockfd;
 }
 
+
+#endif

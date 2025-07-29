@@ -1,3 +1,4 @@
+#if defined(PRIVATE_BEAR_HTTPS_BARE_METAL)
 
 #if  defined(BEARSSL_USSE_GET_ADDRINFO) && defined(_WIN32)
 #error "BEARSSL_USSE_GET_ADDRINFO is not supported on windows remove the define BEARSSL_USSE_GET_ADDRINFO"
@@ -206,3 +207,5 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
 #endif
 
+
+#endif
