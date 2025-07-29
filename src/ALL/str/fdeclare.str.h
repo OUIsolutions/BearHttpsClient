@@ -2,7 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.typesH.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
 
 
 long private_BearsslHttps_strlen(const char *str);
@@ -20,4 +19,3 @@ char * private_BearsslHttps_strndup(const char *str,int size);
 int private_BearsslHttps_indexof_from_point(const char *str,char c,int start);
 
 char  private_BearsslHttps_parse_char_to_lower(char c);
-#endif

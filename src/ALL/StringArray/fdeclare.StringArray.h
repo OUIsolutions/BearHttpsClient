@@ -2,7 +2,7 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.typesH.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
+
 // End the structure with a semicolon
 int  privateBearHttpsStringArray_find_position( privateBearHttpsStringArray *self, const char *string);
 
@@ -27,4 +27,3 @@ void privateBearHttpsStringArray_set_value( privateBearHttpsStringArray *self, i
 char * privateprivateBearHttpsStringArray_append_if_not_included(privateBearHttpsStringArray *self,char *value);
 
 privateBearHttpsStringArray * privateBearHttpsStringArray_clone(privateBearHttpsStringArray *self);
-#endif

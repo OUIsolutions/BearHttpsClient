@@ -2,7 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
 
 struct privateBearHttpsStringArray * newprivateBearHttpsStringArray(){
     struct privateBearHttpsStringArray *self = ( privateBearHttpsStringArray*)malloc(sizeof(struct privateBearHttpsStringArray));
@@ -94,4 +93,3 @@ void privateBearHttpsStringArray_free(struct privateBearHttpsStringArray *self){
     free(self->strings);
     free(self);
 }
-#endif

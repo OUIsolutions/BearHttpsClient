@@ -2,7 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
 
 
 
@@ -79,4 +78,3 @@ char  private_BearsslHttps_parse_char_to_lower(char c){
     }
     return c;
 }
-#endif

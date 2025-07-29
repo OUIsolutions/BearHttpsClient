@@ -2,7 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
 
 
 
@@ -32,4 +31,3 @@ void  private_BearHttpsKeyVal_free(private_BearHttpsKeyVal *self){
     free(self);
 }
 
-#endif

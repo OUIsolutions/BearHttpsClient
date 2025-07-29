@@ -2,8 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
-
 
 
 private_BearHttpsHeaders *private_newBearHttpsHeaders(){
@@ -38,4 +36,3 @@ private_BearHttpsKeyVal * private_BearHttpsHeaders_get_key_val_by_index(private_
     return self->keyvals[index];
 }
 
-#endif
