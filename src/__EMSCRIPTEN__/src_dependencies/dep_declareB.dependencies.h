@@ -1,9 +1,14 @@
 //silver_chain_scope_start
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
-#include "../../imports/imports.globals.h"
+#include "../../imports/imports.dep_declare.h"
 //silver_chain_scope_end
+
 #if defined(__EMSCRIPTEN__)
 
 
+
+#include <string.h>
+
+#include "../../../dependencies/c2wasm.c"
 
 #endif
