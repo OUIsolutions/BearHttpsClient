@@ -3,12 +3,7 @@ function main()
     if not darwin.argv.one_of_args_exist("no_de_install") then
         install_dependencies()
     end
-    if not darwin.argv.one_of_args_exist("testing") then
-        darwin.dtw.write_file("src/tests.os_test.h","")
-    end
-    if not darwin.dtw.isfile("src/tests.os_test.h") then 
-        darwin.dtw.write_file("src/tests.os_test.h", "")
-    end
+
     darwin.silverchain.generate({
         src = "src",
         tags = { "tests","dep_declare", "macros", "types", "fdeclare","globals", "dep_define","fdefine" },
