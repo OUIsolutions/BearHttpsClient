@@ -2,7 +2,7 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-#if defined(__unix__)
+#if defined(__unix__)  && !defined(__EMSCRIPTEN__)
 
 static int private_BearHttps_socket_set_nonblocking(int sockfd) {
     int flags = fcntl(sockfd, F_GETFL, 0);

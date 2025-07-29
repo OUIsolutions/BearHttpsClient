@@ -2,7 +2,7 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_define.h"
 //silver_chain_scope_end
-#if defined(__unix__)
+#if defined(__unix__) && !defined(__EMSCRIPTEN__)
 
 
 #if  (defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON))
