@@ -6,6 +6,7 @@
 
 BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode){
     c2wasm_start();
+
     BearHttpsRequest *self = (BearHttpsRequest *)malloc(sizeof(BearHttpsRequest));
     *self = (BearHttpsRequest){0};
     BearHttpsRequest_set_url_with_ownership_config(self,url,url_ownership_mode);
