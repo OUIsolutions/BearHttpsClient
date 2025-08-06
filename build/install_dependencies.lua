@@ -1,7 +1,7 @@
 function install_dependencies()
     local hasher = darwin.dtw.newHasher()
     hasher.digest_folder_by_content("dependencies")
-    local EXPECTED_SHA = '8e869c547ec950311c6a61809737173f6fc09d1cb3baca25e5f5687e37fbb1cb'
+    local EXPECTED_SHA = '3f167f43e58b26b18e2a48517ad921194f6822562037f21527c10fdbe6228a57'
     if hasher.get_value() == EXPECTED_SHA then
         return
     end
@@ -19,7 +19,7 @@ function install_dependencies()
     os.execute(
     "curl -L https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.h -o dependencies/cJSON.h")
     ---- trusted anchors
-    os.execute("curl -L https://github.com/OUIsolutions/C2Wasm/releases/download/0.5.1/c2wasm.c -o dependencies/c2wasm.c")
+    os.execute("curl -L https://github.com/OUIsolutions/C2Wasm/releases/download/0.6.0/c2wasm.c -o dependencies/c2wasm.c")
   
     darwin.dtw.remove_any("BearSSL")
     os.execute("git clone https://www.bearssl.org/git/BearSSL")
