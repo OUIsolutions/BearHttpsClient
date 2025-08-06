@@ -20,15 +20,15 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     c2wasm_append_array_string(args_to_cal, self->url);
     c2wasm_append_array_any(args_to_cal, props);
     BearHttpsResponse *response = private_newBearHttpsResponse();
-
-    c2wasm_js_var js_response = await_c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
-    if(c2wasm_instance_of(js_response,c2wasm_error)){
+   response->response =   await_c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
+    if(c2wasm_instance_of(response->response ,c2wasm_error)){
         BearHttpsResponse_set_error(response,"Error performing fetch",1);
         return response;
     }
 
-    response->status_code = (int)c2wasm_get_object_prop_long(js_response, "status");
-    c2wasm_js_var js_headers = c2wasm_get_object_prop_any(js_response, "headers");
+
+    response->status_code = (int)c2wasm_get_object_prop_long(response->response , "status");
+    c2wasm_js_var js_headers = c2wasm_get_object_prop_any(response->response , "headers");
     c2wasm_js_var entries = c2wasm_call_object_prop(js_headers, "entries", -1);
     c2wasm_js_var array = c2wasm_get_object_prop_any(c2wasm_window,"Array");
     c2wasm_js_var entries_array = c2wasm_call_object_prop(array,"from", entries);
@@ -50,8 +50,8 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         private_BearHttpsKeyVal_set_value(key_obj,value,BEARSSL_HTTPS_GET_OWNERSHIP);
         private_BearHttpsHeaders_add_keyval(response->headers,key_obj);
     }
-    
-    
+
+
     return response;
 }
 #endif 

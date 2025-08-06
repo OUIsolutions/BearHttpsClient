@@ -7,6 +7,7 @@
 
 
 typedef struct BearHttpsResponse{
+    c2wasm_js_var response;
     private_BearHttpsHeaders *headers;
     int error_code;
     unsigned char *body;

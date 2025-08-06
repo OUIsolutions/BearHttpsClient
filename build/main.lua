@@ -60,7 +60,9 @@ function main()
     only_definition = lincense .. only_definition
 
     darwin.dtw.write_file("release/BearHttpsClient.c", only_definition)
+     if not darwin.argv.one_of_args_exist("no_zip") then
+           os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
+     end
 
-    os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
 
 end
