@@ -2,7 +2,7 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.typesB.h"
 //silver_chain_scope_end
-#if defined(__EMSCRIPTEN__)
+#if defined(__EMSCRIPTEN__) 
 
 
 typedef struct BearHttpsRequest{

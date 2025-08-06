@@ -2,7 +2,7 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_defineB.h"
 //silver_chain_scope_end
-#if defined(__EMSCRIPTEN__)
+#if defined(__EMSCRIPTEN__) 
 
 BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode){
     c2wasm_start();
