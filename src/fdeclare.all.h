@@ -288,10 +288,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
 unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) ;
 
-const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
-#ifndef BEARSSL_HTTPS_MOCK_CJSON
-cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
-#endif
+
 #endif//!__EMSCRIPTEN__/network/fdefine.sock.c
 #if !defined(__EMSCRIPTEN__)
 
