@@ -88,7 +88,15 @@ BearHttpsResponse *private_newBearHttpsResponse();
 void BearHttpsResponse_free(BearHttpsResponse *self);
 
 
-#endif //ALL/request/fdefine.body_send.c
+#endif //__EMSCRIPTEN__/response/fdefine.read_body.c
+#if defined(__EMSCRIPTEN__)
+
+
+
+unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) ;
+
+
+#endif//ALL/request/fdefine.body_send.c
 
 
 

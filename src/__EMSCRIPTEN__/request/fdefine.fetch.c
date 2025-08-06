@@ -30,10 +30,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     c2wasm_js_var js_headers = c2wasm_get_object_prop_any(js_response, "headers");
     c2wasm_js_var entries = c2wasm_call_object_prop(js_headers, "entries", -1);
     c2wasm_js_var array = c2wasm_get_object_prop_any(c2wasm_window,"Array");
-
-    c2wasm_js_var from_args = c2wasm_create_array();
-    c2wasm_append_array_any(from_args, entries);
-    c2wasm_js_var entries_array = c2wasm_call_object_prop(array,"from", from_args);
+    c2wasm_js_var entries_array = c2wasm_call_object_prop(array,"from", entries);
     c2wasm_show_var_on_console(entries_array);
 
 
