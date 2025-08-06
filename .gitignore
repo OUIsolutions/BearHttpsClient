@@ -12,6 +12,8 @@ c2wasm.c
 dtw.c
 vgcore*
 BearSSL
+test.js
+test.wasm
 dependencies
 BearHttpsClientOne.c
 prompt.md
