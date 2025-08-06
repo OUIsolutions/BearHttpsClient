@@ -2,28 +2,13 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "imports/imports.typesH.h"
 //silver_chain_scope_end
-//ALL/fdefine.ownership.c
-
-
-
-
-void private_BearsslHttps_free_considering_ownership(void **value,bool *owner);
-
-
-void private_BearsslHttps_set_str_considering_ownership(
-    char **dest,
-     char *value,
-    bool *owner,
-    short ownership_mode
-    );
-
-//ALL/fdefine.extra.c
+//fdefine.__ALL__extra.c
 
 
 bool private_BearHttps_is_sanitize_key(const char *key,const char *sanitized,int sanitized_size);
 
 char * private_BearHttps_format_vaarg(const char *expresion, va_list args);
-//ALL/fdefine.str.c
+//fdefine.__ALL__str.c
 
 
 
@@ -40,46 +25,40 @@ char * private_BearsslHttps_strndup(const char *str,int size);
 int private_BearsslHttps_indexof_from_point(const char *str,char c,int start);
 
 char  private_BearsslHttps_parse_char_to_lower(char c);
-//_WIN32/fdefine.socket.c
-#if defined(_WIN32) 
-
-static int private_BearHttps_socket_set_nonblocking(int sockfd) ;
-
-static int private_BearHttps_socket_set_blocking(int sockfd) ;
-
-static int private_BearHttps_socket_check_connect_error(int sockfd) ;
-
-static int private_BearHttps_socket_check_connect_in_progress(int ret) ;
-
-#endif //__unix__&&!__EMSCRIPTEN__/network/fdefine.connect_host.c
-#if defined(__unix__) && !defined(__EMSCRIPTEN__)
+//fdefine.__ALL__ownership.c
 
 
-#if  (defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON))
-static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port);
 
-#endif
 
-#endif//__unix__&&!__EMSCRIPTEN__/network/fdefine.socket.c
-#if defined(__unix__)  && !defined(__EMSCRIPTEN__)
+void private_BearsslHttps_free_considering_ownership(void **value,bool *owner);
 
-static int private_BearHttps_socket_set_nonblocking(int sockfd) ;
 
-static int private_BearHttps_socket_set_blocking(int sockfd) ;
+void private_BearsslHttps_set_str_considering_ownership(
+    char **dest,
+     char *value,
+    bool *owner,
+    short ownership_mode
+    );
 
-static int private_BearHttps_socket_check_connect_error(int sockfd) ;
+//requisition_props/fdefine.!__EMSCRIPTEN__requisition_props.c
+#if !defined(__EMSCRIPTEN__)
 
-static int private_BearHttps_socket_check_connect_in_progress(int ret) ;
 
-#endif //__EMSCRIPTEN__/request/fdefine.fetch.c
-#if defined(__EMSCRIPTEN__)
+
+private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProps(const char *url,int default_port);
+
+void private_BearHttpsRequisitionProps_free(private_BearHttpsRequisitionProps *self);
+
+#endif//request/fdefine.!__EMSCRIPTEN__fetch.c
+#if !defined(__EMSCRIPTEN__)
+
+
+
+
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
-#endif //__EMSCRIPTEN__/request/fdefine.request.c
-#if defined(__EMSCRIPTEN__)
 
-BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
-#endif //ALL/request/fdefine.body_send.c
+#endif//request/fdefine.__ALL__body_send.c
 
 
 
@@ -108,7 +87,42 @@ cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
 
 
 #endif
-//ALL/headers/fdefine.headers.c
+//request/fdefine.!__EMSCRIPTEN__request.c
+#if !defined(__EMSCRIPTEN__)
+
+
+
+BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
+
+void BearHttpsRequest_set_known_ips(BearHttpsRequest *self , const char *known_ips[],int known_ips_size);
+
+
+void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redirections);
+
+void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers);
+
+void BearHttpsRequest_set_chunk_header_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
+
+void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
+
+
+#endif//request/fdefine.__EMSCRIPTEN__fetch.c
+#if defined(__EMSCRIPTEN__)
+
+BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
+#endif //request/fdefine.!__EMSCRIPTEN__body_send.c
+#if !defined(__EMSCRIPTEN__)
+
+
+void BearHttpsRequest_send_file_with_ownership_control(BearHttpsRequest *self, char *path,short ownership_mode,const char *content_type);
+
+void BearHttpsRequest_send_file(BearHttpsRequest *self,const  char *path,const char *content_type);
+
+void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,const  char *path);
+
+
+
+#endif//headers/fdefine.__ALL__headers.c
 
 
 private_BearHttpsHeaders *private_newBearHttpsHeaders();
@@ -119,7 +133,14 @@ void private_BearHttpsHeaders_free(private_BearHttpsHeaders *self);
 
 private_BearHttpsKeyVal * private_BearHttpsHeaders_get_key_val_by_index(private_BearHttpsHeaders *self,int index);
 
-//ALL/StringArray/fdefine.StringArray.c
+//namespace/fdefine.!__EMSCRIPTEN__namespace.c
+#if !defined(__EMSCRIPTEN__)
+
+
+
+BearHttpsNamespace newBearHttpsNamespace();
+
+#endif//StringArray/fdefine.__ALL__StringArray.c
 
 struct privateBearHttpsStringArray * newprivateBearHttpsStringArray();
 
@@ -146,85 +167,16 @@ void privateBearHttpsStringArray_represent( privateBearHttpsStringArray *self);
 
 char * privateprivateBearHttpsStringArray_append_if_not_included(privateBearHttpsStringArray *self,char *value);
 void privateBearHttpsStringArray_free(struct privateBearHttpsStringArray *self);
-//ALL/keyval/fdefine.keyval.c
-
-
-
-private_BearHttpsKeyVal  *private_newBearHttpsKeyVal();
-
-void private_BearHttpsKeyVal_set_key(private_BearHttpsKeyVal *self,  char *key,short key_onwership_mode);
-
-void private_BearHttpsKeyVal_set_value(private_BearHttpsKeyVal *self,  char *value,short value_onwership_mode);
-
-void  private_BearHttpsKeyVal_free(private_BearHttpsKeyVal *self);
-
-//!__EMSCRIPTEN__/requisition_props/fdefine.requisition_props.c
+//response/fdefine.!__EMSCRIPTEN__body_read_chunk.c
 #if !defined(__EMSCRIPTEN__)
 
+int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size);
 
 
-private_BearHttpsRequisitionProps * private_new_private_BearHttpsRequisitionProps(const char *url,int default_port);
+int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size);
 
-void private_BearHttpsRequisitionProps_free(private_BearHttpsRequisitionProps *self);
-
-#endif//!__EMSCRIPTEN__/request/fdefine.fetch.c
-#if !defined(__EMSCRIPTEN__)
-
-
-
-
-
-BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
-
-#endif//!__EMSCRIPTEN__/request/fdefine.body_send.c
-#if !defined(__EMSCRIPTEN__)
-
-
-void BearHttpsRequest_send_file_with_ownership_control(BearHttpsRequest *self, char *path,short ownership_mode,const char *content_type);
-
-void BearHttpsRequest_send_file(BearHttpsRequest *self,const  char *path,const char *content_type);
-
-void BearHttpsRequest_send_file_auto_detect_content_type(BearHttpsRequest *self,const  char *path);
-
-
-
-#endif//!__EMSCRIPTEN__/request/fdefine.request.c
-#if !defined(__EMSCRIPTEN__)
-
-
-
-BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
-
-void BearHttpsRequest_set_known_ips(BearHttpsRequest *self , const char *known_ips[],int known_ips_size);
-
-
-void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redirections);
-
-void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers);
-
-void BearHttpsRequest_set_chunk_header_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
-
-void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
-
-
-#endif//!__EMSCRIPTEN__/namespace/fdefine.namespace.c
-#if !defined(__EMSCRIPTEN__)
-
-
-
-BearHttpsNamespace newBearHttpsNamespace();
-
-#endif//!__EMSCRIPTEN__/response/fdefine.read_write.c
-#if !defined(__EMSCRIPTEN__)
-
-
-
-
-int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
-
-int private_BearHttpsResponse_recv(BearHttpsResponse *self,unsigned char *buffer,long size);
-
-#endif//!__EMSCRIPTEN__/response/fdefine.http_parser.c
+int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size);
+#endif//response/fdefine.!__EMSCRIPTEN__http_parser.c
 #if !defined(__EMSCRIPTEN__)
 
 
@@ -237,16 +189,17 @@ void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
     double factor_headers_growth
 );
 
-#endif//!__EMSCRIPTEN__/response/fdefine.body_read_chunk.c
+#endif//response/fdefine.!__EMSCRIPTEN__read_write.c
 #if !defined(__EMSCRIPTEN__)
 
-int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size);
 
 
-int BearHttpsResponse_read_body_chunck_raw(BearHttpsResponse *self,unsigned char *buffer,long size);
 
-int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *buffer,long size);
-#endif//!__EMSCRIPTEN__/response/fdefine.body_read.c
+int private_BearHttpsResponse_write(BearHttpsResponse *self,unsigned char *bufer,long size);
+
+int private_BearHttpsResponse_recv(BearHttpsResponse *self,unsigned char *buffer,long size);
+
+#endif//response/fdefine.!__EMSCRIPTEN__body_read.c
 #if !defined(__EMSCRIPTEN__)
 
 
@@ -257,29 +210,19 @@ const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
 #ifndef BEARSSL_HTTPS_MOCK_CJSON
 cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
 #endif
-#endif//!__EMSCRIPTEN__/network/fdefine.sock.c
-#if !defined(__EMSCRIPTEN__)
+#endif//keyval/fdefine.__ALL__keyval.c
 
 
-static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
-;
 
+private_BearHttpsKeyVal  *private_newBearHttpsKeyVal();
 
-static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, size_t len)
-;
+void private_BearHttpsKeyVal_set_key(private_BearHttpsKeyVal *self,  char *key,short key_onwership_mode);
 
-#endif//!__EMSCRIPTEN__/network/fdefine.connect_host.c
-#if !defined(__EMSCRIPTEN__)
+void private_BearHttpsKeyVal_set_value(private_BearHttpsKeyVal *self,  char *value,short value_onwership_mode);
 
+void  private_BearHttpsKeyVal_free(private_BearHttpsKeyVal *self);
 
-#if  (!defined(BEARSSL_USSE_GET_ADDRINFO) && !defined(BEARSSL_HTTPS_MOCK_CJSON))
-static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port);
-
-
-#endif
-
-
-#endif//!__EMSCRIPTEN__/network/fdefine.ipv4_connect.c
+//network/fdefine.!__EMSCRIPTEN__ipv4_connect.c
 #if !defined(__EMSCRIPTEN__)
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port,long connection_timeout) ;
@@ -288,7 +231,11 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
 static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv4_ip, int port,long connection_timeout) ;
 
 
-#endif//ALL/request/request/fdefine.request.c
+#endif//request/request/fdefine.__EMSCRIPTEN__request.c
+#if defined(__EMSCRIPTEN__)
+
+BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
+#endif //request/request/fdefine.__ALL__request.c
 
 
 
@@ -314,7 +261,7 @@ void BearHttpsRequest_represent(BearHttpsRequest *self);
 
 
 void BearHttpsRequest_free(BearHttpsRequest *self);
-//!__EMSCRIPTEN__/namespace/request/fdefine.request.c
+//namespace/request/fdefine.!__EMSCRIPTEN__request.c
 #if !defined(__EMSCRIPTEN__)
 
 
@@ -322,13 +269,13 @@ void BearHttpsRequest_free(BearHttpsRequest *self);
 
 
 BearHttpsRequestNamespace newBearHttpsRequestNamespace();
-#endif//!__EMSCRIPTEN__/namespace/response/fdefine.response.c
+#endif//namespace/response/fdefine.!__EMSCRIPTEN__response.c
 #if !defined(__EMSCRIPTEN__)
 
 
 
 BearHttpsResponseNamespace newBearHttpsResponseNamespace();
-#endif//!__EMSCRIPTEN__/response/response/fdefine.response.c
+#endif//response/response/fdefine.!__EMSCRIPTEN__response.c
 #if !defined(__EMSCRIPTEN__)
 
 
@@ -366,4 +313,57 @@ void BearHttpsResponse_set_body_read_props(BearHttpsResponse*self,int chunk_size
 
 char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
 
+#endif//network/connect_host/fdefine.!__EMSCRIPTEN__connect_host.c
+#if !defined(__EMSCRIPTEN__)
+
+
+#if  (!defined(BEARSSL_USSE_GET_ADDRINFO) && !defined(BEARSSL_HTTPS_MOCK_CJSON))
+static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port);
+
+
 #endif
+
+
+#endif//network/connect_host/fdefine.__unix__&&!__EMSCRIPTEN__connect_host.c
+#if defined(__unix__) && !defined(__EMSCRIPTEN__)
+
+
+#if  (defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON))
+static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port);
+
+#endif
+
+#endif//network/sock/fdefine._WIN32socket.c
+#if defined(_WIN32) 
+
+static int private_BearHttps_socket_set_nonblocking(int sockfd) ;
+
+static int private_BearHttps_socket_set_blocking(int sockfd) ;
+
+static int private_BearHttps_socket_check_connect_error(int sockfd) ;
+
+static int private_BearHttps_socket_check_connect_in_progress(int ret) ;
+
+#endif //network/sock/fdefine.!__EMSCRIPTEN__sock.c
+#if !defined(__EMSCRIPTEN__)
+
+
+static int private_BearHttps_sock_read(void *ctx, unsigned char *buf, size_t len)
+;
+
+
+static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, size_t len)
+;
+
+#endif//network/sock/fdefine.__unix__&&!__EMSCRIPTEN__socket.c
+#if defined(__unix__)  && !defined(__EMSCRIPTEN__)
+
+static int private_BearHttps_socket_set_nonblocking(int sockfd) ;
+
+static int private_BearHttps_socket_set_blocking(int sockfd) ;
+
+static int private_BearHttps_socket_check_connect_error(int sockfd) ;
+
+static int private_BearHttps_socket_check_connect_in_progress(int ret) ;
+
+#endif 
