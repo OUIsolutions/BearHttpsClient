@@ -19,8 +19,13 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     c2wasm_js_var args_to_cal = c2wasm_create_array();
     c2wasm_append_array_string(args_to_cal, self->url);
     c2wasm_append_array_any(args_to_cal, props);
+    BearHttpsResponse *response = private_newBearHttpsResponse();
 
     c2wasm_js_var js_response = async_c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
+    if(c2wasm_instance_of(js_response,c2wasm_error)){
+        BearHttpsResponse_set_error(response,"Error performing fetch",1);
+        return response;
+    }
     printf("index of var %ld\n",js_response);
     c2wasm_show_var_on_console(js_response);
     
