@@ -22,7 +22,14 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     BearHttpsResponse *response = private_newBearHttpsResponse();
    response->response =   await_c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
     if(c2wasm_instance_of(response->response ,c2wasm_error)){
-        BearHttpsResponse_set_error(response,"Error performing fetch",1);
+        // Obter a mensagem de erro do objeto JavaScript
+        c2wasm_js_var error_message = c2wasm_get_object_prop_any(response->response , "message");
+        int size = c2wasm_get_var_string_len(error_message);
+        char *error_message_str = (char *)malloc(size + 2);
+        c2wasm_memcpy_string(error_message,0,error_message_str,size);
+        error_message_str[size] = '\0';
+        BearHttpsResponse_set_error(response, error_message_str, 1);
+        free(error_message_str);
         return response;
     }
 
@@ -54,4 +61,4 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     return response;
 }
-#endif 
+#endif

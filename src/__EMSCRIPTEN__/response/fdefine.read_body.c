@@ -14,7 +14,14 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     }
     c2wasm_js_var array_buffer = await_c2wasm_call_object_prop(self->response, "arrayBuffer", -1);
     if (c2wasm_instance_of(array_buffer, c2wasm_error)) {
-        BearHttpsResponse_set_error(self, "Error reading response body", 1);
+        // Obter a mensagem de erro do objeto JavaScript
+        c2wasm_js_var error_message = c2wasm_get_object_prop_any(array_buffer, "message");
+        int size = c2wasm_get_var_string_len(error_message);
+        char *error_message_str = (char *)malloc(size + 2);
+        c2wasm_memcpy_string(error_message, 0, error_message_str, size);
+        error_message_str[size] = '\0';
+        BearHttpsResponse_set_error(self, error_message_str, 1);
+        free(error_message_str);
         return NULL;
     }
 
@@ -36,6 +43,19 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     }
 // Cria um Uint8Array para acessar os bytes
     c2wasm_js_var uint8_array = c2wasm_call_object_constructor(c2wasm_window, "Uint8Array", array_buffer);
+    if (c2wasm_instance_of(uint8_array, c2wasm_error)) {
+        // Obter a mensagem de erro do objeto JavaScript
+        c2wasm_js_var error_message = c2wasm_get_object_prop_any(uint8_array, "message");
+        int size = c2wasm_get_var_string_len(error_message);
+        char *error_message_str = (char *)malloc(size + 2);
+        c2wasm_memcpy_string(error_message, 0, error_message_str, size);
+        error_message_str[size] = '\0';
+        BearHttpsResponse_set_error(self, error_message_str, 1);
+        free(error_message_str);
+        free(self->body);
+        self->body = NULL;
+        return NULL;
+    }
 
     // Copia os bytes do JavaScript para C
     for (long i = 0; i < body_size; i++) {

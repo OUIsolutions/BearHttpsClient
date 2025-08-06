@@ -75,7 +75,7 @@ static int private_BearHttps_socket_check_connect_in_progress(int ret) ;
 #if defined(__EMSCRIPTEN__) 
 #include <unistd.h>
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
-#endif //__EMSCRIPTEN__/request/fdefine.request.c
+#endif//__EMSCRIPTEN__/request/fdefine.request.c
 #if defined(__EMSCRIPTEN__) 
 
 BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
