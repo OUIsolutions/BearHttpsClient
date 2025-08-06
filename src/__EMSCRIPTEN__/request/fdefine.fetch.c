@@ -51,7 +51,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         private_BearHttpsHeaders_add_keyval(response->headers,key_obj);
     }
     
-
+    
     return response;
 }
 #endif 
