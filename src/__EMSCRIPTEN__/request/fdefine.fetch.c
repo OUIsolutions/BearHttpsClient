@@ -26,9 +26,19 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         BearHttpsResponse_set_error(response,"Error performing fetch",1);
         return response;
     }
-    printf("index of var %ld\n",js_response);
-    c2wasm_show_var_on_console(js_response);
+    response->status_code = (int)c2wasm_get_object_prop_long(js_response, "status");
+    c2wasm_js_var js_headers = c2wasm_get_object_prop_any(js_response, "headers");
+    c2wasm_js_var entries = c2wasm_call_object_prop(js_headers, "entries", -1);
+    c2wasm_js_var array = c2wasm_get_object_prop_any(c2wasm_window,"Array");
+
+    c2wasm_js_var from_args = c2wasm_create_array();
+    c2wasm_append_array_any(from_args, entries);
+    c2wasm_js_var entries_array = c2wasm_call_object_prop(array,"from", from_args);
+    c2wasm_show_var_on_console(entries_array);
+
+
     
-    return NULL;
+
+    return response;
 }
 #endif 

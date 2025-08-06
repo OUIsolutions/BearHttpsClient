@@ -14,6 +14,9 @@ BearHttpsResponse *private_newBearHttpsResponse(){
 
 
 void BearHttpsResponse_free(BearHttpsResponse *self){
+    if(!self){
+        return;
+    }
     private_BearHttpsHeaders_free(self->headers);
     #ifndef BEARSSL_HTTPS_MOCK_CJSON
         if(self->json_body){

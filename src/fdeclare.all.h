@@ -83,6 +83,11 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
 #if defined(__EMSCRIPTEN__) 
 
 BearHttpsResponse *private_newBearHttpsResponse();
+
+
+void BearHttpsResponse_free(BearHttpsResponse *self);
+
+
 #endif //ALL/request/fdefine.body_send.c
 
 
@@ -171,7 +176,12 @@ char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index
 char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key);
 
 char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
-//ALL/keyval/fdefine.keyval.c
+//ALL/response/fdefine.body_read.c
+
+const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
+#ifndef BEARSSL_HTTPS_MOCK_CJSON
+cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
+#endif//ALL/keyval/fdefine.keyval.c
 
 
 
@@ -373,6 +383,5 @@ void BearHttpsResponse_set_max_body_size(BearHttpsResponse*self,long size);
 
 void BearHttpsResponse_set_body_read_props(BearHttpsResponse*self,int chunk_size,double realloc_factor);
 
-char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
 
 #endif
