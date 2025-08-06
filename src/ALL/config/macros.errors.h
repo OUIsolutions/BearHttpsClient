@@ -2,7 +2,6 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../../imports/imports.dep_declareB.h"
 //silver_chain_scope_end
-#if !defined(__EMSCRIPTEN__)
 
 
 
@@ -27,4 +26,3 @@
 #define BEARSSL_HTTPS_ERROR_FLUSHING 18
 #define BEARSSL_HTTPS_INVALID_HTTP_PROTOCOL 19
 #define BEARSSL_HTTPS_ERROR_READING_CHUNK 20
-#endif
