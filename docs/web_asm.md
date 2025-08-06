@@ -1,12 +1,124 @@
+
+## Step 1: dowload [BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c)
+
+```bash
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
+```
+## Step 2: create your main.c file
+
+```c
+#include "BearHttpsClientOne.c"
+
+
+long set_text_area_value() {
+
+    c2wasm_js_var c2wasm_input = c2wasm_call_object_prop(c2wasm_document, "getElementById", c2wasm_create_string("test_input"));
+    c2wasm_js_var input_prop = c2wasm_get_object_prop_any(c2wasm_input, "value");
+    int size =c2wasm_get_var_string_len(input_prop);
+    char *url = malloc(sizeof(char) * size + 1);
+    c2wasm_memcpy_string(input_prop,0,url,size);
+    url[size] = '\0';
+    BearHttpsRequest *request = newBearHttpsRequest(url);
+    free(url);
+    BearHttpsResponse *response = BearHttpsRequest_fetch(request);
+
+
+    if(BearHttpsResponse_error(response)){
+        c2wasm_call_object_prop(c2wasm_window,"alert",c2wasm_create_string( BearHttpsResponse_get_error_msg(response)));
+        BearHttpsRequest_free(request);
+        BearHttpsResponse_free(response);
+        return 1;
+    }
+    printf("Headders:\n");
+    for (int i = 0; i < BearHttpsResponse_get_headers_size(response); i++) {
+        char *key = BearHttpsResponse_get_header_key_by_index(response, i);
+        char *value = BearHttpsResponse_get_header_value_by_index(response, i);
+    }
+
+    const char *body = BearHttpsResponse_read_body_str(response);
+    if(BearHttpsResponse_error(response)){
+        c2wasm_call_object_prop(c2wasm_window,"alert",c2wasm_create_string( BearHttpsResponse_get_error_msg(response)));
+        BearHttpsRequest_free(request);
+        BearHttpsResponse_free(response);
+        return 1;
+    }
+    // Get the DOM element with id "test_div"
+    c2wasm_js_var element = c2wasm_call_object_prop(c2wasm_document, "getElementById", c2wasm_create_string("test_div"));
+    if(c2wasm_instance_of(element, c2wasm_error)) {
+        printf("Error: Element not found\n");
+        return c2wasm_undefined;
+    }
+    // Set the innerHTML of the element
+    c2wasm_set_object_prop_string(element, "value", body);
+    BearHttpsRequest_free(request);
+    BearHttpsResponse_free(response);
+
+    return c2wasm_undefined;
+}
+int main(){
+    c2wasm_start();
+    // Expose the C function to JavaScript
+    c2wasm_set_object_prop_function(c2wasm_window, "set_text_area_value", set_text_area_value);
+    return 0;
+}
+
+```
+
+### Step 3: compile with emcc
+
+```bash
+emcc main.c  -o main.js -sASYNCIFY
+```
+### Step 4: create index.html
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C2Wasm Demo</title>
-    <script src="test.js"></script>
+    <script src="main.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
-    <style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 C2Wasm Demo</h1>
+        
+        <div class="input-group">
+            <label for="test_input">📝 Input de Comando:</label>
+            <input type="text" id="test_input" placeholder="Digite seu comando aqui...">
+        </div>
+
+        <div class="editor-container">
+            <div class="editor-header">
+                <div class="editor-dots">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <div class="editor-title">Editor de Código</div>
+            </div>
+            <textarea id="test_div" placeholder="// Seu código aparecerá aqui...
+// Use Ctrl+A para selecionar tudo
+// Use Ctrl+C para copiar
+// Use Tab para indentação
+
+console.log('Hello World!');"></textarea>
+        </div>
+
+        <div class="button-container">
+            <button onclick="set_text_area_value()">🔄 Atualizar Texto </button>
+        </div>
+    </div>
+</body>
+</html>
+
+```
+#### Step 5: create style.css
+
+```css
         * {
             margin: 0;
             padding: 0;
@@ -231,37 +343,23 @@
             color: #7f8c8d;
             margin-top: 5px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 C2Wasm Demo</h1>
-        
-        <div class="input-group">
-            <label for="test_input">📝 Input de Comando:</label>
-            <input type="text" id="test_input" placeholder="Digite seu comando aqui...">
-        </div>
+```
 
-        <div class="editor-container">
-            <div class="editor-header">
-                <div class="editor-dots">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
-                </div>
-                <div class="editor-title">Editor de Código</div>
-            </div>
-            <textarea id="test_div" placeholder="// Seu código aparecerá aqui...
-// Use Ctrl+A para selecionar tudo
-// Use Ctrl+C para copiar
-// Use Tab para indentação
+### Step 6: run the server
 
-console.log('Hello World!');"></textarea>
-        </div>
+```bash
+python3 -m http.server 8000
+```
+if you open your browser and try to fetch [example.com](https://example.com/), you will get an error like this:
 
-        <div class="button-container">
-            <button onclick="set_text_area_value()">🔄 Atualizar Texto </button>
-        </div>
-    </div>
-</body>
-</html>
+```text
+index.html:1 Access to fetch at 'https://example.com/' from origin 'http://localhost:8000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+main.js:1791 
+```
+you can fix these by starting your chrome with the `--disable-web-security` flag:
+
+```bash
+google-chrome --disable-web-security --user-data-dir=/tmp/unsafe-chrome-profile index.html
+```
+
+
