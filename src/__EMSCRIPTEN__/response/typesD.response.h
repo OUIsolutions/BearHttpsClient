@@ -8,6 +8,7 @@
 
 typedef struct BearHttpsResponse{
     private_BearHttpsHeaders *headers;
+    int error_code;
     unsigned char *body;
     #ifndef BEARSSL_HTTPS_MOCK_CJSON
     cJSON *json_body;

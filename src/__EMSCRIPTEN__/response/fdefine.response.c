@@ -11,4 +11,25 @@ BearHttpsResponse *private_newBearHttpsResponse(){
 
     return self;
 }
+
+
+void BearHttpsResponse_free(BearHttpsResponse *self){
+    private_BearHttpsHeaders_free(self->headers);
+    #ifndef BEARSSL_HTTPS_MOCK_CJSON
+        if(self->json_body){
+            cJSON_Delete(self->json_body);
+        }
+    #endif
+    if(self->body){
+        free(self->body);
+    }
+    if(self->error_msg){
+        free(self->error_msg);
+    }
+
+    free(self);
+
+}
+
+
 #endif 
