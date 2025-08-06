@@ -1,7 +1,7 @@
 function main()
     
     if not darwin.argv.one_of_args_exist("no_dep_install") then
-        install_dependencies()
+      --  install_dependencies()
     end
 
 

@@ -22,7 +22,6 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     c2wasm_js_var response = c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
 
-    c2wasm_show_var_on_console(response);
     return NULL;
 }
 #endif 
