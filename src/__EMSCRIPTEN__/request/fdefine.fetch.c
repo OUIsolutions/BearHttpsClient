@@ -26,15 +26,30 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         BearHttpsResponse_set_error(response,"Error performing fetch",1);
         return response;
     }
-    c2wasm_show_var_on_console(js_response);
 
     response->status_code = (int)c2wasm_get_object_prop_long(js_response, "status");
     c2wasm_js_var js_headers = c2wasm_get_object_prop_any(js_response, "headers");
     c2wasm_js_var entries = c2wasm_call_object_prop(js_headers, "entries", -1);
     c2wasm_js_var array = c2wasm_get_object_prop_any(c2wasm_window,"Array");
     c2wasm_js_var entries_array = c2wasm_call_object_prop(array,"from", entries);
+    long size = c2wasm_get_array_size(entries_array);
+    for (long i = 0; i < size; i++) {
+        c2wasm_js_var entry = c2wasm_get_array_any_by_index(entries_array, i);
+        private_BearHttpsKeyVal * key_obj = private_newBearHttpsKeyVal();
+        int key_size = c2wasm_get_array_string_size_by_index(entry,0);
+        char *key = (char *)malloc(key_size + 2);
+        c2wasm_array_memcpy_string(entry,0,0,key,key_size);
+        key[key_size] = '\0';
 
 
+        int value_size = c2wasm_get_array_string_size_by_index(entry,1);
+        char *value = (char *)malloc(value_size + 2);
+        value[value_size] = '\0';
+        c2wasm_array_memcpy_string(entry,1,0,value,value_size);
+        private_BearHttpsKeyVal_set_key(key_obj,key,BEARSSL_HTTPS_GET_OWNERSHIP);
+        private_BearHttpsKeyVal_set_value(key_obj,value,BEARSSL_HTTPS_GET_OWNERSHIP);
+        private_BearHttpsHeaders_add_keyval(response->headers,key_obj);
+    }
     
 
     return response;

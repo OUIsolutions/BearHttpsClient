@@ -11,7 +11,7 @@
 #if defined(__EMSCRIPTEN_DISABLE_ERRORS__)
 #undef __EMSCRIPTEN__
 #endif 
-#define __ASYNCIFY__
+#define C2WASM_ALLOW_ASYNC
 #include "../../../dependencies/c2wasm.c"
 
 #if defined(__EMSCRIPTEN_DISABLE_ERRORS__)
