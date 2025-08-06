@@ -20,11 +20,13 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     c2wasm_append_array_string(args_to_cal, self->url);
     c2wasm_append_array_any(args_to_cal, props);
 
-    c2wasm_js_var js_response = c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
+    c2wasm_js_var js_response = async_c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
     BearHttpsResponse *response = private_newBearHttpsResponse();
     if(c2wasm_instance_of(js_response,c2wasm_error)){
+        printf("its a error\n");
         return response;
     }
+    printf("its not a error\n");
     c2wasm_show_var_on_console(js_response);
     return NULL;
 }
