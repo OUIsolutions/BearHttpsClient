@@ -22,10 +22,17 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     c2wasm_js_var js_response = async_c2wasm_call_object_prop(c2wasm_window, "fetch", args_to_cal);
     BearHttpsResponse *response = private_newBearHttpsResponse();
+    if(c2wasm_get_var_type(js_response) == c2wasm_null){
+        printf("its a null\n");
+        return response;
+    }
+    
     if(c2wasm_instance_of(js_response,c2wasm_error)){
         printf("its a error\n");
         return response;
     }
+
+
     printf("its not a error\n");
     c2wasm_show_var_on_console(js_response);
     return NULL;
