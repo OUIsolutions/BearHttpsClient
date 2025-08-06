@@ -55,9 +55,9 @@ Choose your preferred way:
 
 | 📁 **Option** | 📄 **File** | 🎯 **Best For** |
 |---------------|-------------|------------------|
-| **🎯 Super Easy** | [BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.8/BearHttpsClientOne.c) | Beginners - Just one file! |
-| **📦 Full Package** | [BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.8/BearHttpsClient.zip) | Advanced users |
-| **🔧 Separate Files** | [.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.8/BearHttpsClient.h) + [.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.2.8/BearHttpsClient.c) | Traditional C projects |
+| **🎯 Super Easy** | [BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c) | Beginners - Just one file! |
+| **📦 Full Package** | [BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.zip) | Advanced users |
+| **🔧 Separate Files** | [.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h) + [.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c) | Traditional C projects |
 
 ### Step 2: Your First Program
 
