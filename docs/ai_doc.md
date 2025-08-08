@@ -15,7 +15,10 @@ int main(){
         printf("Error: %s\n", BearHttpsResponse_get_error_msg(response));
     } else {
         printf("Response Status Code: %d\n", BearHttpsResponse_get_status_code(response));
-        printf("Response Body: %s\n", BearHttpsResponse_read_body_str(response));
+        const char *body = BearHttpsResponse_read_body_str(response);
+        if(body != NULL){
+            printf("Response Body: %s\n", body);
+        }
     }
     BearHttpsRequest_free(request);
     BearHttpsResponse_free(response);
@@ -63,8 +66,49 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 - ws2tcpip.h
 - windows.h
 ```
+
+# 🚨 CRITICAL NULL CHECK ENFORCEMENT 🚨
+
+## MANDATORY: Always check for NULL before using any return values
+**All cJSON and header response functions can return NULL. You MUST check for NULL before accessing any returned values.**
+
+### ⚠️ Functions that can return NULL:
+- `BearHttpsResponse_read_body_json()` - Can return NULL if JSON parsing fails
+- `BearHttpsResponse_get_header_value_by_index()` - Can return NULL if index is invalid
+- `BearHttpsResponse_get_header_key_by_index()` - Can return NULL if index is invalid  
+- `BearHttpsResponse_get_header_value_by_key()` - Can return NULL if key doesn't exist
+- `BearHttpsResponse_get_header_value_by_sanitized_key()` - Can return NULL if key doesn't exist
+- `BearHttpsResponse_read_body_str()` - Can return NULL if body is empty or invalid
+
+### ✅ ALWAYS use this pattern:
+```c
+// For JSON responses
+const cJSON *json = BearHttpsResponse_read_body_json(response);
+if(json != NULL) {
+    // Safe to use json
+} else {
+    // Handle NULL case
+}
+
+// For headers
+const char *header_value = BearHttpsResponse_get_header_value_by_key(response, "Content-Type");
+if(header_value != NULL) {
+    printf("Content-Type: %s\n", header_value);
+} else {
+    printf("Header not found\n");
+}
+
+// For body string
+const char *body = BearHttpsResponse_read_body_str(response);
+if(body != NULL) {
+    printf("Body: %s\n", body);
+} else {
+    printf("No body or invalid body\n");
+}
+```
+
 # IMPORTANT: All cJSON Returns are consts, you should not free them manually.
-# IMPORTANT: Assing all cJSONS * returns to const cJSON* variables, otherwise you will get a compiler warning
+# IMPORTANT: Assign all cJSON* returns to const cJSON* variables, otherwise you will get a compiler warning
 
 **These are automatically included when you include BearHttpsClient.c, BearHttpsClient.h or BearHttpsClientOne.c**
 
