@@ -69,7 +69,7 @@ function main()
     darwin.silverchain.generate({
         src = "src",
         tags = { 
-            ------------------- Headders --------------------------------------------
+            ------------------- Public Headders --------------------------------------------
             "tests",
             "public_dep_declare",
             "public_types",
