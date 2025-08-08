@@ -5,6 +5,7 @@
 [![GitHub Release](https://img.shields.io/github/release/OUIsolutions/BearHttpsClient.svg?style=for-the-badge)](https://github.com/OUIsolutions/BearHttpsClient/releases)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/OUIsolutions/BearHttpsClient/blob/main/LICENSE)
 ![Status](https://img.shields.io/badge/Status-Alpha-orange?style=for-the-badge)
+![Platforms](https://img.shields.io/badge/Platforms-Windows%20|%20Linux%20|%20WebAssembly-lightgrey?style=for-the-badge)
 
 </div>
 
