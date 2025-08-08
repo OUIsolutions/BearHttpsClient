@@ -2,7 +2,7 @@
 
 # BearHttpsClient
 ![C Logo](https://img.shields.io/badge/CWebStudio-4.0.0-blue?style=for-the-badge&logo=c)
-[![GitHub Release](https://img.shields.io/github/release/OUIsolutions/CWebStudio.svg?style=for-the-badge)](https://github.com/OUIsolutions/CWebStudio/releases)
+[![GitHub Release](https://img.shields.io/github/release/OUIsolutions/BearHttps.svg?style=for-the-badge)](https://github.com/OUIsolutions/CWebStudio/releases)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/OUIsolutions/CWebStudio/blob/main/LICENSE)
 
 
