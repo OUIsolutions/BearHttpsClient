@@ -16,7 +16,7 @@
 
 ---
 
-## Overview
+### Overview
 
 BearHttpsClient is a lightweight HTTP/HTTPS client library for C/C++ applications. It provides a streamlined interface for network communication, eliminating the complexity of traditional networking code:
 
@@ -41,16 +41,16 @@ This library is designed for developers who need to:
 
 ---
 
-## 🚀 Quick Start (30 seconds!)
+## Releases
 
-### Step 1: Download the Library
-Choose your preferred way:
 
-| 📁 **Option** | 📄 **File** | 🎯 **Best For** |
-|---------------|-------------|------------------|
-| **🎯 Super Easy** | [BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c) | Beginners - Just one file! |
-| **📦 Full Package** | [BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.zip) | Advanced users |
-| **🔧 Separate Files** | [.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h) + [.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c) | Traditional C projects |
+|  **File**                                                                                                           | **What is**                                |
+|---------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
+|[BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c) | A Amalgamation Containing all the Library  |
+|[BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.zip)   | The Whole Project ziped in a dir           |
+|[BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c)       | Project Definition                         |
+|[BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h)       | Project Header                             |
+
 
 ### Step 2: Your First Program
 
@@ -206,15 +206,4 @@ We ❤️ contributions! Whether you're:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-<div align="center">
-
-**Made with ❤️ for the C/C++ community**
-
-⭐ **Found this helpful? Give us a star!** ⭐
-
-[🏠 Home](https://github.com/OUIsolutions/BearHttpsClient) | [📖 Docs](/docs/) | [🐛 Issues](https://github.com/OUIsolutions/BearHttpsClient/issues) | [💬 Discussions](https://github.com/OUIsolutions/BearHttpsClient/discussions)
-
-</div>
-
 
