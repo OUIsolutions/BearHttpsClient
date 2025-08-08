@@ -42,15 +42,41 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 
 # Public API
 
-### OOwnership Modes
+### Ownership Modes
 
 ~~~c
-#define BEARSSL_HTTPS_REFERENCE  0
-#define BEARSSL_HTTPS_GET_OWNERSHIP 1
-#define BEARSSL_HTTPS_COPY  2
-
-#define BEARSSL_DEFAULT_STRATEGY BEARSSL_HTTPS_COPY
+BEARSSL_HTTPS_REFERENCE  = 0 // keeps the reference of the item passed to the function
+BEARSSL_HTTPS_GET_OWNERSHIP = 1 // takes the ownership of the item passed to the function and free it when not needed anymore
+BEARSSL_HTTPS_COPY  = 2 // makes a copy of the item passed to the function
+BEARSSL_DEFAULT_STRATEGY = BEARSSL_HTTPS_COPY // default strategy for string parameters
 ~~~
+
+### Dns Providers sample
+```c
+    BearHttpsClientDnsProvider providers[] = {
+        {
+            .hostname = "dns.google.com",
+            .route = "/resolve", 
+            .ip = "8.8.8.8",
+            .port = 443
+        },
+        {
+            .hostname = "dns.nextdns.io",
+            .route = "/dns-query",
+            .ip = "217.146.9.93", 
+            .port = 443
+        }
+    };
+```
+
+###  Known IPs sample
+```c 
+const char *known_ips[] = {
+    "93.184.216.34",    // Primary IP
+    "93.184.216.35"     // Backup IP
+};
+int known_ips_count = sizeof(known_ips) / sizeof(const char*);
+```
 
 ### Request Struct
 ~~~c 
@@ -59,6 +85,13 @@ BearHttpsRequest * newBearHttpsRequest(const char *url);
 // Headders
 void BearHttpsRequest_add_header(BearHttpsRequest *self ,const char *key,const char *value);
 void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,const char *key,const char *format,...);
+
+BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short url_ownership_mode);
+void BearHttpsRequest_set_known_ips(BearHttpsRequest *self , const char *known_ips[],int known_ips_size);
+void BearHttpsRequest_set_max_redirections(BearHttpsRequest *self ,int max_redirections);
+void BearHttpsRequest_set_dns_providers(BearHttpsRequest *self ,BearHttpsClientDnsProvider  *dns_providers,int total_dns_proviers);
+void BearHttpsRequest_set_chunk_header_read_props(BearHttpsRequest *self ,int chunk_size,int max_chunk_size);
+void BearHttpsRequest_set_trusted_anchors(BearHttpsRequest *self ,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size);
 // Body Send 
 
 void BearHttpsRequest_send_any_with_ownership_control(BearHttpsRequest *self,unsigned char *content, long size,short ownership_mode);
