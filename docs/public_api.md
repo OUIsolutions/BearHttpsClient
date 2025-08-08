@@ -1,5 +1,11 @@
 
-### Summary of all Public API Functions 
+# BearHttpsClient Public API Reference
+
+This document provides a comprehensive reference for all public API functions available in the BearHttpsClient library. The BearHttpsClient is a lightweight, secure HTTPS client library built on top of BearSSL, designed for making HTTP/HTTPS requests with full SSL/TLS support.
+
+The API is organized into logical groups covering request creation, configuration, body handling, execution, and response processing. Each function is documented with detailed usage examples and parameter descriptions.
+
+## Summary of all Public API Functions 
 
 | Function Name                                                                                                                     | Description                                                            |
 | ----------------------------------------------------------------------------------------------------------------------------------| ---------------------------------------------------------------------- |
