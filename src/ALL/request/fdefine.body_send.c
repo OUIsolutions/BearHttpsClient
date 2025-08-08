@@ -94,14 +94,14 @@ void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json){
     BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_DEFAULT_STRATEGY);
 }
 
-cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self){
+const cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self){
     cJSON *json = cJSON_CreateObject();
     BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_HTTPS_GET_OWNERSHIP);
     return json;
 }
 
 
-cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self){
+const cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self){
     cJSON *json = cJSON_CreateArray();
     BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_HTTPS_GET_OWNERSHIP);
     return json;

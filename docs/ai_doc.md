@@ -57,5 +57,5 @@ const char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int
 const char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key);
 const char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
 const char* BearHttpsResponse_read_body_str(BearHttpsResponse *self);
-cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
+const cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
 ~~~

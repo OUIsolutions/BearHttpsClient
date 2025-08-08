@@ -115,10 +115,10 @@ void BearHttpsRequest_send_body_str(BearHttpsRequest *self, char *content);
 void BearHttpsRequest_send_cJSON_with_ownership_control(BearHttpsRequest *self,cJSON *json,short ownership_mode);
 void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json);
 
-cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self);
+const cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self);
 
 
-cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
+const cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
 
 
 #endif
