@@ -1,7 +1,3 @@
-//silver_chain_scope_start
-//mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
-#include "../../imports/imports.public_fdefine.h"
-//silver_chain_scope_end
 #if !defined(__EMSCRIPTEN__)
 
 int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned char *buffer,long size){

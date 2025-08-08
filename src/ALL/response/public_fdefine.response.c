@@ -1,7 +1,3 @@
-//silver_chain_scope_start
-//mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
-#include "../../imports/imports.private_globals.h"
-//silver_chain_scope_end
 
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self){
     if(BearHttpsResponse_error(self)){
