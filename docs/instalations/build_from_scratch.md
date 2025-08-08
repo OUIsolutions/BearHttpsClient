@@ -52,13 +52,12 @@ For other operating systems, visit the [Darwin releases page](https://github.com
 
 Now you can compile the library using Darwin. Make sure you're still in the BearHttpsClient directory and run:
 ```bash
-darwin run_blueprint --mode folder build/
+darwin run_blueprint 
 ```
 
 This command tells Darwin to:
 - Run the build blueprint (the build instructions)
-- Use folder mode to process the build directory
-- Look for build instructions in the `build/` folder
+- Interpret the [**darwinconf.lua**](/darwinconf.lua) file to know how to compile the library
 
 The build process may take a few moments as it compiles all the source files and dependencies.
 
@@ -82,20 +81,3 @@ The build process creates several important files:
 - **BearHttpsClientOne.c**: A single-file version that combines both header and implementation. Use this if you prefer a single-file approach.
 - **BearHttpsClient.zip**: A compressed archive containing all the release files for easy distribution.
 
-## Next steps
-
-After successfully building the library, you can:
-1. Use the generated files in your own C projects
-2. Refer to the examples in the `examples/` folder to learn how to use the library
-3. Read the documentation in the `docs/` folder for detailed usage instructions
-
-## Troubleshooting
-
-If you encounter issues during the build process:
-
-- **Darwin not found**: Make sure Darwin is properly installed and in your system PATH
-- **Permission denied**: Ensure you have the necessary permissions to write files in the current directory
-- **Build fails**: Check that all dependencies are properly installed and your system meets the requirements
-- **Network issues**: Ensure you have an active internet connection for downloading dependencies
-
-For additional help, visit the [project's GitHub repository](https://github.com/OUIsolutions/BearHttpsClient) and check the issues section or create a new issue if needed.
