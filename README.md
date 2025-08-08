@@ -40,6 +40,10 @@ This library is designed for developers who need to:
 - **Cross-platform functionality** - Compatible with Windows, Linux, and WebAssembly
 - **Minimal dependencies** - No additional library installations required
 
+### AI/LLM Integration
+
+Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_doc.md](docs/ai_doc.md) file and paste its contents to your preferred AI assistant (ChatGPT, Claude, Copilot, etc.) for interactive learning and code examples.
+
 ---
 
 ## Releases
