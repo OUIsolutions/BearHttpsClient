@@ -64,6 +64,8 @@ Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_do
 | [Full Directory](docs/instalations/full_dir.md)               | Full Directory Library Installation Guide             |
 | [Build from Scratch](docs/instalations/build_from_scratch.md) | Building BearHttpsClient from Source Code             | 
 
+## [Public API](docs/public_api.md)
+Click here [Public API](docs/public_api.md) to see the full list of public API functions.
 
 ## Usage Tutorials 
 
