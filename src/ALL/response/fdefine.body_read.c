@@ -8,7 +8,7 @@ const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self){
     if(BearHttpsResponse_error(self)){
         return NULL;
     }
-    unsigned char *body = BearHttpsResponse_read_body(self);
+    const unsigned char *body = BearHttpsResponse_read_body(self);
     if(body == NULL){
         return NULL;
     }

@@ -9,7 +9,7 @@ typedef struct BearHttpsResponseNamespace{
 
 
     int (*read_body_chunck)(BearHttpsResponse *self,unsigned char *bufer,long size);
-    unsigned char *(*read_body)(BearHttpsResponse *self);
+    const unsigned char *(*read_body)(BearHttpsResponse *self);
     const  char *(*read_body_str)(BearHttpsResponse *self);
 
 
@@ -18,13 +18,13 @@ typedef struct BearHttpsResponseNamespace{
 
     int (*get_headers_size)(BearHttpsResponse*self);
 
-    char* (*get_header_value_by_index)(BearHttpsResponse*self,int index);
+    const char* (*get_header_value_by_index)(BearHttpsResponse*self,int index);
 
-    char* (*get_header_value_by_key)(BearHttpsResponse*self,const char *key);
+    const char* (*get_header_value_by_key)(BearHttpsResponse*self,const char *key);
 
-    char* (*get_header_key_by_index)(BearHttpsResponse*self,int index);
+    const char* (*get_header_key_by_index)(BearHttpsResponse*self,int index);
 
-    char* (*get_header_value_by_sanitized_key)(BearHttpsResponse*self,const char *key);
+    const char* (*get_header_value_by_sanitized_key)(BearHttpsResponse*self,const char *key);
 
     void (*set_max_body_size)(BearHttpsResponse*self,long size);
     void (*set_body_read_props)(BearHttpsResponse*self,int chunk_size,double realloc_factor);
@@ -32,7 +32,7 @@ typedef struct BearHttpsResponseNamespace{
 
     bool (*error)(BearHttpsResponse*self);
 
-    char* (*get_error_msg)(BearHttpsResponse*self);
+    const char* (*get_error_msg)(BearHttpsResponse*self);
 
     int (*get_error_code)(BearHttpsResponse*self);
 

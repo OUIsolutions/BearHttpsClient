@@ -6,7 +6,7 @@
 
 
 
-unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
+const unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     if (BearHttpsResponse_error(self)) {
         return NULL;
     }

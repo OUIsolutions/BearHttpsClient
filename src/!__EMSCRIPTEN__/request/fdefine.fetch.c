@@ -184,11 +184,11 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
         }
         
         if(is_redirect && i < self->max_redirections -1){
-            char *location = BearHttpsResponse_get_header_value_by_sanitized_key(response,"location");
+            const char *location = BearHttpsResponse_get_header_value_by_sanitized_key(response,"location");
             if(location == NULL){
                 return response;
             }
-            BearHttpsRequest_set_url_with_ownership_config(self,location,BEARSSL_HTTPS_COPY );
+            BearHttpsRequest_set_url_with_ownership_config(self,(char*)location,BEARSSL_HTTPS_COPY );
             BearHttpsResponse_free(response);
             response = NULL;
             continue;

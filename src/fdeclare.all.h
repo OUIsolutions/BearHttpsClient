@@ -170,17 +170,17 @@ bool BearHttpsResponse_error(BearHttpsResponse*self);
 
 void BearHttpsResponse_set_error(BearHttpsResponse*self,const char *msg,int error_code);
 
-char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);
+const char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self);
 
 int BearHttpsResponse_get_error_code(BearHttpsResponse*self);
 
 int BearHttpsResponse_get_headers_size(BearHttpsResponse*self);
 
-char* BearHttpsResponse_get_header_value_by_index(BearHttpsResponse*self,int index);
-char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index);
-char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key);
+const char* BearHttpsResponse_get_header_value_by_index(BearHttpsResponse*self,int index);
+const char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index);
+const char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key);
 
-char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
+const char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
 //ALL/response/fdefine.body_read.c
 
 const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
@@ -291,7 +291,7 @@ int BearHttpsResponse_read_body_chunck(BearHttpsResponse *self,unsigned char *bu
 
 
 
-unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) ;
+const unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) ;
 
 
 #endif//!__EMSCRIPTEN__/network/fdefine.sock.c
