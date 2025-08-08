@@ -1,33 +1,31 @@
-These tutorial explains how to use the zip file version of BearHttpsClient library.
+WThis tutorial explains how to compile and use the BearHttpsClient library from the full directory distribution.
 
-## Step 1: Download the Library
-Download the zip file version of the library: [BearHttpsClient.zip](https://github.
-com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.zip) and extract it in your project folder.
+## Step 1: Download and Extract the Library
+Download the BearHttpsClient library distribution from the releases page and extract it to your project directory.
 
 ```bash
 curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.zip -o BearHttpsClient.zip
-```
-You can use any unzip tool to extract the zip file, or you can use the command line:
-
-```bash
 unzip BearHttpsClient.zip
 ```
-After extracting, your project folder should look like this:
+
+After extraction, your project directory will contain:
 
 ```
-├── BearHttpsClient.zip
-├── build
-├── dependencies
-└── src
+BearHttpsClient/
+├── build/
+├── dependencies/
+└── src/
 ```
-## Step 2: Creating your hello world program
-Create a file called `main.c` and copy this code:
+## Step 2: Create Your Application
+Create your application file (main.c) in the project directory:
 
 ```c
 #include "src/one.c"
+
 int main(){
     BearHttpsRequest *request = newBearHttpsRequest("https://example.com");   
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
+    
     if(BearHttpsResponse_error(response)){
         printf("Error: %s\n",BearHttpsResponse_get_error_msg(response));
         BearHttpsRequest_free(request);
@@ -46,45 +44,52 @@ int main(){
     printf("Body: %s\n",body);
     BearHttpsRequest_free(request);
     BearHttpsResponse_free(response);
-
     return 0;
 }
 ```
-After this, your project folder should look like this:
 
-```├── BearHttpsClient.zip
-├── build
-├── dependencies
-├── src
+Your project structure should now be:
+
+```
+BearHttpsClient/
+├── build/
+├── dependencies/
+├── src/
 └── main.c
 ```
 
 
-## Step 3: Compile and run 
+## Step 3: Compilation
 
-Now you can chose by compile enverything at once or compile the library and then your program.
-### Compile everything at once
-**gcc:**
+The library can be compiled using various C compilers. The following compilation commands will build your application with the BearHttpsClient library.
+
+### GCC Compilation
 ```bash
 gcc main.c -o main.out 
 ./main.out
 ```
-**clang:**
+
+### Clang Compilation
 ```bash
 clang main.c -o main.out
 ./main.out
 ```
-**Microsoft Visual Compiler (cl.exe):**
+
+### Microsoft Visual Studio Compiler
 ```bash
 cl main.c /Fe:main.exe
 main.exe        
 ```
-**mingw32**
+
+### MinGW Cross-Compilation
 ```bash
 i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 ./main.exe
 ```
-**emscripten:** (check [webassembly](docs/tutorials/webassembly.md) for more details)
+
+### Emscripten (WebAssembly)
+For WebAssembly compilation, refer to the WebAssembly tutorial documentation for detailed instructions.
+
 ```bash
 emcc main.c -o main.js -sASYNCIFY
 ```
