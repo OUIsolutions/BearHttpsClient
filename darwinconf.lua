@@ -48,7 +48,7 @@ function main()
 
     local public_declare = darwin.mdeclare.transform_dir({
         dir="src",
-        startswith="public_define",
+        startswith="public_fdefine",
         endswith=".c",
     })
 
@@ -58,7 +58,7 @@ function main()
 
     local private_declare = darwin.mdeclare.transform_dir({
         dir="src",
-        startswith="private_define",
+        startswith="private_fdefine",
         endswith=".c",
     })
 
