@@ -42,7 +42,7 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 
 # Public API
 
-## AAlready included in the lib (not required to include)
+## AAlready included in BearHttpsClient.c,BearHttpsClient.h and BearHttpsClientOne.c (not required to include)
 ~~~c
 
 #include <cJSON.h>
