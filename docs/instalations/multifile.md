@@ -58,7 +58,12 @@ After this, your project folder should look like this:
 ├── src
 └── main.c
 ```
-## Step 3: Compile and run
+
+
+## Step 3: Compile and run 
+
+Now you can chose by compile enverything at once or compile the library and then your program.
+### Compile everything at once
 **gcc:**
 ```bash
 gcc main.c -o main.out 
