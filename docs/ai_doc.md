@@ -31,10 +31,10 @@ void BearHttpsRequest_send_cJSON_with_ownership_control(BearHttpsRequest *self,c
 void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json);
 
 // dont use cJSON_Delete on the return of these function, since they are managed by the BearHttpsRequest struct
-cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self);
+const cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self);
 
 // dont use cJSON_Delete on the return of these functions, since they are managed by the BearHttpsRequest struct
-cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
+const cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
 
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 
