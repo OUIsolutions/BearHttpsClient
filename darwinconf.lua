@@ -102,13 +102,15 @@ function main()
     onefile = lincense .. onefile
 
     darwin.dtw.write_file("release/BearHttpsClientOne.c", onefile)
+    darwin.silverchain.remove("release/BearHttpsClientOne.c")
 
 
     local only_declare = darwin.camalgamator.generate_amalgamation("src/imports/imports.public_declare.h", MAX_CONNTENT,
     MAX_RECURSION)
     only_declare = lincense .. only_declare
     darwin.dtw.write_file("release/BearHttpsClient.h", only_declare)
-    
+    darwin.silverchain.remove("release/BearHttpsClient.h")
+
 
 
      if not darwin.argv.one_of_args_exist("no_zip") then
