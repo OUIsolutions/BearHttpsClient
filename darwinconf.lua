@@ -59,9 +59,24 @@ function main()
     
     darwin.silverchain.generate({
         src = "src",
-        tags = { "tests","dep_declare", "macros", "types", "fdeclare","globals", "dep_define","fdefine" },
+        tags = { 
+            ------------------- Headders --------------------------------------------
+            "dep_public_declare",
+            "public_types",
+            "public_macros",
+            "public_declare",
+            ------------------- Private Headders -------------------------------------
+            "private_macros",
+            "dep_private_declare",
+            "private_types",
+            "private_declare",
+            --------------------- Sources --------------------------------------------
+            "dep_define",
+            "public_define",
+            "private_define",
+    },
         implement_main = false,
-        project_short_cut="bearhttps"
+        project_short_cut="bear_https_client",
     })
 
     if darwin.argv.one_of_args_exist("only_silverchain") then
