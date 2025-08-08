@@ -42,6 +42,36 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 
 # Public API
 
+## AAlready included in the lib (not required to include)
+~~~c
+
+#include <cJSON.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+
+
+#if defined(__linux__)
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <errno.h>
+#endif
+
+#if defined(_WIN32)
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <windows.h>
+~~~
+
+
 ### Ownership Modes
 
 ~~~c
