@@ -46,15 +46,24 @@ function main()
       install_dependencies()
     end
 
-
-    local content = darwin.mdeclare.transform_dir({
+    local public_declare = darwin.mdeclare.transform_dir({
         dir="src",
-        startswith="fdefine",
+        startswith="public_define",
         endswith=".c",
     })
 
-    darwin.dtw.write_file("src/fdeclare.all.h", content)
-    darwin.silverchain.remove("src/fdeclare.all.h")
+    darwin.dtw.write_file("src/public_declare.all.h", public_declare)
+    darwin.silverchain.remove("src/public_declare.all.h")
+
+
+    local private_declare = darwin.mdeclare.transform_dir({
+        dir="src",
+        startswith="private_define",
+        endswith=".c",
+    })
+
+    darwin.dtw.write_file("src/private_declare.all.h", private_declare)
+    darwin.silverchain.remove("src/private_declare.all.h")
 
     
     darwin.silverchain.generate({
@@ -94,30 +103,14 @@ function main()
 
     darwin.dtw.write_file("release/BearHttpsClientOne.c", onefile)
 
-    local only_declare = darwin.camalgamator.generate_amalgamation("src/imports/imports.fdeclare.h", MAX_CONNTENT,
+
+    local only_declare = darwin.camalgamator.generate_amalgamation("src/imports/imports.public_fdeclare.h", MAX_CONNTENT,
     MAX_RECURSION)
     only_declare = lincense .. only_declare
     darwin.dtw.write_file("release/BearHttpsClient.h", only_declare)
+    
 
 
-    local only_definition = darwin.camalgamator.generate_amalgamation_with_callback("src/imports/imports.fdefine.h",
-        function(import, path)
-            if import == "src/imports/imports.fdeclare.h" then
-                      return "dont-include"
-            end
-
-            return "include-once"
-        end,
-        
-        MAX_CONNTENT,
-        MAX_RECURSION
-    )
-
-    only_definition = '#include "BearHttpsClient.h"\n' .. only_definition
-
-    only_definition = lincense .. only_definition
-
-    darwin.dtw.write_file("release/BearHttpsClient.c", only_definition)
      if not darwin.argv.one_of_args_exist("no_zip") then
            os.execute("zip -r release/BearHttpsClient.zip dependencies src build")
      end
