@@ -51,6 +51,13 @@ This library is designed for developers who need to:
 |[BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c)       | Project Definition                         |
 |[BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h)       | Project Header                             |
 
+## Installations Tutorials
+| **Tutorial**                                                  | **Description**                                       |
+|---------------------------------------------------------------|------------------------------------------------------ |
+| [OneFile](docs/instalations/one_file.md)                      | Single File Library Installation Guide (the most easy)|
+| [Precompiled](docs/instalations/precompiled.md)               | Precompiled Library Installation Guide                |
+| [Full Directory](docs/instalations/full_dir.md)               | Full Directory Library Installation Guide             |
+| [Build from Scratch](docs/instalations/build_from_scratch.md) | Building BearHttpsClient from Source Code             | 
 
 ## 📄 License
 
