@@ -185,7 +185,7 @@ const char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsRespons
 
 const  char *BearHttpsResponse_read_body_str(BearHttpsResponse *self);
 #ifndef BEARSSL_HTTPS_MOCK_CJSON
-cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
+const cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
 #endif//ALL/keyval/fdefine.keyval.c
 
 

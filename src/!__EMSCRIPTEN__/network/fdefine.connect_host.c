@@ -62,7 +62,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             }       
         
 
-            cJSON * body = BearHttpsResponse_read_body_json(dns_response);
+            const cJSON * body = BearHttpsResponse_read_body_json(dns_response);
             //printf("leu o body json: %s\n",cJSON_Print(body));
             if(BearHttpsResponse_error(dns_response)){
                 const char *message = BearHttpsResponse_get_error_msg(dns_response);

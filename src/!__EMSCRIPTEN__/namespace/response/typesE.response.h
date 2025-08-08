@@ -40,7 +40,7 @@ typedef struct BearHttpsResponseNamespace{
 
 
     #ifndef BEARSSL_HTTPS_MOCK_CJSON
-    cJSON * (*read_body_json)(BearHttpsResponse *self);
+    const cJSON * (*read_body_json)(BearHttpsResponse *self);
     #endif
 } BearHttpsResponseNamespace;
 
