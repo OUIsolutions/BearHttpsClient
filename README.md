@@ -65,7 +65,7 @@ Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_do
 | [Build from Scratch](docs/instalations/build_from_scratch.md) | Building BearHttpsClient from Source Code             | 
 
 
-## Tutorials 
+## Usage Tutorials 
 
 ## 📄 License
 
