@@ -63,6 +63,8 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 - ws2tcpip.h
 - windows.h
 ```
+# IMPORTANT: All cJSON Returns are consts, you should not free them manually.
+# IMPORTANT: Assing all cJSONS * returns to const cJSON* variables, otherwise you will get a compiler warning
 
 **These are automatically included when you include BearHttpsClient.c, BearHttpsClient.h or BearHttpsClientOne.c**
 
