@@ -1,5 +1,4 @@
-
-# Instalation 
+# Installation 
 single file mode 
 ```bash
 curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
@@ -7,6 +6,7 @@ curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/
 # Basic Usage
 ```c 
 #include "BearHttpsClientOne.c"
+// DO NOT include any other headers - they are already bundled in BearHttpsClient
 
 int main(){
     BearHttpsRequest *request = newBearHttpsRequest("https://example.com/");
@@ -22,7 +22,7 @@ int main(){
     return 0;
 }
 ```
-## Pree Compiling the lib
+## Pre-Compiling the lib
 ```bash
 curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c -o BearHttpsClient.c
 curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h -o BearHttpsClient.h
@@ -32,6 +32,7 @@ gcc main.c BearHttpsClient.o -o main.out
 ### include on Precompiled mode
 ```c
 #include "BearHttpsClient.h"
+// DO NOT include any other headers - they are already bundled in BearHttpsClient
 ```
 
 ### MinGW Cross-Compiler
@@ -42,44 +43,37 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 
 # Public API
 
-## AAlready included in BearHttpsClient.c,BearHttpsClient.h and BearHttpsClientOne.c (not required to include)
-~~~c
+## IMPORTANT: All dependencies are already bundled - DO NOT include these headers manually:
+```
+❌ DO NOT INCLUDE:
+- cJSON.h
+- string.h  
+- stdio.h
+- stdint.h
+- stdlib.h
+- ctype.h
+- arpa/inet.h
+- netinet/in.h
+- sys/socket.h
+- sys/types.h
+- netdb.h
+- unistd.h
+- errno.h
+- winsock2.h
+- ws2tcpip.h
+- windows.h
+```
 
-#include <cJSON.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <ctype.h>
-
-
-
-#if defined(__linux__)
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <errno.h>
-#endif
-
-#if defined(_WIN32)
-
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <windows.h>
-~~~
-
+**These are automatically included when you include BearHttpsClient.c, BearHttpsClient.h or BearHttpsClientOne.c**
 
 ### Ownership Modes
 
-~~~c
+```c
 BEARSSL_HTTPS_REFERENCE  = 0 // keeps the reference of the item passed to the function
 BEARSSL_HTTPS_GET_OWNERSHIP = 1 // takes the ownership of the item passed to the function and free it when not needed anymore
 BEARSSL_HTTPS_COPY  = 2 // makes a copy of the item passed to the function
 BEARSSL_DEFAULT_STRATEGY = BEARSSL_HTTPS_COPY // default strategy for string parameters
-~~~
+```
 
 ### Dns Providers sample
 ```c
@@ -109,10 +103,10 @@ int known_ips_count = sizeof(known_ips) / sizeof(const char*);
 ```
 
 ### Request Struct
-~~~c 
+```c 
 typedef struct BearHttpsRequest BearHttpsRequest;
 BearHttpsRequest * newBearHttpsRequest(const char *url);
-// Headders
+// Headers
 void BearHttpsRequest_add_header(BearHttpsRequest *self ,const char *key,const char *value);
 void BearHttpsRequest_add_header_fmt(BearHttpsRequest *self ,const char *key,const char *format,...);
 
@@ -137,10 +131,10 @@ const cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 
 void BearHttpsRequest_free(BearHttpsRequest *self);
-~~~
+```
 
 ### Response Struct
-~~~c
+```c
 typedef struct BearHttpsResponse BearHttpsResponse;
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 int BearHttpsResponse_get_status_code(BearHttpsResponse*self);
@@ -155,4 +149,4 @@ const char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,con
 const char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key);
 const char* BearHttpsResponse_read_body_str(BearHttpsResponse *self);
 const cJSON * BearHttpsResponse_read_body_json(BearHttpsResponse *self);
-~~~
+```
