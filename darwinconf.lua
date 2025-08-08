@@ -70,6 +70,7 @@ function main()
         src = "src",
         tags = { 
             ------------------- Headders --------------------------------------------
+            "tests",
             "public_dep_declare",
             "public_types",
             "public_macros",
@@ -81,9 +82,8 @@ function main()
             "private_declare",
             --------------------- Sources --------------------------------------------
             "private_globals",
-            "private_define",
-            "public_define",
-            "private_define",
+            "public_fdefine",
+            "private_fdefine",
     },
         implement_main = false,
         project_short_cut="bear_https_client",
@@ -104,7 +104,7 @@ function main()
     darwin.dtw.write_file("release/BearHttpsClientOne.c", onefile)
 
 
-    local only_declare = darwin.camalgamator.generate_amalgamation("src/imports/imports.public_fdeclare.h", MAX_CONNTENT,
+    local only_declare = darwin.camalgamator.generate_amalgamation("src/imports/imports.public_declare.h", MAX_CONNTENT,
     MAX_RECURSION)
     only_declare = lincense .. only_declare
     darwin.dtw.write_file("release/BearHttpsClient.h", only_declare)

@@ -1,6 +1,6 @@
 //silver_chain_scope_start
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
-#include "../../../imports/imports.typesC.h"
+#include "../../../imports/imports.public_typesC.h"
 //silver_chain_scope_end
 #if !defined(__EMSCRIPTEN__)
 
