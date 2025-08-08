@@ -5,7 +5,7 @@ curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/
 ```
 # Basic Usage
 ```c 
-#include "BearHttpsClientOne.c"
+#include "BearHttpsClient.h"
 // DO NOT include any other headers - they are already bundled in BearHttpsClient
 
 int main(){
@@ -42,6 +42,10 @@ gcc main.c BearHttpsClient.o -o main.out
 ```bash
 i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 ./main.exe
+```
+## Gcc Compilation (linux) 
+```bash
+gcc main.c BearHttpsClient.o   -o main.out 
 ```
 
 # Public API
@@ -109,6 +113,7 @@ if(body != NULL) {
 
 # IMPORTANT: All cJSON Returns are consts, you should not free them manually.
 # IMPORTANT: Assign all cJSON* returns to const cJSON* variables, otherwise you will get a compiler warning
+
 
 **These are automatically included when you include BearHttpsClient.c, BearHttpsClient.h or BearHttpsClientOne.c**
 
