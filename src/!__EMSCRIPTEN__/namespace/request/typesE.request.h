@@ -20,8 +20,8 @@ typedef struct BearHttpsRequestNamespace{
     #ifndef BEARSSL_HTTPS_MOCK_CJSON
         void (*send_cJSON_with_ownership_control)(BearHttpsRequest *self,cJSON *json,short ownership_mode);
         void (*send_cJSON)(BearHttpsRequest *self,cJSON *json);
-        cJSON * (*create_cJSONPayloadObject)(BearHttpsRequest *self);
-        cJSON * (*create_cJSONPayloadArray)(BearHttpsRequest *self);
+        const cJSON * (*create_cJSONPayloadObject)(BearHttpsRequest *self);
+        const cJSON * (*create_cJSONPayloadArray)(BearHttpsRequest *self);
     #endif
 
     BearHttpsRequest * (*newBearHttpsRequest_with_url_ownership_config)(char *url,short url_ownership_mode);
