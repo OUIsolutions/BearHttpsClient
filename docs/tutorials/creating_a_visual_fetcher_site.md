@@ -1,9 +1,17 @@
 
-# 🚀 Complete Beginner's Guide to BearHttpsClient Web Assembly
+# Complete Beginner's Guide to BearHttpsClient Web Assembly
 
-Welcome! This guide will teach you how to create a web application that can make HTTP requests using C code that runs in the browser. Don't worry if you're new to programming - we'll explain everything step by step!
+Welcome! This guide will teach you how to create a web application that can make HTTP requests using C code that runs in the browser. Don't            <label for="tes            <button onclick="set_text_area_value()" class="fetch-btn">
+                Fetch URL Content
+            </button>
+            <button onclick="clearTextArea()" class="clear-btn">
+                Clear Results
+            </button>
+            <button onclick="copyContent()" class="copy-btn">
+                Copy Content
+            </button>Enter a URL to fetch:</label>worry if you're new to programming - we'll explain everything step by step!
 
-## 🎯 What You'll Build
+## What You'll Build
 
 By the end of this tutorial, you'll have:
 - A web page with an input field and a text area
@@ -11,7 +19,7 @@ By the end of this tutorial, you'll have:
 - C code running directly in your browser (thanks to WebAssembly!)
 - A beautiful, modern interface
 
-## 📋 Prerequisites (What You Need First)
+## Prerequisites (What You Need First)
 
 Before we start, make sure you have these installed on your computer:
 
@@ -43,7 +51,7 @@ Most systems have Python already installed. Test by running:
 python3 --version
 ```
 
-## 🗂️ Project Setup
+## Project Setup
 
 First, let's create a folder for our project and organize it:
 
@@ -56,7 +64,7 @@ cd my-web-app
 touch main.c index.html style.css
 ```
 
-## 📥 Step 1: Download the BearHttpsClient Library
+## Step 1: Download the BearHttpsClient Library
 
 The BearHttpsClient is a special library that lets C code make HTTP requests. We need to download it:
 
@@ -69,7 +77,7 @@ curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/
 1. Go to: https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c
 2. Right-click and "Save as..." → name it `BearHttpsClientOne.c`
 3. Put it in your project folder
-## 💻 Step 2: Create Your C Code (main.c)
+## Step 2: Create Your C Code (main.c)
 
 Now we'll create the C code that will run in the browser. Don't worry if you don't understand every line - we'll explain the important parts!
 
@@ -148,7 +156,7 @@ int main(){
 }
 ```
 
-### 🤔 What Does This Code Do?
+### What Does This Code Do?
 
 1. **Gets user input**: Reads the URL from the input field
 2. **Makes HTTP request**: Uses BearHttpsClient to fetch the webpage
@@ -156,7 +164,7 @@ int main(){
 4. **Displays result**: Puts the response in the text area
 5. **Cleans up**: Frees memory to prevent leaks
 
-## ⚙️ Step 3: Compile Your C Code to WebAssembly
+## Step 3: Compile Your C Code to WebAssembly
 
 This step converts your C code into WebAssembly so it can run in browsers:
 
@@ -176,7 +184,7 @@ emcc main.c -o main.js -sASYNCIFY
 - `main.js`: The compiled WebAssembly + JavaScript glue code
 - `main.wasm`: The actual WebAssembly binary
 
-## 🎨 Step 4: Create Your HTML Page (index.html)
+## Step 4: Create Your HTML Page (index.html)
 
 This creates the visual interface for your app. **Create `index.html` with this content:**
 
@@ -186,7 +194,7 @@ This creates the visual interface for your app. **Create `index.html` with this 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 My First Web Assembly App</title>
+    <title>My First Web Assembly App</title>
     <!-- Load our compiled C code -->
     <script src="main.js"></script>
     <!-- Load our custom styles -->
@@ -194,7 +202,7 @@ This creates the visual interface for your app. **Create `index.html` with this 
 </head>
 <body>
     <div class="container">
-        <h1>🌐 C-Powered Web Fetcher</h1>
+        <h1>C-Powered Web Fetcher</h1>
         <p class="subtitle">Enter a URL below and watch C code fetch it in your browser!</p>
         
         <!-- Input field for the URL -->
@@ -221,7 +229,7 @@ This creates the visual interface for your app. **Create `index.html` with this 
 // The response will appear here...
 // You can scroll through the content and copy it
 
-Ready to fetch some data? 🎯"></textarea>
+Ready to fetch some data?"></textarea>
         </div>
 
         <!-- Button to trigger the fetch -->
@@ -239,7 +247,7 @@ Ready to fetch some data? 🎯"></textarea>
 
         <!-- Help section -->
         <div class="help-section">
-            <h3>💡 Try These URLs:</h3>
+            <h3>Try These URLs:</h3>
             <ul>
                 <li><code>https://jsonplaceholder.typicode.com/posts/1</code> - Sample JSON data</li>
                 <li><code>https://httpbin.org/ip</code> - Your IP address</li>
@@ -258,7 +266,7 @@ Ready to fetch some data? 🎯"></textarea>
             const textarea = document.getElementById('test_div');
             textarea.select();
             document.execCommand('copy');
-            alert('Content copied to clipboard! 📋');
+            alert('Content copied to clipboard!');
         }
         
         // Add some example URLs when clicked
@@ -270,7 +278,7 @@ Ready to fetch some data? 🎯"></textarea>
 </html>
 ```
 
-### 🎨 What's in This HTML?
+### What's in This HTML?
 
 - **Input field**: Where you type the URL to fetch
 - **Text area**: Where the fetched content appears
@@ -278,7 +286,7 @@ Ready to fetch some data? 🎯"></textarea>
 - **Helper functions**: JavaScript functions for better user experience
 - **Example URLs**: Some safe URLs you can test with
 
-## 🎨 Step 5: Add Beautiful Styling (style.css)
+## Step 5: Add Beautiful Styling (style.css)
 
 This makes your app look professional and modern. **Create `style.css` with this content:**
 
@@ -555,7 +563,7 @@ button:active {
 }
 ```
 
-## 🚀 Step 6: Start Your Web Server
+## Step 6: Start Your Web Server
 
 Your app needs to run on a web server (not just open the HTML file directly). Here's why and how:
 
@@ -583,9 +591,9 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 http://localhost:8000
 ```
 
-🎉 **Congratulations!** Your app should now be running!
+**Congratulations!** Your app should now be running!
 
-## ⚠️ Solving CORS Issues
+## Solving CORS Issues
 
 When you try to fetch from external websites (like `https://example.com/`), you might see this error:
 
@@ -599,7 +607,7 @@ CORS (Cross-Origin Resource Sharing) is a security feature that prevents website
 
 **Solution: Disable web security for testing**
 
-**⚠️ IMPORTANT:** Only do this for development/testing, never for regular browsing!
+**IMPORTANT:** Only do this for development/testing, never for regular browsing!
 
 **For Chrome/Chromium:**
 ```bash
@@ -611,7 +619,7 @@ google-chrome --disable-web-security --user-data-dir=/tmp/unsafe-chrome-profile 
 - **Firefox**: You can install the "CORS Everywhere" extension for testing
 - **Safari**: Enable "Develop" menu, then "Disable Cross-Origin Restrictions"
 
-## 🎯 Testing Your App
+## Testing Your App
 
 ### Step 1: Start with safe URLs
 Try these URLs that allow CORS:
@@ -621,7 +629,7 @@ Try these URLs that allow CORS:
 
 ### Step 2: Watch the magic happen!
 1. Enter a URL in the input field
-2. Click "🚀 Fetch URL Content"
+2. Click "Fetch URL Content"
 3. Watch as your C code runs in the browser and fetches the content!
 
 ### Step 3: Try different content types
@@ -629,7 +637,7 @@ Try these URLs that allow CORS:
 - Regular websites return HTML
 - Some APIs return plain text
 
-## 🔧 Troubleshooting Guide
+## Troubleshooting Guide
 
 ### Problem: "Module not found" error
 **Solution:** Make sure all files are in the same folder:
@@ -661,7 +669,7 @@ my-web-app/
 2. Try the suggested "CORS-friendly" URLs first
 3. Remember this is just for development
 
-## 🚀 Next Steps & Ideas
+## Next Steps & Ideas
 
 ### Enhance Your App
 1. **Add a loading spinner** while fetching
@@ -682,16 +690,16 @@ my-web-app/
 3. **Modify the styling** to match your preferences
 4. **Add your own features** and make it unique
 
-## 🎓 What You've Learned
+## What You've Learned
 
-✅ **WebAssembly basics** - How to run C code in browsers  
-✅ **Emscripten compilation** - Converting C to WebAssembly  
-✅ **HTTP requests in C** - Using BearHttpsClient library  
-✅ **Web development** - HTML, CSS, and JavaScript integration  
-✅ **CORS understanding** - Browser security and how to work with it  
-✅ **Local development** - Setting up and running a web server  
+- **WebAssembly basics** - How to run C code in browsers  
+- **Emscripten compilation** - Converting C to WebAssembly  
+- **HTTP requests in C** - Using BearHttpsClient library  
+- **Web development** - HTML, CSS, and JavaScript integration  
+- **CORS understanding** - Browser security and how to work with it  
+- **Local development** - Setting up and running a web server  
 
-## 📚 Additional Resources
+## Additional Resources
 
 - **Emscripten Documentation**: https://emscripten.org/docs/
 - **WebAssembly Official Site**: https://webassembly.org/
@@ -700,10 +708,10 @@ my-web-app/
 
 ---
 
-**Congratulations on building your first WebAssembly application!** 🎉 
+**Congratulations on building your first WebAssembly application!** 
 
 You've successfully created a web app that runs C code in the browser, makes HTTP requests, and displays the results with a beautiful interface. This is just the beginning of what you can do with WebAssembly and C!
 
-Keep experimenting, learning, and building amazing things! 🚀
+Keep experimenting, learning, and building amazing things!
 
 
