@@ -1,44 +1,24 @@
-<div align="center">
+# Network Configuration
 
-# 🌐 Network Configuration
+This guide explains how to configure network settings in BearHttpsClient for reliable connections, including DNS providers, SSL certificates, timeouts, and connection optimization.
 
-**Master the network settings for reliable connections** 🛜
+## Overview
 
-*DNS, SSL certificates, timeouts, and more - everything you need!*
+BearHttpsClient provides comprehensive network configuration options to ensure reliable connections across different environments. You can customize DNS resolution, SSL certificate validation, connection timeouts, and optimize performance using known IP addresses.
 
-</div>
+## DNS Configuration
 
----
+DNS (Domain Name System) configuration allows you to control how BearHttpsClient resolves domain names to IP addresses. This is essential for reliability, performance, and security.
 
-## 🎯 What You'll Learn
+### Why Configure DNS?
 
-By the end of this guide, you'll know how to:
+- **Performance**: Faster DNS resolution leads to quicker request completion
+- **Reliability**: Multiple DNS providers provide fallback options
+- **Security**: Use DNS providers that block malicious domains
+- **Privacy**: Choose privacy-focused DNS providers
+- **Corporate Networks**: Use internal DNS servers for corporate environments
 
-| 🎯 **Skill** | 🌟 **Difficulty** | ⏱️ **Time** |
-|-------------|-------------------|-------------|
-| 🌐 Configure DNS providers | 🟡 Intermediate | 5 minutes |
-| 🔒 Set up SSL certificates | 🟡 Intermediate | 5 minutes |
-| ⚡ Optimize with known IPs | 🔴 Advanced | 3 minutes |
-| ⏱️ Set timeouts | 🟢 Beginner | 2 minutes |
-| 🛡️ Enable system DNS | 🟢 Beginner | 2 minutes |
-
----
-
-## 🌐 DNS Configuration: Teaching Your App How to Find Websites
-
-When you type `google.com`, your computer needs to **find Google's IP address**. This is called **DNS resolution**. BearHttpsClient gives you full control over this process!
-
-### 🔰 Why Configure DNS?
-
-| 🎯 **Reason** | 📖 **Benefit** |
-|---------------|----------------|
-| **Speed** | Faster DNS = faster requests |
-| **Reliability** | Backup DNS servers if one fails |
-| **Privacy** | Use privacy-focused DNS providers |
-| **Security** | Block malicious domains |
-| **Corporate** | Use company DNS for internal sites |
-
-### 🛠️ Setting Up Custom DNS Providers
+### Setting Up Custom DNS Providers
 
 ```c
 #include "BearHttpsClientOne.c"
@@ -46,23 +26,23 @@ When you type `google.com`, your computer needs to **find Google's IP address**.
 int main() {
     BearHttpsRequest *request = newBearHttpsRequest("https://example.com");
     
-    // 🌐 Configure multiple DNS providers for reliability
+    // Configure multiple DNS providers for reliability
     BearHttpsClientDnsProvider providers[] = {
-        // 🛡️ Quad9 - Security focused
+        // Quad9 - Security focused
         {
             .hostname = "dns.quad9.net",
             .route = "/dns-query",
             .ip = "9.9.9.9",
             .port = 5053
         },
-        // 🚀 Google DNS - Fast and reliable
+        // Google DNS - Fast and reliable
         {
             .hostname = "dns.google.com",
             .route = "/resolve", 
             .ip = "8.8.8.8",
             .port = 443
         },
-        // 🔒 NextDNS - Privacy focused
+        // NextDNS - Privacy focused
         {
             .hostname = "dns.nextdns.io",
             .route = "/dns-query",
@@ -73,18 +53,18 @@ int main() {
     
     int total_providers = sizeof(providers) / sizeof(BearHttpsClientDnsProvider);
     
-    // 📡 Apply DNS configuration
+    // Apply DNS configuration
     BearHttpsRequest_set_dns_providers(request, providers, total_providers);
     
-    printf("🌐 Using %d DNS providers for reliability!\n", total_providers);
+    printf("Using %d DNS providers for reliability\n", total_providers);
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ Request successful with custom DNS!\n");
-        printf("📖 Response: %s\n", BearHttpsResponse_read_body_str(response));
+        printf("Request successful with custom DNS\n");
+        printf("Response: %s\n", BearHttpsResponse_read_body_str(response));
     } else {
-        printf("❌ Request failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("Request failed: %s\n", BearHttpsResponse_get_error_msg(response));
     }
     
     BearHttpsRequest_free(request);
@@ -93,21 +73,21 @@ int main() {
 }
 ```
 
-### 📋 Popular DNS Providers
+### Popular DNS Providers
 
-| 🏢 **Provider** | 🎯 **Focus** | 📡 **Primary IP** | 🌐 **Hostname** |
-|----------------|--------------|------------------|-----------------|
-| **Google** | Speed & reliability | `8.8.8.8` | `dns.google.com` |
-| **Cloudflare** | Privacy & speed | `1.1.1.1` | `cloudflare-dns.com` |
-| **Quad9** | Security & malware blocking | `9.9.9.9` | `dns.quad9.net` |
-| **OpenDNS** | Parental controls | `208.67.222.222` | `doh.opendns.com` |
-| **NextDNS** | Customizable privacy | Variable | `dns.nextdns.io` |
+| Provider | Focus | Primary IP | Hostname |
+|----------|-------|------------|----------|
+| Google | Speed & reliability | 8.8.8.8 | dns.google.com |
+| Cloudflare | Privacy & speed | 1.1.1.1 | cloudflare-dns.com |
+| Quad9 | Security & malware blocking | 9.9.9.9 | dns.quad9.net |
+| OpenDNS | Parental controls | 208.67.222.222 | doh.opendns.com |
+| NextDNS | Customizable privacy | Variable | dns.nextdns.io |
 
-### 🔧 DNS Configuration for Different Scenarios
+### DNS Configuration Examples
 
-#### 🏢 Corporate Network Setup
+#### Corporate Network Setup
 ```c
-// 🏢 For corporate environments with internal DNS
+// For corporate environments with internal DNS
 BearHttpsClientDnsProvider corporate_dns[] = {
     {
         .hostname = "internal-dns.company.com",
@@ -124,9 +104,9 @@ BearHttpsClientDnsProvider corporate_dns[] = {
 };
 ```
 
-#### 🛡️ Security-First Setup
+#### Security-First Setup
 ```c
-// 🛡️ Maximum security with malware blocking
+// Maximum security with malware blocking
 BearHttpsClientDnsProvider security_dns[] = {
     {
         .hostname = "dns.quad9.net",      // Blocks malicious domains
@@ -143,9 +123,9 @@ BearHttpsClientDnsProvider security_dns[] = {
 };
 ```
 
-#### ⚡ Speed-First Setup
+#### Performance-Optimized Setup
 ```c
-// ⚡ Optimized for maximum speed
+// Optimized for maximum speed
 BearHttpsClientDnsProvider speed_dns[] = {
     {
         .hostname = "dns.google.com",     // Usually fastest
@@ -162,32 +142,30 @@ BearHttpsClientDnsProvider speed_dns[] = {
 };
 ```
 
----
+## System DNS Configuration
 
-## 🛡️ Using System DNS: Let the OS Handle It
+You can configure BearHttpsClient to use your system's default DNS settings instead of custom providers:
 
-Sometimes you want to use your **system's default DNS** instead of custom providers:
-
-### 🔧 Enabling System DNS
+### Enabling System DNS
 
 ```c
-// 🛡️ Enable system DNS resolution BEFORE including the library
+// Enable system DNS resolution BEFORE including the library
 #define BEARSSL_USE_GET_ADDRINFO
 
 #include "BearHttpsClientOne.c"
 
 int main() {
-    // 🌐 This will now use your system's DNS settings
+    // This will now use your system's DNS settings
     BearHttpsRequest *request = newBearHttpsRequest("https://example.com");
     
-    printf("🛡️ Using system DNS resolution...\n");
+    printf("Using system DNS resolution\n");
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ System DNS worked perfectly!\n");
+        printf("System DNS worked successfully\n");
     } else {
-        printf("❌ System DNS failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("System DNS failed: %s\n", BearHttpsResponse_get_error_msg(response));
     }
     
     BearHttpsRequest_free(request);
@@ -196,31 +174,33 @@ int main() {
 }
 ```
 
-### ⚠️ System DNS Considerations
+### System DNS Considerations
 
-| ✅ **Advantages** | ❌ **Disadvantages** |
-|------------------|---------------------|
-| Uses system settings | Potential memory leaks |
-| Works with VPNs | Less control |
-| Corporate DNS automatically | Platform-dependent behavior |
-| Follows system proxy settings | Harder to debug |
+**Advantages:**
+- Uses system settings automatically
+- Works with VPNs and corporate networks
+- Follows system proxy settings
 
-> ⚠️ **Important**: System DNS can cause memory leaks on some platforms. Use with caution in production!
+**Disadvantages:**
+- Potential memory leaks on some platforms
+- Less control over DNS resolution
+- Platform-dependent behavior
+- Harder to debug DNS issues
 
----
+Note: System DNS can cause memory leaks on some platforms. Use with caution in production environments.
 
-## 🔒 SSL Certificate Configuration: Securing Your Connections
+## SSL Certificate Configuration
 
-BearHttpsClient uses **Mozilla's trusted certificates** by default, but you can customize this:
+BearHttpsClient uses Mozilla's trusted certificates by default, but you can customize certificate validation for specific requirements:
 
-### 🔰 Understanding Trust Anchors
+### Understanding Trust Anchors
 
-**Trust anchors** are like a **digital ID card checker** - they verify that websites are who they claim to be.
+Trust anchors are certificate authorities that verify the authenticity of SSL certificates. They act as the foundation of trust for secure connections.
 
 ```c
 #include "BearHttpsClientOne.c"
 
-// 🔒 Custom certificate data (example - don't use in production)
+// Custom certificate data (example - replace with actual certificate data)
 static const unsigned char custom_cert[] = {
     // ... your certificate data here ...
 };
@@ -228,17 +208,17 @@ static const unsigned char custom_cert[] = {
 int main() {
     BearHttpsRequest *request = newBearHttpsRequest("https://your-private-server.com");
     
-    // 🔒 Use your custom certificate
+    // Use your custom certificate
     BearHttpsRequest_set_trusted_anchors(request, custom_cert, sizeof(custom_cert));
     
-    printf("🔒 Using custom SSL certificates...\n");
+    printf("Using custom SSL certificates\n");
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ SSL connection established with custom cert!\n");
+        printf("SSL connection established with custom certificate\n");
     } else {
-        printf("❌ SSL failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("SSL failed: %s\n", BearHttpsResponse_get_error_msg(response));
     }
     
     BearHttpsRequest_free(request);
@@ -247,17 +227,15 @@ int main() {
 }
 ```
 
-### 📋 When to Use Custom Certificates
+### When to Use Custom Certificates
 
-| 🎯 **Scenario** | 📖 **Why Custom Certs?** |
-|----------------|--------------------------|
-| **Internal servers** | Your company's private certificates |
-| **Self-signed certs** | Testing with local servers |
-| **Legacy systems** | Old certificates not in Mozilla store |
-| **High security** | Only trust specific certificate authorities |
-| **Air-gapped networks** | No access to standard certificate stores |
+- **Internal servers**: Company's private certificates
+- **Self-signed certificates**: Testing with local servers
+- **Legacy systems**: Old certificates not in Mozilla store
+- **High security environments**: Only trust specific certificate authorities
+- **Air-gapped networks**: No access to standard certificate stores
 
-### 🛠️ Getting Certificate Data
+### Obtaining Certificate Data
 
 To get certificate data for custom trust anchors:
 
@@ -268,17 +246,15 @@ To get certificate data for custom trust anchors:
    ```
 
 2. **From Mozilla (default):**
-   - BearHttpsClient already includes Mozilla's certificates
+   - BearHttpsClient includes Mozilla's certificates by default
    - Located in `BearSSLTrustAnchors.c`
    - Updated regularly for security
 
----
+## Known IP Configuration
 
-## ⚡ Known IPs: Skip DNS for Lightning Speed
+If you already know a website's IP address, you can skip DNS resolution entirely for improved performance:
 
-If you **already know** a website's IP address, you can skip DNS entirely:
-
-### 🔰 Basic Known IP Setup
+### Basic Known IP Setup
 
 ```c
 #include "BearHttpsClientOne.c"
@@ -286,25 +262,25 @@ If you **already know** a website's IP address, you can skip DNS entirely:
 int main() {
     BearHttpsRequest *request = newBearHttpsRequest("https://example.com");
     
-    // ⚡ Pre-configured IP addresses for example.com
+    // Pre-configured IP addresses for example.com
     const char *known_ips[] = {
         "93.184.216.34",    // Primary IP
         "93.184.216.35"     // Backup IP
     };
     int known_ips_count = sizeof(known_ips) / sizeof(const char*);
     
-    // ⚡ Tell BearHttpsClient to use these IPs directly
+    // Tell BearHttpsClient to use these IPs directly
     BearHttpsRequest_set_known_ips(request, known_ips, known_ips_count);
     
-    printf("⚡ Skipping DNS lookup - using known IPs!\n");
+    printf("Skipping DNS lookup - using known IPs\n");
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ Lightning-fast connection established!\n");
-        printf("📖 Response: %s\n", BearHttpsResponse_read_body_str(response));
+        printf("Connection established using known IPs\n");
+        printf("Response: %s\n", BearHttpsResponse_read_body_str(response));
     } else {
-        printf("❌ Connection failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("Connection failed: %s\n", BearHttpsResponse_get_error_msg(response));
     }
     
     BearHttpsRequest_free(request);
@@ -313,34 +289,27 @@ int main() {
 }
 ```
 
-### 🎯 Advanced IP Configuration for Multiple Services
+### Advanced IP Configuration
 
 ```c
 #include "BearHttpsClientOne.c"
-
-// 🌐 IP configuration for different services
-typedef struct {
-    const char *hostname;
-    const char **ips;
-    int ip_count;
-} ServiceConfig;
 
 int make_request_with_known_ips(const char *url, const char **ips, int ip_count) {
     BearHttpsRequest *request = newBearHttpsRequest(url);
     BearHttpsRequest_set_known_ips(request, ips, ip_count);
     
-    printf("⚡ Connecting to %s with %d known IPs...\n", url, ip_count);
+    printf("Connecting to %s with %d known IPs\n", url, ip_count);
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
         int status = BearHttpsResponse_get_status_code(response);
-        printf("✅ Connected! Status: %d\n", status);
+        printf("Connected successfully. Status: %d\n", status);
         BearHttpsRequest_free(request);
         BearHttpsResponse_free(response);
         return 1;
     } else {
-        printf("❌ Failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("Connection failed: %s\n", BearHttpsResponse_get_error_msg(response));
         BearHttpsRequest_free(request);
         BearHttpsResponse_free(response);
         return 0;
@@ -348,12 +317,12 @@ int make_request_with_known_ips(const char *url, const char **ips, int ip_count)
 }
 
 int main() {
-    // 🎯 Configure IPs for different services
+    // Configure IPs for different services
     const char *google_ips[] = {"142.251.46.238", "142.251.46.174"};
     const char *github_ips[] = {"140.82.113.3", "140.82.113.4"};
     const char *cloudflare_ips[] = {"1.1.1.1", "1.0.0.1"};
     
-    // 🚀 Test multiple services
+    // Test multiple services
     make_request_with_known_ips("https://google.com", google_ips, 2);
     make_request_with_known_ips("https://github.com", github_ips, 2);
     make_request_with_known_ips("https://cloudflare.com", cloudflare_ips, 2);
@@ -362,33 +331,29 @@ int main() {
 }
 ```
 
-### 🛠️ Finding IP Addresses for Your Services
+### Finding IP Addresses
 
-You can use online tools to find IP addresses:
+You can use various tools to find IP addresses for your services:
 
-| 🔧 **Tool** | 🌐 **Website** | 📖 **Best For** |
-|-------------|---------------|-----------------|
-| **nslookup.io** | https://www.nslookup.io/ | Simple IP lookup |
-| **DigitalOcean DNS** | https://www.digitalocean.com/community/tools/dns | Detailed DNS info |
-| **DNS Checker** | https://dnschecker.org/ | Global IP verification |
-| **Command line** | `nslookup example.com` | Quick terminal lookup |
+- **nslookup.io**: https://www.nslookup.io/ - Simple IP lookup
+- **DigitalOcean DNS**: https://www.digitalocean.com/community/tools/dns - Detailed DNS information
+- **DNS Checker**: https://dnschecker.org/ - Global IP verification
+- **Command line**: `nslookup example.com` - Quick terminal lookup
 
 **Example using command line:**
 ```bash
-# 🔍 Find IPs for a domain
+# Find IPs for a domain
 nslookup example.com
 
-# 🔍 More detailed info
+# More detailed information
 dig example.com +short
 ```
 
----
+## Timeout Configuration
 
-## ⏱️ Timeout Configuration: Don't Wait Forever
+Configure connection and read timeouts to prevent requests from hanging indefinitely:
 
-Configure how long to wait for connections and responses:
-
-### 🔰 Basic Timeout Setup
+### Basic Timeout Setup
 
 ```c
 #include "BearHttpsClientOne.c"
@@ -396,24 +361,24 @@ Configure how long to wait for connections and responses:
 int main() {
     BearHttpsRequest *request = newBearHttpsRequest("https://httpbin.org/delay/2");
     
-    // ⏱️ Set connection timeout (how long to wait for connection)
+    // Set connection timeout (how long to wait for connection)
     BearHttpsRequest_set_connection_timeout(request, 10);  // 10 seconds
     
-    // ⏱️ Set read timeout (how long to wait for data)
+    // Set read timeout (how long to wait for data)
     BearHttpsRequest_set_read_timeout(request, 15);  // 15 seconds
     
-    printf("⏱️ Connection timeout: 10s, Read timeout: 15s\n");
+    printf("Connection timeout: 10s, Read timeout: 15s\n");
     
     time_t start = time(NULL);
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     time_t end = time(NULL);
     
-    printf("⏱️ Request took %ld seconds\n", end - start);
+    printf("Request took %ld seconds\n", end - start);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ Request completed within timeout!\n");
+        printf("Request completed within timeout\n");
     } else {
-        printf("❌ Request failed (possibly timeout): %s\n", 
+        printf("Request failed (possibly timeout): %s\n", 
                BearHttpsResponse_get_error_msg(response));
     }
     
@@ -423,21 +388,19 @@ int main() {
 }
 ```
 
-### 📊 Timeout Recommendations
+### Timeout Recommendations
 
-| 🎯 **Use Case** | ⏱️ **Connection Timeout** | ⏱️ **Read Timeout** | 📖 **Reason** |
-|----------------|---------------------------|---------------------|---------------|
-| **Fast APIs** | 5 seconds | 10 seconds | Quick responses expected |
-| **File downloads** | 10 seconds | 300 seconds | Large files take time |
-| **Real-time data** | 3 seconds | 5 seconds | Need quick updates |
-| **Background sync** | 30 seconds | 60 seconds | Can wait longer |
-| **Mobile apps** | 10 seconds | 30 seconds | Balance battery & UX |
+| Use Case | Connection Timeout | Read Timeout | Reason |
+|----------|-------------------|--------------|---------|
+| Fast APIs | 5 seconds | 10 seconds | Quick responses expected |
+| File downloads | 10 seconds | 300 seconds | Large files take time |
+| Real-time data | 3 seconds | 5 seconds | Need quick updates |
+| Background sync | 30 seconds | 60 seconds | Can wait longer |
+| Mobile applications | 10 seconds | 30 seconds | Balance battery and UX |
 
----
+## Complete Configuration Examples
 
-## 🎓 Complete Real-World Configuration Examples
-
-### 🏢 Corporate Network Configuration
+### Corporate Network Configuration
 
 ```c
 #include "BearHttpsClientOne.c"
@@ -445,7 +408,7 @@ int main() {
 BearHttpsRequest* create_corporate_request(const char* url) {
     BearHttpsRequest *request = newBearHttpsRequest(url);
     
-    // 🏢 Corporate DNS with fallback
+    // Corporate DNS with fallback
     BearHttpsClientDnsProvider dns_providers[] = {
         {
             .hostname = "dns.corp.company.com",
@@ -462,14 +425,11 @@ BearHttpsRequest* create_corporate_request(const char* url) {
     };
     BearHttpsRequest_set_dns_providers(request, dns_providers, 2);
     
-    // 🔒 Corporate certificates
-    // BearHttpsRequest_set_trusted_anchors(request, corp_certs, cert_size);
-    
-    // ⏱️ Corporate network timeouts
+    // Corporate network timeouts
     BearHttpsRequest_set_connection_timeout(request, 30);  // Slower corporate network
     BearHttpsRequest_set_read_timeout(request, 60);
     
-    // 🏷️ Corporate headers
+    // Corporate headers
     BearHttpsRequest_add_header(request, "X-Corporate-ID", "internal-app-001");
     BearHttpsRequest_add_header(request, "User-Agent", "CorporateApp/2.1");
     
@@ -479,15 +439,15 @@ BearHttpsRequest* create_corporate_request(const char* url) {
 int main() {
     BearHttpsRequest *request = create_corporate_request("https://internal-api.company.com/status");
     
-    printf("🏢 Making corporate network request...\n");
+    printf("Making corporate network request\n");
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ Corporate API responded successfully!\n");
-        printf("📊 Status: %d\n", BearHttpsResponse_get_status_code(response));
+        printf("Corporate API responded successfully\n");
+        printf("Status: %d\n", BearHttpsResponse_get_status_code(response));
     } else {
-        printf("❌ Corporate request failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("Corporate request failed: %s\n", BearHttpsResponse_get_error_msg(response));
     }
     
     BearHttpsRequest_free(request);
@@ -496,7 +456,7 @@ int main() {
 }
 ```
 
-### 🚀 High-Performance Configuration
+### High-Performance Configuration
 
 ```c
 #include "BearHttpsClientOne.c"
@@ -504,7 +464,7 @@ int main() {
 BearHttpsRequest* create_performance_request(const char* url) {
     BearHttpsRequest *request = newBearHttpsRequest(url);
     
-    // ⚡ Fastest DNS providers
+    // Fastest DNS providers
     BearHttpsClientDnsProvider fast_dns[] = {
         {
             .hostname = "dns.google.com",
@@ -521,11 +481,11 @@ BearHttpsRequest* create_performance_request(const char* url) {
     };
     BearHttpsRequest_set_dns_providers(request, fast_dns, 2);
     
-    // ⏱️ Aggressive timeouts for speed
+    // Aggressive timeouts for speed
     BearHttpsRequest_set_connection_timeout(request, 5);
     BearHttpsRequest_set_read_timeout(request, 10);
     
-    // 🏷️ Optimize headers
+    // Optimize headers
     BearHttpsRequest_add_header(request, "Connection", "keep-alive");
     BearHttpsRequest_add_header(request, "Accept-Encoding", "gzip, deflate");
     
@@ -533,7 +493,7 @@ BearHttpsRequest* create_performance_request(const char* url) {
 }
 
 int main() {
-    // 🎯 Test multiple fast services
+    // Test multiple fast services
     const char* fast_apis[] = {
         "https://httpbin.org/get",
         "https://api.github.com",
@@ -541,7 +501,7 @@ int main() {
     };
     
     for (int i = 0; i < 3; i++) {
-        printf("\n⚡ Testing fast connection to: %s\n", fast_apis[i]);
+        printf("Testing fast connection to: %s\n", fast_apis[i]);
         
         BearHttpsRequest *request = create_performance_request(fast_apis[i]);
         
@@ -550,10 +510,10 @@ int main() {
         time_t end = time(NULL);
         
         if (!BearHttpsResponse_error(response)) {
-            printf("✅ Success in %ld seconds!\n", end - start);
-            printf("📊 Status: %d\n", BearHttpsResponse_get_status_code(response));
+            printf("Success in %ld seconds\n", end - start);
+            printf("Status: %d\n", BearHttpsResponse_get_status_code(response));
         } else {
-            printf("❌ Failed: %s\n", BearHttpsResponse_get_error_msg(response));
+            printf("Failed: %s\n", BearHttpsResponse_get_error_msg(response));
         }
         
         BearHttpsRequest_free(request);
@@ -564,7 +524,7 @@ int main() {
 }
 ```
 
-### 🛡️ Security-First Configuration
+### Security-First Configuration
 
 ```c
 #include "BearHttpsClientOne.c"
@@ -572,7 +532,7 @@ int main() {
 BearHttpsRequest* create_secure_request(const char* url) {
     BearHttpsRequest *request = newBearHttpsRequest(url);
     
-    // 🛡️ Security-focused DNS (blocks malicious domains)
+    // Security-focused DNS (blocks malicious domains)
     BearHttpsClientDnsProvider secure_dns[] = {
         {
             .hostname = "dns.quad9.net",
@@ -589,11 +549,11 @@ BearHttpsRequest* create_secure_request(const char* url) {
     };
     BearHttpsRequest_set_dns_providers(request, secure_dns, 2);
     
-    // ⏱️ Reasonable timeouts (not too aggressive for security checks)
+    // Reasonable timeouts for security checks
     BearHttpsRequest_set_connection_timeout(request, 15);
     BearHttpsRequest_set_read_timeout(request, 30);
     
-    // 🏷️ Security headers
+    // Security headers
     BearHttpsRequest_add_header(request, "X-Requested-With", "BearHttpsClient");
     BearHttpsRequest_add_header(request, "Cache-Control", "no-cache");
     
@@ -603,22 +563,22 @@ BearHttpsRequest* create_secure_request(const char* url) {
 int main() {
     BearHttpsRequest *request = create_secure_request("https://httpbin.org/get");
     
-    printf("🛡️ Making security-hardened request...\n");
+    printf("Making security-hardened request\n");
     
     BearHttpsResponse *response = BearHttpsRequest_fetch(request);
     
     if (!BearHttpsResponse_error(response)) {
-        printf("✅ Secure connection established!\n");
+        printf("Secure connection established\n");
         
-        // 🔍 Check security headers in response
+        // Check security headers in response
         const char *server = BearHttpsResponse_get_header_value_by_key(response, "Server");
         const char *security = BearHttpsResponse_get_header_value_by_key(response, "X-Frame-Options");
         
-        if (server) printf("🖥️ Server: %s\n", server);
-        if (security) printf("🛡️ Security header found: %s\n", security);
+        if (server) printf("Server: %s\n", server);
+        if (security) printf("Security header found: %s\n", security);
         
     } else {
-        printf("❌ Security request failed: %s\n", BearHttpsResponse_get_error_msg(response));
+        printf("Security request failed: %s\n", BearHttpsResponse_get_error_msg(response));
     }
     
     BearHttpsRequest_free(request);
@@ -627,18 +587,20 @@ int main() {
 }
 ```
 
----
+## Common Configuration Mistakes
 
-## 🚨 Common Configuration Mistakes
+### Using Too Many DNS Providers
 
-### ❌ Mistake 1: Using Too Many DNS Providers
-
+**Incorrect:**
 ```c
-// ❌ Wrong - too many DNS providers slow things down
+// Too many DNS providers slow things down
 BearHttpsClientDnsProvider too_many_dns[10] = { /* ... */ };
 BearHttpsRequest_set_dns_providers(request, too_many_dns, 10);
+```
 
-// ✅ Correct - 2-3 providers is optimal
+**Correct:**
+```c
+// 2-3 providers is optimal
 BearHttpsClientDnsProvider optimal_dns[] = {
     {.hostname = "dns.google.com", .route = "/resolve", .ip = "8.8.8.8", .port = 443},
     {.hostname = "cloudflare-dns.com", .route = "/dns-query", .ip = "1.1.1.1", .port = 443}
@@ -646,35 +608,41 @@ BearHttpsClientDnsProvider optimal_dns[] = {
 BearHttpsRequest_set_dns_providers(request, optimal_dns, 2);
 ```
 
-### ❌ Mistake 2: Wrong IP Addresses for Known IPs
+### Wrong IP Addresses for Known IPs
 
+**Incorrect:**
 ```c
-// ❌ Wrong - old or incorrect IP addresses
+// Old or incorrect IP addresses
 const char *old_ips[] = {"192.168.1.1"};  // This is a local IP!
 BearHttpsRequest_set_known_ips(request, old_ips, 1);
+```
 
-// ✅ Correct - verify IPs are current and correct
+**Correct:**
+```c
+// Verify IPs are current and correct
 const char *correct_ips[] = {"93.184.216.34"};  // Verified example.com IP
 BearHttpsRequest_set_known_ips(request, correct_ips, 1);
 ```
 
-### ❌ Mistake 3: Unrealistic Timeouts
+### Unrealistic Timeouts
 
+**Incorrect:**
 ```c
-// ❌ Wrong - timeout too short for large requests
+// Timeout too short for large requests
 BearHttpsRequest_set_connection_timeout(request, 1);  // 1 second is too short!
 BearHttpsRequest_set_read_timeout(request, 2);
+```
 
-// ✅ Correct - reasonable timeouts
+**Correct:**
+```c
+// Reasonable timeouts
 BearHttpsRequest_set_connection_timeout(request, 10);  // 10 seconds to connect
 BearHttpsRequest_set_read_timeout(request, 30);        // 30 seconds to read
 ```
 
----
+## Configuration Reference
 
-## 🎯 Quick Configuration Reference
-
-### 🌐 DNS Configuration
+### DNS Configuration
 ```c
 BearHttpsClientDnsProvider dns[] = {
     {.hostname = "dns.google.com", .route = "/resolve", .ip = "8.8.8.8", .port = 443}
@@ -682,46 +650,29 @@ BearHttpsClientDnsProvider dns[] = {
 BearHttpsRequest_set_dns_providers(request, dns, 1);
 ```
 
-### ⚡ Known IPs Configuration
+### Known IPs Configuration
 ```c
 const char *ips[] = {"1.2.3.4", "5.6.7.8"};
 BearHttpsRequest_set_known_ips(request, ips, 2);
 ```
 
-### 🔒 Custom SSL Certificates
+### Custom SSL Certificates
 ```c
 BearHttpsRequest_set_trusted_anchors(request, cert_data, cert_size);
 ```
 
-### ⏱️ Timeout Configuration
+### Timeout Configuration
 ```c
 BearHttpsRequest_set_connection_timeout(request, 10);  // Connection timeout
 BearHttpsRequest_set_read_timeout(request, 30);        // Read timeout
 ```
 
-### 🛡️ Enable System DNS
+### Enable System DNS
 ```c
 #define BEARSSL_USE_GET_ADDRINFO  // Before #include
 #include "BearHttpsClientOne.c"
 ```
 
----
+## Summary
 
-## 🚀 What's Next?
-
-Excellent! You now know how to configure BearHttpsClient for any network environment. Next up:
-
-1. 💾 [Optimize memory usage](/docs/memory_and_limits.md)
-2. 🔧 [Understanding ownership system](/docs/ownership_system.md)
-3. 🌐 [WebAssembly deployment](/docs/web_asm.md)
-4. 🎯 [Try advanced examples](/examples/)
-
----
-
-<div align="center">
-
-**🎉 You're now a network configuration expert!**
-
-[💾 Next: Memory & Limits](/docs/memory_and_limits.md) | [🏠 Back to Main](/README.md)
-
-</div>
+This guide covered the complete network configuration options available in BearHttpsClient. You learned how to configure DNS providers for reliability and performance, set up custom SSL certificates for secure connections, optimize performance using known IP addresses, and configure appropriate timeouts for different use cases. These configuration options allow you to adapt BearHttpsClient to
