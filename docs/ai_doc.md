@@ -48,6 +48,20 @@ i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
 gcc main.c BearHttpsClient.o   -o main.out 
 ```
 
+# Onefile Mode
+```c
+#include "BearHttpsClientOne.c"
+// DO NOT include any other headers - they are already bundled in BearHttpsClientOne.c
+```
+## Onefile Compilation (linux)
+```bash
+gcc main.c -o main.out
+```
+## Onefile Compilation (windows)
+```bash
+i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
+```
+
 # Public API
 
 ## IMPORTANT: All dependencies are already bundled - DO NOT include these headers manually:
