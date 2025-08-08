@@ -1,4 +1,44 @@
 
+# Instalation 
+single file mode 
+```bash
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
+```
+# Basic Usage
+```c 
+#include "BearHttpsClientOne.c"
+
+int main(){
+    BearHttpsRequest *request = newBearHttpsRequest("https://example.com/");
+    BearHttpsResponse *response = BearHttpsRequest_fetch(request);
+    if(BearHttpsResponse_error(response)){
+        printf("Error: %s\n", BearHttpsResponse_get_error_msg(response));
+    } else {
+        printf("Response Status Code: %d\n", BearHttpsResponse_get_status_code(response));
+        printf("Response Body: %s\n", BearHttpsResponse_read_body_str(response));
+    }
+    BearHttpsRequest_free(request);
+    BearHttpsResponse_free(response);
+    return 0;
+}
+```
+## Pree Compiling the lib
+```bash
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c -o BearHttpsClient.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h -o BearHttpsClient.h
+gcc -c BearHttpsClient.c -o BearHttpsClient.o 
+gcc main.c BearHttpsClient.o -o main.out
+```
+### include on Precompiled mode
+```c
+#include "BearHttpsClient.h"
+```
+
+### MinGW Cross-Compiler
+```bash
+i686-w64-mingw32-gcc main.c -o main.exe -lws2_32
+./main.exe
+```
 
 # Public API
 
@@ -29,15 +69,9 @@ void BearHttpsRequest_send_body_str(BearHttpsRequest *self, char *content);
 
 void BearHttpsRequest_send_cJSON_with_ownership_control(BearHttpsRequest *self,cJSON *json,short ownership_mode);
 void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json);
-
-// dont use cJSON_Delete on the return of these function, since they are managed by the BearHttpsRequest struct
 const cJSON * BearHttpsRequest_create_cJSONPayloadObject(BearHttpsRequest *self);
-
-// dont use cJSON_Delete on the return of these functions, since they are managed by the BearHttpsRequest struct
 const cJSON * BearHttpsRequest_create_cJSONPayloadArray(BearHttpsRequest *self);
-
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
-
 
 void BearHttpsRequest_free(BearHttpsRequest *self);
 ~~~
