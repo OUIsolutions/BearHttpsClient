@@ -45,11 +45,30 @@ after these your project folder should look like this:
 └── main.c
 ```
 
-## Step 3: Compile and Run
+## Step 3: Compile and rum 
 
-**On Linux/Mac:**
-```bash
+**gcc:**
+```bash     
 gcc main.c -o main.out
+./main.out
 ```
-## On Windows:
-```cmd
+**clang:**
+```bash
+clang main.c -o main.out
+./main.out
+```
+**Microsoft Visual Compiler (cl.exe):**
+```bash
+cl main.c /Fe:main.exe
+main.exe
+```
+**mingw32**
+```bash
+i686-w64-mingw32-gcc your_program.c -o main.exe -lws2_32
+./main.exe
+```
+
+**emscripten:** (check [webassembly](docs/tutorials/webassembly.md) for more details)
+```bash
+emcc main.c -o main.js -sASYNCIFY
+```
