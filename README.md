@@ -4,6 +4,7 @@
 ![C Logo](https://img.shields.io/badge/BearHttpsClient-0.5.0-blue?style=for-the-badge&logo=c)
 [![GitHub Release](https://img.shields.io/github/release/OUIsolutions/BearHttpsClient.svg?style=for-the-badge)](https://github.com/OUIsolutions/BearHttpsClient/releases)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/OUIsolutions/BearHttpsClient/blob/main/LICENSE)
+![Status](https://img.shields.io/badge/Status-Alpha-orange?style=for-the-badge)
 
 
 
