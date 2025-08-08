@@ -57,27 +57,14 @@ function main()
     darwin.silverchain.remove("src/fdeclare.all.h")
 
     
+    
     darwin.silverchain.generate({
         src = "src",
-        tags = { 
-            ------------------- Headders --------------------------------------------
-            "dep_public_declare",
-            "public_types",
-            "public_macros",
-            "public_declare",
-            ------------------- Private Headders -------------------------------------
-            "private_macros",
-            "dep_private_declare",
-            "private_types",
-            "private_declare",
-            --------------------- Sources --------------------------------------------
-            "dep_define",
-            "public_define",
-            "private_define",
-    },
+        tags = { "tests","dep_declare", "macros", "types", "fdeclare","globals", "dep_define","fdefine" },
         implement_main = false,
-        project_short_cut="bear_https_client",
+        project_short_cut="bearhttps"
     })
+
 
     if darwin.argv.one_of_args_exist("only_silverchain") then
         return 
