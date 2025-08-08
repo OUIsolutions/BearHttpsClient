@@ -23,7 +23,7 @@ void BearHttpsResponse_set_error(BearHttpsResponse*self,const char *msg,int erro
     self->error_code = error_code;
 }
 
-char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
+const char* BearHttpsResponse_get_error_msg(BearHttpsResponse*self){
     return self->error_msg;
 }
 
@@ -35,21 +35,21 @@ int BearHttpsResponse_get_headers_size(BearHttpsResponse*self){
     return self->headers->size;
 }
 
-char* BearHttpsResponse_get_header_value_by_index(BearHttpsResponse*self,int index){
+const char* BearHttpsResponse_get_header_value_by_index(BearHttpsResponse*self,int index){
     private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headers,index);
     if(key_vall == NULL){
         return NULL;
     }
     return key_vall->value;
 }
-char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index){
+const char* BearHttpsResponse_get_header_key_by_index(BearHttpsResponse*self,int index){
     private_BearHttpsKeyVal * key_vall = private_BearHttpsHeaders_get_key_val_by_index(self->headers,index);
     if(key_vall == NULL){
         return NULL;
     }
     return key_vall->key;
 }
-char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key){
+const char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const char *key){
     for(int i = 0; i < self->headers->size;i++){
         private_BearHttpsKeyVal * current_key_val = self->headers->keyvals[i];
         if(private_BearsslHttp_strcmp(current_key_val->key,key) == 0){
@@ -59,7 +59,7 @@ char* BearHttpsResponse_get_header_value_by_key(BearHttpsResponse*self,const cha
     return NULL;
 }
 
-char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key){
+const char* BearHttpsResponse_get_header_value_by_sanitized_key(BearHttpsResponse*self,const char *key){
     long key_size = private_BearsslHttps_strlen(key);
     for(int i = 0; i < self->headers->size;i++){
         private_BearHttpsKeyVal * current_key_val = self->headers->keyvals[i];
