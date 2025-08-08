@@ -44,39 +44,5 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
 }
 
 
-void BearHttpsResponse_free(BearHttpsResponse *self){
-    Universal_close(self->connection_file_descriptor);
-    if(self->is_https){
-        br_ssl_client_zero(&self->ssl_client);
-    }
-    private_BearHttpsHeaders_free(self->headers);
-    if(self->raw_content){
-        free(self->raw_content);
-    }
-    #ifndef BEARSSL_HTTPS_MOCK_CJSON
-    if(self->json_body){
-        cJSON_Delete(self->json_body);
-    }
-    #endif
-    if(self->body){
-        free(self->body);
-    }
-    if(self->error_msg){
-        free(self->error_msg);
-    }
-
-    free(self);
-
-}
-
-void BearHttpsResponse_set_max_body_size(BearHttpsResponse*self,long size){
-    self->max_body_size = size;
-}
-
-void BearHttpsResponse_set_body_read_props(BearHttpsResponse*self,int chunk_size,double realloc_factor){
-    self->body_chunk_size = chunk_size;
-    self->body_realloc_factor = realloc_factor;
-}
-
 
 #endif

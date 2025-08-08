@@ -61,17 +61,18 @@ function main()
         src = "src",
         tags = { 
             ------------------- Headders --------------------------------------------
-            "dep_public_declare",
+            "public_dep_declare",
             "public_types",
             "public_macros",
             "public_declare",
             ------------------- Private Headders -------------------------------------
             "private_macros",
-            "dep_private_declare",
+            "private_dep_declare",
             "private_types",
             "private_declare",
             --------------------- Sources --------------------------------------------
-            "dep_define",
+            "private_globals",
+            "private_define",
             "public_define",
             "private_define",
     },
