@@ -1,13 +1,11 @@
 <div align="center">
 
-# 🐻 BearHttpsClient
+# BearHttpsClient
+![C Logo](https://img.shields.io/badge/CWebStudio-4.0.0-blue?style=for-the-badge&logo=c)
+[![GitHub Release](https://img.shields.io/github/release/OUIsolutions/CWebStudio.svg?style=for-the-badge)](https://github.com/OUIsolutions/CWebStudio/releases)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/OUIsolutions/CWebStudio/blob/main/LICENSE)
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-green.svg)](#)
-[![Language](https://img.shields.io/badge/Language-C%2FC%2B%2B-orange.svg)](#)
-[![Version](https://img.shields.io/badge/Version-0.5.0-red.svg)](#)
-[![SSL](https://img.shields.io/badge/SSL-BearSSL-yellow.svg)](https://bearssl.org/)
-[![Status](https://img.shields.io/badge/Status-Alpha-orange.svg)](#)
+
 
 **The simplest way to make HTTPS requests in C/C++** 🚀
 
