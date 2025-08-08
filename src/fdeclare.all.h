@@ -73,6 +73,7 @@ static int private_BearHttps_socket_check_connect_in_progress(int ret) ;
 
 #endif //__EMSCRIPTEN__/request/fdefine.fetch.c
 #if defined(__EMSCRIPTEN__) 
+#include <unistd.h>
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self);
 #endif//__EMSCRIPTEN__/request/fdefine.request.c
 #if defined(__EMSCRIPTEN__) 

@@ -3,6 +3,7 @@
 #include "../../imports/imports.dep_defineB.h"
 //silver_chain_scope_end
 #if defined(__EMSCRIPTEN__) 
+#include <unistd.h>
 BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
 
     c2wasm_js_var headers = c2wasm_create_object();
