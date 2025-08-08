@@ -190,16 +190,6 @@ This project is built using these awesome tools:
 
 ---
 
-## 🤝 Contributing
-
-We ❤️ contributions! Whether you're:
-
-- 🐛 **Found a bug?** Open an issue!
-- 💡 **Have an idea?** We'd love to hear it!
-- 📝 **Want to improve docs?** Documentation PRs are super welcome!
-- 🧪 **Want to add tests?** Help us make it more reliable!
-
----
 
 ## 📄 License
 
