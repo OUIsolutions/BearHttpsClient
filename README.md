@@ -67,6 +67,18 @@ Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_do
 
 ## Usage Tutorials 
 
+| **Tutorial**                                                    | **Description**                                         |
+|-----------------------------------------------------------------|---------------------------------------------------------|
+| [Query Parameters](docs/tutorials/query_param.md)              | Working with URL query parameters                       |
+| [Headers](docs/tutorials/headers.md)                           | Working with HTTP headers                               |
+| [Body Upload](docs/tutorials/body_upload.md)                   | Guide for uploading request bodies                     |
+| [REST API Consuming](docs/tutorials/rest_api_consuming.md)      | Consuming RESTful web services                          |
+| [Network Configuration](docs/tutorials/network_configuration.md) | Configuring network settings                          |
+| [Memory and Limits](docs/tutorials/memory_and_limits.md)       | Memory management and resource limits                   |
+| [Ownership System](docs/tutorials/ownership_system.md)         | Understanding resource ownership                        |
+| [Web Assembly](docs/tutorials/web_assembly.md)                 | Using BearHttpsClient with WebAssembly                 |
+| [Creating a Visual Fetcher Site](docs/tutorials/creating_a_visual_fetcher_site.md) | Building a visual interface for data fetching using WebAssembly |
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
