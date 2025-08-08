@@ -1,7 +1,7 @@
 <div align="center">
 
 # BearHttpsClient
-![C Logo](https://img.shields.io/badge/BearHttpsClient-0.5.0-blue?style=for-the-badge&logo=c)
+![C Logo](https://img.shields.io/badge/BearHttpsClient-0.6.0-blue?style=for-the-badge&logo=c)
 [![GitHub Release](https://img.shields.io/github/release/OUIsolutions/BearHttpsClient.svg?style=for-the-badge)](https://github.com/OUIsolutions/BearHttpsClient/releases)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/OUIsolutions/BearHttpsClient/blob/main/LICENSE)
 ![Status](https://img.shields.io/badge/Status-Alpha-orange?style=for-the-badge)
@@ -51,10 +51,10 @@ Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_do
 
 |  **File**                                                                                                           | **What is**                                |
 |---------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
-|[BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c) | A Amalgamation Containing all the Library  |
-|[BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.zip)   | The Whole Project ziped in a dir           |
-|[BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.c)       | Project Definition                         |
-|[BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClient.h)       | Project Header                             |
+|[BearHttpsClientOne.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClientOne.c) | A Amalgamation Containing all the Library  |
+|[BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.zip)   | The Whole Project ziped in a dir           |
+|[BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.c)       | Project Definition                         |
+|[BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.h)       | Project Header                             |
 
 ## Installations Tutorials
 | **Tutorial**                                                  | **Description**                                       |

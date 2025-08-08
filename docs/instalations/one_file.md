@@ -12,7 +12,7 @@ Download the single-file version of the library from the official repository and
 
 Using curl:
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
 ```
 
 ## Step 2: Create Application Source File

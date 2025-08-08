@@ -70,11 +70,11 @@ The BearHttpsClient is a special library that lets C code make HTTP requests. We
 
 **Option A: Using curl (recommended)**
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
 ```
 
 **Option B: Manual download**
-1. Go to: https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.5.0/BearHttpsClientOne.c
+1. Go to: https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClientOne.c
 2. Right-click and "Save as..." → name it `BearHttpsClientOne.c`
 3. Put it in your project folder
 ## Step 2: Create Your C Code (main.c)
