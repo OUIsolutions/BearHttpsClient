@@ -42,7 +42,7 @@ This library is designed for developers who need to:
 
 ### AI/LLM Integration
 
-Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_doc.md](docs/ai_doc.md) file and paste its contents to your preferred AI assistant (ChatGPT, Claude, Copilot, etc.) for interactive learning and code examples.
+Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_doc.md](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/ai_doc.md) file and paste its contents to your preferred AI assistant (ChatGPT, Claude, Copilot, etc.) for interactive learning and code examples.
 
 ---
 
@@ -55,6 +55,7 @@ Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_do
 |[BearHttpsClient.zip](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.zip)   | The Whole Project ziped in a dir           |
 |[BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.c)       | Project Definition                         |
 |[BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.h)       | Project Header                             |
+|[ai_doc.md](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/ai_doc.md)       | AI/LLM Integration Documentation            |
 
 ## Installations Tutorials
 | **Tutorial**                                                  | **Description**                                       |
