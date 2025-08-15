@@ -4,8 +4,8 @@ DEPS = {
     {url = "https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.c", dest = "dependencies/cJSON.c"},
     {url = "https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.h", dest = "dependencies/cJSON.h"},
     {url = "https://github.com/OUIsolutions/C2Wasm/releases/download/0.10.0/c2wasm.c", dest = "dependencies/c2wasm.c"},
-    {url = "https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.8/UniversalSocket.c", dest = "dependencies/UniversalSocket.c"},
-    {url = "https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.2.8/UniversalSocket.h", dest = "dependencies/UniversalSocket.h"},
+    {url = "https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.3.0/UniversalSocket.c", dest = "dependencies/UniversalSocket.c"},
+    {url = "https://github.com/SamuelHenriqueDeMoraisVitrio/UniversalSocket/releases/download/v0.3.0/UniversalSocket.h", dest = "dependencies/UniversalSocket.h"},
     {url = "https://github.com/OUIsolutions/BearSSLTrustedAnchors/releases/download/2025-8-6/BearSSLTrustAnchors.c", dest = "dependencies/BearSSLTrustAnchors.c"},
 }
 
