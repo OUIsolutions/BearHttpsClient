@@ -15,6 +15,14 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
     c2wasm_js_var props = c2wasm_create_object();
     c2wasm_set_object_prop_string(props, "method", self->method);
     c2wasm_set_object_prop_any(props, "headers", headers);
+    if(self->body_type == PRIVATE_BEARSSL_BODY_JSON){
+        char *value = cJSON_Print(self->body_json.json);
+        c2wasm_set_object_prop_string(props, "body", value);
+        free(value);
+    }
+    if(self->body_type == PRIVATE_BEARSSL_BODY_RAW){
+        c2wasm_set_object_prop_string(props, "body", (char *)self->body_raw.value);
+    }
 
     c2wasm_js_var args_to_cal = c2wasm_create_array();
     c2wasm_append_array_string(args_to_cal, self->url);
