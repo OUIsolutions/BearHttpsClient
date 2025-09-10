@@ -2,6 +2,7 @@
 server
 teste.lua
 *.d
+fdeclare.all.h
 saida.jpg
 doTheWorld.h
 basic.png
