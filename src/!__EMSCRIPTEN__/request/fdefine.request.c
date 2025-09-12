@@ -20,6 +20,9 @@ BearHttpsRequest * newBearHttpsRequest_with_url_ownership_config(char *url,short
     private_BearsslHttps_strcpy(self->method,"GET");
     return self;
 }
+void BearHttpsRequest_set_http_protocol(BearHttpsRequest *self ,int http_protocol){
+    self->http_protocol = http_protocol;
+}
 
 void BearHttpsRequest_set_known_ips(BearHttpsRequest *self , const char *known_ips[],int known_ips_size){
     self->known_ips = known_ips;
