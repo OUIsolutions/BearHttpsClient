@@ -1,0 +1,11 @@
+{
+    "replacers": {
+        "BIG_VERSION": "0",
+        "SMALL_VERSION": "9",
+        "PATCH_VERSION": "2"
+    },
+    "release": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
+    "tag": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
+    "description": "new release to BearHttpsClient",
+    "assets":	["release/BearHttpsClient.c", "release/BearHttpsClient.h", "release/BearHttpsClient.zip", "release/BearHttpsClientOne.c"]
+}
