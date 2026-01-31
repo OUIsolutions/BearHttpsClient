@@ -3,10 +3,6 @@
 #include "../../imports/imports.dep_declareB.h"
 //silver_chain_scope_end
 
-
-
-
-
 #define PRIVATE_BEARSSL_NO_BODY 0 
 #define PRIVATE_BEARSSL_BODY_RAW 1
 #define PRIVATE_BEARSSL_BODY_FILE 2

@@ -19,16 +19,15 @@ void private_BearHttpsRequest_free_body(BearHttpsRequest *self){
             &self->body_file.onwer
         );
     }
-    #ifndef BEARSSL_HTTPS_MOCK_CJSON
 
+    #ifndef BEARSSL_HTTPS_MOCK_CJSON
     if(self->body_type == PRIVATE_BEARSSL_BODY_JSON){
         if(self->body_json.onwer){
             cJSON_Delete(self->body_json.json);
         }
-    
-
     }
     #endif
+
     self->body_type = PRIVATE_BEARSSL_NO_BODY;
 
 }
@@ -90,6 +89,7 @@ void BearHttpsRequest_send_cJSON_with_ownership_control(BearHttpsRequest *self,c
         self->body_json.onwer = false;
     }
 }
+
 void BearHttpsRequest_send_cJSON(BearHttpsRequest *self,cJSON *json){
     BearHttpsRequest_send_cJSON_with_ownership_control(self,json,BEARSSL_DEFAULT_STRATEGY);
 }

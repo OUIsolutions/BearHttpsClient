@@ -100,8 +100,9 @@ void private_BearHttpsResponse_read_til_end_of_headers_or_reach_limit(
         }
 
         if(readded < 0){
-            char error_buff[100] ={0};
-            snprintf(error_buff,sizeof(error_buff),"invalid read code: %d",readded);
+            char error_buff[200] ={0};
+            char * error_descriptor = strerror(errno);
+            snprintf(error_buff,sizeof(error_buff),"invalid read code: %d, error: %s",readded, error_descriptor);
             BearHttpsResponse_set_error(self,error_buff,BEARSSL_HTTPS_INVALID_READ_CODE);
             return;
         }

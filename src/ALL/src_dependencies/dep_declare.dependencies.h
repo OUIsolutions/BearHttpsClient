@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <errno.h>
+#include <string.h>
+
 #ifndef BearsslHttps_allocate
 #define BearsslHttps_allocate malloc
 #endif
