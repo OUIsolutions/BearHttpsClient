@@ -1,7 +1,7 @@
 # Installation 
 single file mode 
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClientOne.c -o BearHttpsClientOne.c
 ```
 # Basic Usage
 ```c 
@@ -27,8 +27,8 @@ int main(){
 ```
 ## Pre-Compiling the lib
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.c -o BearHttpsClient.c
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.h -o BearHttpsClient.h
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.c -o BearHttpsClient.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.h -o BearHttpsClient.h
 gcc -c BearHttpsClient.c -o BearHttpsClient.o 
 gcc main.c BearHttpsClient.o -o main.out
 ```

@@ -3,13 +3,13 @@ This tutorial demonstrates how to install and compile the BearHttpsClient librar
 
 ## Step 1: Download Library Files
 Download the precompiled library files to your project directory:
-- [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.c)
-- [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.h)
+- [BearHttpsClient.c](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.c)
+- [BearHttpsClient.h](https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.h)
 
 Using curl:
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.c -o BearHttpsClient.c
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.h -o BearHttpsClient.h
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.c -o BearHttpsClient.c
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.h -o BearHttpsClient.h
 ```
 
 ## Step 2: Create Application File

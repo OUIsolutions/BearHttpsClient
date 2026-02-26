@@ -4,7 +4,7 @@ WThis tutorial explains how to compile and use the BearHttpsClient library from 
 Download the BearHttpsClient library distribution from the releases page and extract it to your project directory.
 
 ```bash
-curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.6.0/BearHttpsClient.zip -o BearHttpsClient.zip
+curl -L https://github.com/OUIsolutions/BearHttpsClient/releases/download/0.9.0/BearHttpsClient.zip -o BearHttpsClient.zip
 unzip BearHttpsClient.zip
 ```
 
