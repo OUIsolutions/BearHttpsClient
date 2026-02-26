@@ -164,7 +164,7 @@ BearHttpsResponse * BearHttpsRequest_fetch(BearHttpsRequest *self){
                 br_ssl_engine_context *eng = &response->ssl_client.eng;
                 int err = br_ssl_engine_last_error(eng);
                 char error_msg[200];
-                snprintf(error_msg,sizeof(error_msg)-1,"error flushing status: %d",err);
+                snprintf(error_msg,sizeof(error_msg)-1,"error flushing status (BEARSSL): %d",err);
                 BearHttpsResponse_set_error(response, error_msg,BEARSSL_HTTPS_ERROR_FLUSHING);
                 private_BearHttpsRequisitionProps_free(requisition_props);
                 return response;
