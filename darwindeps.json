@@ -45,7 +45,7 @@
 		"dest":	"dependencies/BearSSLTrustAnchors.c",
 		"file":	"BearSSLTrustAnchors.c",
 		"repo":	"OUIsolutions/BearSSLTrustedAnchors",
-		"tag":	"2025-8-6",
+		"tag":	"2026-2-26",
 		"type":	"gitrelease",
-		"updated_at":	"2025-08-06T08:33:32Z"
+		"updated_at":	"2026-02-26T10:34:23Z"
 	}]
