@@ -59,7 +59,6 @@ Want to learn how to use BearHttpsClient with AI assistance? Download the [ai_do
 |---------------------------------------------------------------|------------------------------------------------------ |
 | [OneFile](docs/instalations/one_file.md)                      | Single File Library Installation Guide (the most easy)|
 | [Precompiled](docs/instalations/precompiled.md)               | Precompiled Library Installation Guide                |
-| [Full Directory](docs/instalations/full_dir.md)               | Full Directory Library Installation Guide             |
 | [Build from Scratch](docs/instalations/build_from_scratch.md) | Building BearHttpsClient from Source Code             | 
 
 ## [Public API](docs/public_api.md)
