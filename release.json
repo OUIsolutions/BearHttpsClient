@@ -7,5 +7,5 @@
     "release": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
     "tag": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
     "description": "update tristed anchors",
-    "assets":	["release/BearHttpsClient.c", "release/BearHttpsClient.h", "release/BearHttpsClient.zip", "release/BearHttpsClientOne.c"]
+    "assets":	[ "release/BearHttpsClient.h", "release/BearHttpsClientOne.c"]
 }
