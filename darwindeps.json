@@ -1,54 +1,51 @@
-[
-  {
-    "type": "gitrelease",
-    "repo": "OUIsolutions/BearSslSingle-Unit",
-    "file": "BearSSLSingleUnit.h",
-    "tag":  "0.0.3",
-    "dest": "dependencies/BearSSLSingleUnit.h"
-  },
-  {
-    "type": "gitrelease",
-    "repo": "OUIsolutions/BearSslSingle-Unit",
-    "file": "BearSSLSingleUnit.c",
-    "tag":  "0.0.3",
-    "dest": "dependencies/BearSSLSingleUnit.c"
-  },
-  {
-    "type": "url",
-    "url": "https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.c",
-    "dest": "dependencies/cJSON.c"
-  },
-  {
-    "type": "url",
-    "url": "https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.h",
-    "dest": "dependencies/cJSON.h"
-  },
-  {
-    "type": "gitrelease",
-    "repo": "OUIsolutions/C2Wasm",
-    "file": "c2wasm.c",
-    "tag":  "0.10.0",
-    "dest": "dependencies/c2wasm.c"
-  },
-  {
-    "type": "gitrelease",
-    "repo": "SamuelHenriqueDeMoraisVitrio/UniversalSocket",
-    "file": "UniversalSocket.c",
-    "tag": "v0.3.0",
-    "dest": "dependencies/UniversalSocket.c"
-  },
-  {
-    "type": "gitrelease",
-    "repo": "SamuelHenriqueDeMoraisVitrio/UniversalSocket",
-    "file": "UniversalSocket.h",
-    "tag": "v0.3.0",
-    "dest": "dependencies/UniversalSocket.h"
-  },
-  {
-    "type": "gitrelease",
-    "repo": "OUIsolutions/BearSSLTrustedAnchors",
-    "file": "BearSSLTrustAnchors.c",
-    "tag": "2025-8-6",
-    "dest": "dependencies/BearSSLTrustAnchors.c"
-  }
-]
+[{
+		"dest":	"dependencies/BearSSLSingleUnit.h",
+		"file":	"BearSSLSingleUnit.h",
+		"repo":	"OUIsolutions/BearSslSingle-Unit",
+		"tag":	"0.0.3",
+		"type":	"gitrelease",
+		"updated_at":	"2025-02-27T00:29:55Z"
+	}, {
+		"dest":	"dependencies/BearSSLSingleUnit.c",
+		"file":	"BearSSLSingleUnit.c",
+		"repo":	"OUIsolutions/BearSslSingle-Unit",
+		"tag":	"0.0.3",
+		"type":	"gitrelease",
+		"updated_at":	"2025-02-27T00:29:44Z"
+	}, {
+		"dest":	"dependencies/cJSON.c",
+		"type":	"url",
+		"url":	"https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.c"
+	}, {
+		"dest":	"dependencies/cJSON.h",
+		"type":	"url",
+		"url":	"https://raw.githubusercontent.com/DaveGamble/cJSON/refs/tags/v1.7.18/cJSON.h"
+	}, {
+		"dest":	"dependencies/c2wasm.c",
+		"file":	"c2wasm.c",
+		"repo":	"OUIsolutions/C2Wasm",
+		"tag":	"0.13.0",
+		"type":	"gitrelease",
+		"updated_at":	"2025-11-07T10:16:27Z"
+	}, {
+		"dest":	"dependencies/UniversalSocket.c",
+		"file":	"UniversalSocket.c",
+		"repo":	"SamuelHenriqueDeMoraisVitrio/UniversalSocket",
+		"tag":	"v0.3.0",
+		"type":	"gitrelease",
+		"updated_at":	"2025-08-15T17:58:35Z"
+	}, {
+		"dest":	"dependencies/UniversalSocket.h",
+		"file":	"UniversalSocket.h",
+		"repo":	"SamuelHenriqueDeMoraisVitrio/UniversalSocket",
+		"tag":	"v0.3.0",
+		"type":	"gitrelease",
+		"updated_at":	"2025-08-15T17:58:36Z"
+	}, {
+		"dest":	"dependencies/BearSSLTrustAnchors.c",
+		"file":	"BearSSLTrustAnchors.c",
+		"repo":	"OUIsolutions/BearSSLTrustedAnchors",
+		"tag":	"2025-8-6",
+		"type":	"gitrelease",
+		"updated_at":	"2025-08-06T08:33:32Z"
+	}]
