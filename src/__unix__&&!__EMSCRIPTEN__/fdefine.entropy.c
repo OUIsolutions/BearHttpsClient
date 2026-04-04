@@ -7,6 +7,11 @@
 void private_BearHttpsResponse_inject_entropy(br_ssl_client_context *ctx) {
     unsigned char entropy[32];
     int fd = open("/dev/urandom", O_RDONLY);
+    printf("entrpy:");
+    for(int i = 0; i < 32; i++){
+        printf("%02x", entropy[i]);
+    }
+    printf("\n");
     read(fd, entropy, sizeof(entropy));
     close(fd);
     br_ssl_engine_inject_entropy(&ctx->eng, entropy, sizeof(entropy));
