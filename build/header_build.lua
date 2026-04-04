@@ -11,8 +11,8 @@ end
 
 darwin.add_recipe({
     name="header_build",
-    required={"one_build"},
-    inputs={"src","build"}
+    requires={"one_build"},
+    inputs={"src","build"},
     description="make a BearHttpsClient.h header file",
     outs={"release/BearHttpsClient.h"},
     callback=header_build
