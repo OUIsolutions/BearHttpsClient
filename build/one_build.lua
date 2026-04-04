@@ -33,6 +33,7 @@ end
 darwin.add_recipe({
     name="one_build",
     description="make a one file",
+    inputs={"src","build"}
     outs={"release/BearHttpsClientOne.c"},
     callback=one_build
 })
