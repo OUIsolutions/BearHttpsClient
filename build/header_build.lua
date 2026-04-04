@@ -11,7 +11,7 @@ end
 
 darwin.add_recipe({
     name="header_build",
-    required={"amalgamation_build"},
+    required={"one_build"},
     description="make a BearHttpsClient.h header file",
     outs={"release/BearHttpsClient.h"},
     callback=header_build
