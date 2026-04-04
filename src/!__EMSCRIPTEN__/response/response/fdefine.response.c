@@ -25,6 +25,8 @@ BearHttpsResponse *private_newBearHttpsResponse(){
 
 void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, const char *hostname,br_x509_trust_anchor *trust_anchors, size_t trusted_anchors_size) {
     self->is_https = true;
+    private_BearHttpsResponse_inject_entropy(&self->ssl_client);
+
     if(trust_anchors && trusted_anchors_size > 0){
        br_ssl_client_init_full(&self->ssl_client, &self->certification_context, trust_anchors, trusted_anchors_size);
     }
