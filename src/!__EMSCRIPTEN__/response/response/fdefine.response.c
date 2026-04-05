@@ -10,6 +10,7 @@
 BearHttpsResponse *private_newBearHttpsResponse(){
     BearHttpsResponse *self = (BearHttpsResponse *)malloc(sizeof(BearHttpsResponse));
     *self = (BearHttpsResponse){0};
+    self->connection_file_descriptor = -1;
     self->status_code = 0;
     self->headers = private_newBearHttpsHeaders();
     self->max_body_size = -1;
@@ -44,7 +45,9 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
                   private_BearHttps_sock_write, &self->connection_file_descriptor);
 }
 void BearHttpsResponse_free(BearHttpsResponse *self){
-    Universal_close(self->connection_file_descriptor);
+    if(self->connection_file_descriptor >= 0){
+        Universal_close(self->connection_file_descriptor);
+    }
     if(self->is_https){
         br_ssl_client_zero(&self->ssl_client);
     }
