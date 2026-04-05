@@ -37,5 +37,20 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
 	}
 }
 
-int BearHttpsRequest_total_open_file_descriptors = 0;
+int private_BearHttps_socket (int domain, int type, int protocol){
+    int sockfd = Universal_socket(domain, type, protocol);
+    if (sockfd < 0) {
+        return -1;
+    }
+    BearHttpsRequest_total_open_file_descriptors++;
+    return sockfd;
+}
+int private_BearHttps_close(int sockfd){
+    int ret = Universal_close(sockfd);
+    if (ret < 0) {
+        return -1;
+    }
+    BearHttpsRequest_total_open_file_descriptors--;
+    return ret;
+}
 #endif
