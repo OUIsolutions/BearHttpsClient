@@ -5,16 +5,20 @@
 #if !defined(__EMSCRIPTEN__)
 
 static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const char *ipv4_ip, int port,long connection_timeout) {
+    char error_buffer[300];
     int sockfd = Universal_socket(UNI_AF_INET, UNI_SOCK_STREAM, 0);
     if (sockfd < 0) {
-
-        BearHttpsResponse_set_error(self,"ERROR: failed to create socket",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: failed to create socket for %s:%d | %s", ipv4_ip, port, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
         return -1; 
     }
 
     // Set socket to non-blocking mode
     if (private_BearHttps_socket_set_nonblocking(sockfd) < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to set socket non-blocking",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: failed to set socket non-blocking for %s:%d | %s", ipv4_ip, port, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
         Universal_close(sockfd);
         return -1;
     }
@@ -25,14 +29,18 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     server_addr.sin_port = Universal_htons(port); 
 
     if (Universal_inet_pton(UNI_AF_INET, ipv4_ip, &server_addr.sin_addr) <= 0) {
-        BearHttpsResponse_set_error(self,"ERROR: invalid address",BEARSSL_HTTPS_INVALID_IPV4);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: invalid IPv4 address '%s'", ipv4_ip);
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_INVALID_IPV4);
         Universal_close(sockfd);
         return -1;
     }
 
     int ret = Universal_connect(sockfd, (Universal_sockaddr *)&server_addr, sizeof(server_addr));
     if (private_BearHttps_socket_check_connect_in_progress(ret) < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: connect() failed for %s:%d | %s", ipv4_ip, port, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd); 
         return -1;
     }
@@ -48,21 +56,27 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
     
     ret = select(sockfd + 1, NULL, &write_fds, NULL, &timeout);
     if (ret <= 0) {
-        BearHttpsResponse_set_error(self,"ERROR: connection timeout or failed",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: connection timeout for %s:%d (timeout=%ldms) | %s", ipv4_ip, port, connection_timeout, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd);
         return -1;
     }
 
     // Check if connection succeeded
     if (private_BearHttps_socket_check_connect_error(sockfd) < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to connect",BEARSSL_HTTPS_FAILT_TO_CONNECT);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: connection failed after select for %s:%d | %s", ipv4_ip, port, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CONNECT);
         Universal_close(sockfd);
         return -1;
     }
 
     // Set socket back to blocking mode
     if (private_BearHttps_socket_set_blocking(sockfd) < 0) {
-        BearHttpsResponse_set_error(self,"ERROR: failed to set socket blocking",BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: failed to set socket blocking for %s:%d | %s", ipv4_ip, port, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
         Universal_close(sockfd);
         return -1;
     }
