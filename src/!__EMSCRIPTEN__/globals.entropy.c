@@ -2,5 +2,11 @@
 //mannaged by silver chain: https://github.com/OUIsolutions/SilverChain
 #include "../imports/imports.fdeclare.h"
 //silver_chain_scope_end
+
+
+#if !defined(__EMSCRIPTEN__)
+
 unsigned char privateBearHttps_entropy_code[32] = {0};
 int privateBearHttps_entropy_code_readed = 0;
+
+#endif 
