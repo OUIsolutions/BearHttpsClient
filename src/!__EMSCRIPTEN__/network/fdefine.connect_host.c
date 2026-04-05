@@ -45,7 +45,8 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     }
 
     privateBearHttpsStringArray * already_testted = newprivateBearHttpsStringArray();
-    const char *first_error = NULL;
+    privateBearHttpsStringArray * errors = newprivateBearHttpsStringArray();
+    char error_buf[512];
 
     for(int i = 0; i < chosen_dns_providers_size;i++){
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
@@ -59,7 +60,13 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             
 
             if(BearHttpsResponse_error(dns_response)){
-                if(first_error == NULL) first_error = "ERROR: dns provider request failed";
+                const char *error_msg = BearHttpsResponse_get_error_msg(dns_response);
+                snprintf(error_buf, sizeof(error_buf),
+                    "ERROR: dns provider request failed | provider: %s:%d (%s) | host: %s | reason: %s",
+                    provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host,
+                    error_msg ? error_msg : "unknown");
+                privateBearHttpsStringArray_append(errors, error_buf);
+                
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
@@ -70,23 +77,32 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             //printf("leu o body json: %s\n",cJSON_Print(body));
             if(BearHttpsResponse_error(dns_response)){
                 const char *message = BearHttpsResponse_get_error_msg(dns_response);
-                if(first_error == NULL) first_error = "ERROR: failed to parse dns response body as JSON";
+                snprintf(error_buf, sizeof(error_buf),
+                    "ERROR: failed to parse dns response body as JSON | provider: %s:%d (%s) | host: %s | reason: %s",
+                    provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host,
+                    message ? message : "unknown");
+                privateBearHttpsStringArray_append(errors, error_buf);
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
-            printf("capturou o body json\n");
-            printf("body json: %s\n",cJSON_Print(body));
+      
             cJSON * answer = cJSON_GetObjectItem(body, "Answer");
             if(answer == NULL){
-                if(first_error == NULL) first_error = "ERROR: dns response missing 'Answer' field";
+                snprintf(error_buf, sizeof(error_buf),
+                    "ERROR: dns response missing 'Answer' field | provider: %s:%d (%s) | host: %s",
+                    provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host);
+                privateBearHttpsStringArray_append(errors, error_buf);
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
             long size = cJSON_GetArraySize(answer);
             if(size == 0){
-                if(first_error == NULL) first_error = "ERROR: dns response 'Answer' array is empty";
+                snprintf(error_buf, sizeof(error_buf),
+                    "ERROR: dns response 'Answer' array is empty | provider: %s:%d (%s) | host: %s",
+                    provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host);
+                privateBearHttpsStringArray_append(errors, error_buf);
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
@@ -95,12 +111,18 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 cJSON * item = cJSON_GetArrayItem(answer,j);
                 cJSON * data = cJSON_GetObjectItem(item, "data");
                 if(data == NULL){
-                    if(first_error == NULL) first_error = "ERROR: dns answer entry missing 'data' field";
+                    snprintf(error_buf, sizeof(error_buf),
+                        "ERROR: dns answer entry[%d] missing 'data' field | provider: %s:%d (%s) | host: %s",
+                        j, provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host);
+                    privateBearHttpsStringArray_append(errors, error_buf);
                     continue;
                 }
                 const char * ipv4 = cJSON_GetStringValue(data);
                 if(ipv4 == NULL){
-                    if(first_error == NULL) first_error = "ERROR: dns answer 'data' field is not a valid string";
+                    snprintf(error_buf, sizeof(error_buf),
+                        "ERROR: dns answer entry[%d] 'data' field is not a valid string | provider: %s:%d (%s) | host: %s",
+                        j, provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host);
+                    privateBearHttpsStringArray_append(errors, error_buf);
                     continue;
                 }
                 if(privateBearHttpsStringArray_find_position(already_testted, ipv4) != -1){
@@ -110,7 +132,10 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
                 int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port,self->connection_timeout);
                 if(sockfd < 0){
-                    if(first_error == NULL) first_error = "ERROR: failed to connect to resolved ip";
+                    snprintf(error_buf, sizeof(error_buf),
+                        "ERROR: failed to connect to resolved ip %s:%d | provider: %s:%d (%s) | host: %s",
+                        ipv4, port, provider.ip, provider.port, provider.hostname ? provider.hostname : "unknown", host);
+                    privateBearHttpsStringArray_append(errors, error_buf);
                     continue;
                 }
                 long host_size = private_BearsslHttps_strlen(host);
@@ -132,15 +157,42 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 privateBearHttpsStringArray_free(already_testted);
+                privateBearHttpsStringArray_free(errors);
                 return sockfd;
             }
             BearHttpsRequest_free(dns_request);
             BearHttpsResponse_free(dns_response);
     }
 
-     if(first_error == NULL) first_error = "ERROR: failed to create dns request";
-     BearHttpsResponse_set_error(response,first_error,BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
+     if(errors->size == 0){
+         privateBearHttpsStringArray_append(errors, "ERROR: failed to create dns request");
+     }
+
+     //join all errors into a single string separated by newlines
+     long total_len = 0;
+     for(int i = 0; i < errors->size; i++){
+         total_len += private_BearsslHttps_strlen(errors->strings[i]);
+         if(i < errors->size - 1) total_len += 1; // for '\n'
+     }
+
+     char *combined_error = (char*)malloc(total_len + 1);
+     combined_error[0] = '\0';
+     long offset = 0;
+     for(int i = 0; i < errors->size; i++){
+         long entry_len = private_BearsslHttps_strlen(errors->strings[i]);
+         memcpy(combined_error + offset, errors->strings[i], entry_len);
+         offset += entry_len;
+         if(i < errors->size - 1){
+             combined_error[offset] = '\n';
+             offset += 1;
+         }
+     }
+     combined_error[offset] = '\0';
+
+     BearHttpsResponse_set_error(response, combined_error, BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
+     free(combined_error);
      privateBearHttpsStringArray_free(already_testted);
+     privateBearHttpsStringArray_free(errors);
      return -1;
 }
 
