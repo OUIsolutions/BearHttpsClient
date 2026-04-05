@@ -37,4 +37,5 @@ static int private_BearHttps_sock_write(void *ctx, const unsigned char *buf, siz
 	}
 }
 
+int BearHttpsRequest_total_open_file_descriptors = 0;
 #endif
