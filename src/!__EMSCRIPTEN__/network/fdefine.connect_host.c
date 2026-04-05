@@ -18,6 +18,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         if(sockfd < 0){
             continue;
         }
+        printf("conectou por um ip conhecido\n");
 
         return sockfd;
     }
@@ -30,6 +31,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             if(sockfd < 0){
                 break;
             }
+            printf("conectou por um ip em cache\n");
             return sockfd;
         }
     }
@@ -43,6 +45,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
     }
 
     privateBearHttpsStringArray * already_testted = newprivateBearHttpsStringArray();
+    const char *last_error = "ERROR: failed to create dns request";
 
     for(int i = 0; i < chosen_dns_providers_size;i++){
             BearHttpsClientDnsProvider provider = chosen_dns_providers[i];
@@ -56,6 +59,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             
 
             if(BearHttpsResponse_error(dns_response)){
+                last_error = "ERROR: dns provider request failed";
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
@@ -66,19 +70,24 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             //printf("leu o body json: %s\n",cJSON_Print(body));
             if(BearHttpsResponse_error(dns_response)){
                 const char *message = BearHttpsResponse_get_error_msg(dns_response);
+                printf("erro na requisição dns: %s\n",message);
+                last_error = "ERROR: failed to parse dns response body as JSON";
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
-
+            printf("capturou o body json\n");
+            printf("body json: %s\n",cJSON_Print(body));
             cJSON * answer = cJSON_GetObjectItem(body, "Answer");
             if(answer == NULL){
+                last_error = "ERROR: dns response missing 'Answer' field";
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
             }
             long size = cJSON_GetArraySize(answer);
             if(size == 0){
+                last_error = "ERROR: dns response 'Answer' array is empty";
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
                 continue;
@@ -87,10 +96,12 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
                 cJSON * item = cJSON_GetArrayItem(answer,j);
                 cJSON * data = cJSON_GetObjectItem(item, "data");
                 if(data == NULL){
+                    last_error = "ERROR: dns answer entry missing 'data' field";
                     continue;
                 }
                 const char * ipv4 = cJSON_GetStringValue(data);
                 if(ipv4 == NULL){
+                    last_error = "ERROR: dns answer 'data' field is not a valid string";
                     continue;
                 }
                 if(privateBearHttpsStringArray_find_position(already_testted, ipv4) != -1){
@@ -100,6 +111,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
                 int sockfd = private_BearHttpsRequest_connect_ipv4_no_error_raise(ipv4,port,self->connection_timeout);
                 if(sockfd < 0){
+                    last_error = "ERROR: failed to connect to resolved ip";
                     continue;
                 }
                 long host_size = private_BearsslHttps_strlen(host);
@@ -127,7 +139,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             BearHttpsResponse_free(dns_response);
     }
 
-     BearHttpsResponse_set_error(response,"ERROR: failed to create dns request",BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
+     BearHttpsResponse_set_error(response,last_error,BEARSSL_HTTPS_FAILT_TO_CREATE_DNS_REQUEST);
      privateBearHttpsStringArray_free(already_testted);
      return -1;
 }
