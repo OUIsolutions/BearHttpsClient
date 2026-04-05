@@ -70,7 +70,6 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             //printf("leu o body json: %s\n",cJSON_Print(body));
             if(BearHttpsResponse_error(dns_response)){
                 const char *message = BearHttpsResponse_get_error_msg(dns_response);
-                printf("erro na requisição dns: %s\n",message);
                 last_error = "ERROR: failed to parse dns response body as JSON";
                 BearHttpsRequest_free(dns_request);
                 BearHttpsResponse_free(dns_response);
