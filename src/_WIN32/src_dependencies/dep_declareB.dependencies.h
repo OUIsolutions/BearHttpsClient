@@ -5,6 +5,7 @@
 
 #if defined(_WIN32) 
 
-
+#include <windows.h>
+#include <wincrypt.h>
 
 #endif 
