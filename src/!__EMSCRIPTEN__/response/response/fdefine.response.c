@@ -46,7 +46,7 @@ void private_BearHttpsResponse_start_bearssl_props(BearHttpsResponse *self, cons
 }
 void BearHttpsResponse_free(BearHttpsResponse *self){
     if(self->connection_file_descriptor >= 0){
-        Universal_close(self->connection_file_descriptor);
+        private_BearHttps_close(self->connection_file_descriptor);
         self->connection_file_descriptor = -1;
     }
     if(self->is_https){

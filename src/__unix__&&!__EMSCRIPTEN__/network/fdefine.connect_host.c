@@ -7,6 +7,7 @@
 
 #if  (defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON))
 static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
+    printf("total sockets %d\n",BearHttpsRequest_total_open_file_descriptors);
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
 
@@ -24,7 +25,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
     int found_socket = -1;
     for (Universal_addrinfo *current_addr = addr_info; current_addr != NULL; current_addr = current_addr->ai_next) {
-        found_socket = Universal_socket(current_addr->ai_family, current_addr->ai_socktype, current_addr->ai_protocol);
+        found_socket = private_BearHttps_socket(current_addr->ai_family, current_addr->ai_socktype, current_addr->ai_protocol);
         
         if (found_socket < 0) {
             continue;
@@ -36,7 +37,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
 
         int ret = Universal_connect(found_socket, current_addr->ai_addr, current_addr->ai_addrlen);
         if (ret < 0 && errno != EINPROGRESS) {
-            Universal_close(found_socket);
+            private_BearHttps_close(found_socket);
             continue;
         }
 
@@ -51,7 +52,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         
         ret = select(found_socket + 1, NULL, &write_fds, NULL, &timeout);
         if (ret <= 0) {
-            Universal_close(found_socket);
+            private_BearHttps_close(found_socket);
             continue;
         }
 
@@ -59,7 +60,7 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
         int error = 0;
         socklen_t len = sizeof(error);
         if (getsockopt(found_socket, SOL_SOCKET, SO_ERROR, &error, &len) < 0 || error != 0) {
-            Universal_close(found_socket);
+            private_BearHttps_close(found_socket);
             continue;
         }
 
