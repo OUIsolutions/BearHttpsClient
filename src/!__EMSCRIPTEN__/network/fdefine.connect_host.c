@@ -8,7 +8,7 @@
 #if  (!defined(BEARSSL_USSE_GET_ADDRINFO) && !defined(BEARSSL_HTTPS_MOCK_CJSON))
 static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
     
-
+    printf("total file descriptors %d\n",BearHttpsRequest_total_open_file_descriptors);
     if(strcmp(host,"localhost")==0){
         return private_BearHttpsRequest_connect_ipv4(response,"0.0.0.0",port,self->connection_timeout);
     }

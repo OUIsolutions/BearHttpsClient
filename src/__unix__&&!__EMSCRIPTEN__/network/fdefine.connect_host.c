@@ -7,7 +7,6 @@
 
 #if  (defined(BEARSSL_USSE_GET_ADDRINFO) || defined(BEARSSL_HTTPS_MOCK_CJSON))
 static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsResponse *response, const char *host, int port){
-    printf("total sockets %d\n",BearHttpsRequest_total_open_file_descriptors);
     Universal_addrinfo hints = {0};
     memset(&hints, 0, sizeof(hints));
 
