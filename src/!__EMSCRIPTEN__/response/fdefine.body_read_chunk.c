@@ -23,6 +23,8 @@ int BearHttpsResponse_read_body_chunck_http1(BearHttpsResponse *self,unsigned ch
                     if(self->http1_reaming_to_read == 0){
                         self->http1_state = PRIVATE_BEARHTTPS_COLLECTING_NUMBER;
                         self->body_completed_read = true;
+                        private_BearHttps_close(self->connection_file_descriptor);
+                        self->connection_file_descriptor = -1;
                         return size - remaning_to_read; //return the size of the body readed
                     }
 

@@ -65,6 +65,8 @@ const unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
 
     self->body_size = self->body_readded_size;
     self->body_completed_read = true;
+    private_BearHttps_close(self->connection_file_descriptor);
+    self->connection_file_descriptor = -1;
     return self->body;
 }
 
