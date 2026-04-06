@@ -1,11 +1,11 @@
 {
     "replacers": {
         "BIG_VERSION": "0",
-        "SMALL_VERSION": "9",
-        "PATCH_VERSION": "4"
+        "SMALL_VERSION": "10",
+        "PATCH_VERSION": "0"
     },
     "release": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
     "tag": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
-    "description": "update tristed anchors",
+    "description": "fix flush and dns providers error",
     "assets":	[ "release/BearHttpsClient.h", "release/BearHttpsClientOne.c"]
 }
