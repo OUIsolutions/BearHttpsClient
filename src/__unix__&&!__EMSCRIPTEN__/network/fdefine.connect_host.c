@@ -63,6 +63,16 @@ static int private_BearHttps_connect_host(BearHttpsRequest *self, BearHttpsRespo
             continue;
         }
 
+        // Set receive timeout on the socket
+        struct timeval recv_timeout;
+        recv_timeout.tv_sec = 0;
+        recv_timeout.tv_usec = self->connection_timeout * BEARSSL_MILISECONDS_MULTIPLIER;
+        
+        if (setsockopt(found_socket, SOL_SOCKET, UNI_SO_RCVTIMEO, &recv_timeout, sizeof(recv_timeout)) < 0) {
+            private_BearHttps_close(found_socket);
+            continue;
+        }
+
         // Set socket back to blocking mode
         fcntl(found_socket, F_SETFL, flags);
         break;

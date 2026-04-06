@@ -72,6 +72,19 @@ static int private_BearHttpsRequest_connect_ipv4(BearHttpsResponse *self, const 
         return -1;
     }
 
+    // Set receive timeout on the socket
+    struct timeval recv_timeout;
+    recv_timeout.tv_sec = connection_timeout / 1000;
+    recv_timeout.tv_usec = (connection_timeout % 1000) * BEARSSL_MILISECONDS_MULTIPLIER;
+    
+    if (setsockopt(sockfd, SOL_SOCKET, UNI_SO_RCVTIMEO, &recv_timeout, sizeof(recv_timeout)) < 0) {
+        snprintf(error_buffer, sizeof(error_buffer),
+            "ERROR: failed to set receive timeout for %s:%d | %s", ipv4_ip, port, strerror(errno));
+        BearHttpsResponse_set_error(self, error_buffer, BEARSSL_HTTPS_FAILT_TO_CREATE_SOCKET);
+        private_BearHttps_close(sockfd);
+        return -1;
+    }
+
     // Set socket back to blocking mode
     if (private_BearHttps_socket_set_blocking(sockfd) < 0) {
         snprintf(error_buffer, sizeof(error_buffer),
@@ -129,6 +142,16 @@ static int private_BearHttpsRequest_connect_ipv4_no_error_raise( const char *ipv
 
     // Check if connection succeeded
     if (private_BearHttps_socket_check_connect_error(sockfd) < 0) {
+        private_BearHttps_close(sockfd);
+        return -1;
+    }
+
+    // Set receive timeout on the socket
+    struct timeval recv_timeout;
+    recv_timeout.tv_sec = connection_timeout / 1000;
+    recv_timeout.tv_usec = (connection_timeout % 1000) * BEARSSL_MILISECONDS_MULTIPLIER;
+    
+    if (setsockopt(sockfd, SOL_SOCKET, UNI_SO_RCVTIMEO, &recv_timeout, sizeof(recv_timeout)) < 0) {
         private_BearHttps_close(sockfd);
         return -1;
     }
