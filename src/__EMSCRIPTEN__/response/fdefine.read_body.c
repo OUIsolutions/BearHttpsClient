@@ -26,7 +26,7 @@ unsigned char *BearHttpsResponse_read_body(BearHttpsResponse *self) {
     }
 
     long body_size = c2wasm_get_object_prop_long(array_buffer, "byteLength");
-    printf("body size: %ld\n", body_size);
+  //  printf("body size: %ld\n", body_size);
     if (body_size <= 0) {
         // Corpo vazio
         self->body = (unsigned char*)malloc(1);
