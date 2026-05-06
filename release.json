@@ -1,11 +1,11 @@
 {
     "replacers": {
         "BIG_VERSION": "0",
-        "SMALL_VERSION": "10",
+        "SMALL_VERSION": "11",
         "PATCH_VERSION": "0"
     },
     "release": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
     "tag": "{BIG_VERSION}.{SMALL_VERSION}.{PATCH_VERSION}",
-    "description": "fix flush and dns providers error",
+    "description": "Add OUI unified cjson version",
     "assets":	[ "release/BearHttpsClient.h", "release/BearHttpsClientOne.c"]
 }
